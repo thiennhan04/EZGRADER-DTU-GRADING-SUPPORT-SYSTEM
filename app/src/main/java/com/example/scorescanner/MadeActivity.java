@@ -2,12 +2,8 @@ package com.example.scorescanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,8 +14,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-public class danhsachkithi extends AppCompatActivity {
-    ListView lvdanhsachkt;
+public class MadeActivity extends AppCompatActivity {
+    ListView lvmade;
     ArrayList<Exam> mylist;
     MyArrayAdapter myArrayAdapter;
 
@@ -28,43 +24,12 @@ public class danhsachkithi extends AppCompatActivity {
     String DATABASE_NAME="ssdb.db";
     String username = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_danhsachkithi);
-        lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-        processCopy();
-        mylist = new ArrayList<>();//tạo mới mảng rỗng
+        setContentView(R.layout.activity_made);
+        lvmade = findViewById(R.id.lvmade);
 
-
-        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-        lvdanhsachkt.setAdapter(myArrayAdapter);
-
-
-        database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-        String sql = "select * from kithi where username = '" + username + "'";
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
-        c.moveToFirst();
-        String data ="";
-        while (c.isAfterLast() == false)
-        {
-            int madethi = Integer.parseInt(c.getString(0));
-            String tendethi = c.getString(1);
-            Exam exam = new Exam(madethi, tendethi, username);
-            mylist.add(exam);
-            c.moveToNext();
-        }
-        c.close();
-        myArrayAdapter.notifyDataSetChanged();
-        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
-            }
-        });
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
@@ -110,5 +75,4 @@ public class danhsachkithi extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }
