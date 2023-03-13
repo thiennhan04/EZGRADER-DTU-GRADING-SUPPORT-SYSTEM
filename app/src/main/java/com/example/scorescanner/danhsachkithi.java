@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -16,53 +14,49 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    EditText edtusername, edtpassword;
-    Button signbtn;
+public class danhsachkithi extends AppCompatActivity {
+    ListView lvdanhsachkt;
+    ArrayList<Exam> mylist;
+    MyArrayAdapter myArrayAdapter;
+
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb.db";
     String username = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        edtusername = findViewById(R.id.edtusername);
-        edtpassword = findViewById(R.id.edtpassword);
-        signbtn = findViewById(R.id.signbtn);
-
-        signbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username = edtusername.getText().toString();
-                String pass = edtpassword.getText().toString();
-                processCopy();
-//                 if(username.equals("tnhan")){
-//                     Intent home = new Intent(MainActivity.this, HomeActivity.class);
-//                     home.putExtra("username", username);
-//                     startActivity(home);
-//                 }
-                database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-
-                String sql = "select * from kithi where username = '" + username + "'";
-                Cursor c = database.rawQuery("select * from user where username = '" + username + "' and password = '" + pass + "'", null);
-                c.moveToFirst();
-                String data ="";
-                if(c != null){
-                    //đăng nhập thành công
-                    Intent home = new Intent(MainActivity.this, HomeActivity.class);
-                    home.putExtra("username", username);
-                    startActivity(home);
-                }else{
-                    Toast.makeText(MainActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
-                }
-                c.close();
+        setContentView(R.layout.activity_danhsachkithi);
+        lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+        processCopy();
+        mylist = new ArrayList<>();//tạo mới mảng rỗng
 
 
-            }
-        });
+        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+        lvdanhsachkt.setAdapter(myArrayAdapter);
 
+
+        database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
+        String sql = "select * from kithi where username = '" + username + "'";
+        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+        c.moveToFirst();
+        String data ="";
+        while (c.isAfterLast() == false)
+        {
+            int madethi = Integer.parseInt(c.getString(0));
+            String tendethi = c.getString(1);
+            Exam exam = new Exam(madethi, tendethi, username);
+            mylist.add(exam);
+            c.moveToNext();
+        }
+        c.close();
+        myArrayAdapter.notifyDataSetChanged();
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
@@ -108,6 +102,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
 }
