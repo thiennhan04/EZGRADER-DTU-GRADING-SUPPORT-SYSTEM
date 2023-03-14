@@ -2,6 +2,8 @@ package com.example.scorescanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -16,8 +18,8 @@ import java.util.ArrayList;
 
 public class MadeActivity extends AppCompatActivity {
     ListView lvmade;
-    ArrayList<Exam> mylist;
-    MyArrayAdapter myArrayAdapter;
+    ArrayList<String> mylist;
+    MadeAdapter myArrayAdapter;
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
@@ -29,7 +31,29 @@ public class MadeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made);
         lvmade = findViewById(R.id.lvmade);
+        Intent intent = getIntent();
+        String makithi = intent.getStringExtra("makithi");
+        processCopy();
+        mylist = new ArrayList<>();//tạo mới mảng rỗng
 
+
+//        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+        myArrayAdapter = new MadeAdapter(this, R.layout.kithi_item,mylist);
+        lvmade.setAdapter(myArrayAdapter);
+
+
+        database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
+        Cursor c = database.rawQuery("select * from made where makithi = 1", null);
+        c.moveToFirst();
+        String data ="";
+        while (c.isAfterLast() == false)
+        {
+            String made = c.getString(1);
+            mylist.add(made);
+            c.moveToNext();
+        }
+        myArrayAdapter.notifyDataSetChanged();
+        c.close();
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,13 +28,13 @@ public class danhsachkithi extends AppCompatActivity {
     SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb.db";
     String username = "";
-
-
+    ImageButton backbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachkithi);
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
+        backbtn = findViewById(R.id.backbtn);
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         processCopy();
@@ -41,9 +42,6 @@ public class danhsachkithi extends AppCompatActivity {
 
 
         myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-        lvdanhsachkt.setAdapter(myArrayAdapter);
-
-
         database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
         String sql = "select * from kithi where username = '" + username + "'";
         Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
@@ -57,14 +55,33 @@ public class danhsachkithi extends AppCompatActivity {
             mylist.add(exam);
             c.moveToNext();
         }
-        c.close();
-        myArrayAdapter.notifyDataSetChanged();
+        lvdanhsachkt.setAdapter(myArrayAdapter);
         lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
+                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
             }
         });
+//        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
+////                made.putExtra("makithi", mylist.get(i).getMakithi());
+//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
+////                startActivity(made);
+//            }
+//        });
+//        myArrayAdapter.notifyDataSetChanged();
+        c.close();
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
+//                Intent testlv = new Intent(danhsachkithi.this,testlv.class);
+//                startActivity(testlv);
+            }
+        });
+
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
