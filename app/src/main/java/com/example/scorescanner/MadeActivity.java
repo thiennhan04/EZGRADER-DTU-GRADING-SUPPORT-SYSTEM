@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,69 +16,44 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-public class danhsachkithi extends AppCompatActivity {
-    ListView lvdanhsachkt;
-    ArrayList<Exam> mylist;
-    MyArrayAdapter myArrayAdapter;
+public class MadeActivity extends AppCompatActivity {
+    ListView lvmade;
+    ArrayList<String> mylist;
+    MadeAdapter myArrayAdapter;
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb.db";
     String username = "";
-    ImageButton backbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_danhsachkithi);
-        lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
-        backbtn = findViewById(R.id.backbtn);
+        setContentView(R.layout.activity_made);
+        lvmade = findViewById(R.id.lvmade);
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
+        String makithi = intent.getStringExtra("makithi");
         processCopy();
         mylist = new ArrayList<>();//tạo mới mảng rỗng
 
 
-        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+//        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+        myArrayAdapter = new MadeAdapter(this, R.layout.kithi_item,mylist);
+        lvmade.setAdapter(myArrayAdapter);
+
+
         database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-        String sql = "select * from kithi where username = '" + username + "'";
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+        Cursor c = database.rawQuery("select * from made where makithi = 1", null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)
         {
-            int madethi = Integer.parseInt(c.getString(0));
-            String tendethi = c.getString(1);
-            Exam exam = new Exam(madethi, tendethi, username);
-            mylist.add(exam);
+            String made = c.getString(1);
+            mylist.add(made);
             c.moveToNext();
         }
-        lvdanhsachkt.setAdapter(myArrayAdapter);
-        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
-//        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
-////                made.putExtra("makithi", mylist.get(i).getMakithi());
-//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-////                startActivity(made);
-//            }
-//        });
-//        myArrayAdapter.notifyDataSetChanged();
+        myArrayAdapter.notifyDataSetChanged();
         c.close();
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-//                Intent testlv = new Intent(danhsachkithi.this,testlv.class);
-//                startActivity(testlv);
-            }
-        });
-
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
@@ -127,5 +99,4 @@ public class danhsachkithi extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }
