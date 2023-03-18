@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,6 +24,7 @@ public class MadeActivity extends AppCompatActivity {
     ListView lvmade;
     ArrayList<String> mylist;
     MadeAdapter myArrayAdapter;
+    ImageView backbtn;
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
@@ -32,18 +37,20 @@ public class MadeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_made);
         lvmade = findViewById(R.id.lvmade);
         Intent intent = getIntent();
+        backbtn = findViewById(R.id.backbtn);
         String makithi = intent.getStringExtra("makithi");
+        Toast.makeText(this, "makithi " + makithi, Toast.LENGTH_SHORT).show();
         processCopy();
         mylist = new ArrayList<>();//tạo mới mảng rỗng
 
 
 //        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
         myArrayAdapter = new MadeAdapter(this, R.layout.kithi_item,mylist);
-        lvmade.setAdapter(myArrayAdapter);
+
 
 
         database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-        Cursor c = database.rawQuery("select * from made where makithi = 1", null);
+        Cursor c = database.rawQuery("select * from made where makithi = " + makithi , null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)
@@ -52,7 +59,26 @@ public class MadeActivity extends AppCompatActivity {
             mylist.add(made);
             c.moveToNext();
         }
-        myArrayAdapter.notifyDataSetChanged();
+        lvmade.setAdapter(myArrayAdapter);
+//        myArrayAdapter.notifyDataSetChanged();
+
+        lvmade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent madeoption = new Intent(MadeActivity.this, MadeOption.class);
+                String made = mylist.get(i);
+                madeoption.putExtra("made", made);
+                madeoption.putExtra("kithi", makithi);
+                startActivity(madeoption);
+            }
+        });
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent danhsach = new Intent(MadeActivity.this, danhsachkithi.class);
+                startActivity(danhsach);
+            }
+        });
         c.close();
     }
     private void processCopy() {
