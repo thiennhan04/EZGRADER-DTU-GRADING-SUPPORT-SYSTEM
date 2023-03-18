@@ -32,9 +32,9 @@ public class AdapterTest extends ArrayAdapter<String> {
         LayoutInflater myInflactor = context.getLayoutInflater();
         convertView = myInflactor.inflate(idlayout,null);
         String name  = mylist.get(position);
-        ImageView imgexam = convertView.findViewById(R.id.imageView2);
+        ImageView imgexam = convertView.findViewById(R.id.imageButton);
         imgexam.setImageResource(R.drawable.exam);
-        TextView textView3 = convertView.findViewById(R.id.textView3);
+        TextView textView3 = convertView.findViewById(R.id.button);
         textView3.setText(name);
         return convertView;
     }
