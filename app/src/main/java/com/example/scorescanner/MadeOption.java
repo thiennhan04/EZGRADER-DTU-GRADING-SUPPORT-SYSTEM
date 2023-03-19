@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +21,11 @@ import java.io.OutputStream;
 public class MadeOption extends AppCompatActivity {
     TextView txtmade;
     Button dapanbtn,chambaibtn,baidachambtn,xuatdiembtn,thongkebtn;
+    ImageView backbtn;
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb.db";
+    String DATABASE_NAME="ssdb2.db";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,33 +34,45 @@ public class MadeOption extends AppCompatActivity {
         chambaibtn = findViewById(R.id.chambaibtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
+        backbtn = findViewById(R.id.backmdoption);
         txtmade = findViewById(R.id.txtmade);
         Intent intent = getIntent();
         String makithi = intent.getStringExtra("kithi");
         String made = intent.getStringExtra("made");
         txtmade.setText("Mã đề "+made);
-
-
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent made = new Intent(MadeOption.this,MadeActivity.class);
+//                made.putExtra("made", made);
+//                made.putExtra("kithi", makithi);
+//                startActivity(made);
+            }
+        });
+        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
         chambaibtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 processCopy();
-                database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-                Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+                database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+
                 int kithi = Integer.parseInt(makithi);
-                Cursor c = database.rawQuery("select * from cauhoi", null);
+                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi
+                        + " and made = '" + made + "'", null);
 //                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
                 c.moveToFirst();
-
                 String data ="";
                 while (c.isAfterLast() == false)
                 {
                     c.moveToNext();
+                    data += c.getString(2);
                 }
-                if(c != null){
-                    Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
-                }else{
+                if(data.equals("")){
+
                     Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
                 }
                 c.close();
 //                try{

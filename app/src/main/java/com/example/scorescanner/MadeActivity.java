@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,7 +27,7 @@ public class MadeActivity extends AppCompatActivity {
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb.db";
+    String DATABASE_NAME="ssdb2.db";
     String username = "";
 
     @Override
@@ -37,8 +36,11 @@ public class MadeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_made);
         lvmade = findViewById(R.id.lvmade);
         Intent intent = getIntent();
-        backbtn = findViewById(R.id.backbtn);
+        backbtn = findViewById(R.id.backmdoption);
         String makithi = intent.getStringExtra("makithi");
+        if(makithi.equals("")){
+            makithi = intent.getStringExtra("kithi");
+        }
         Toast.makeText(this, "makithi " + makithi, Toast.LENGTH_SHORT).show();
         processCopy();
         mylist = new ArrayList<>();//tạo mới mảng rỗng
@@ -49,7 +51,7 @@ public class MadeActivity extends AppCompatActivity {
 
 
 
-        database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
+        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
         Cursor c = database.rawQuery("select * from made where makithi = " + makithi , null);
         c.moveToFirst();
         String data ="";
@@ -62,21 +64,23 @@ public class MadeActivity extends AppCompatActivity {
         lvmade.setAdapter(myArrayAdapter);
 //        myArrayAdapter.notifyDataSetChanged();
 
+        String finalMakithi = makithi;
         lvmade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent madeoption = new Intent(MadeActivity.this, MadeOption.class);
                 String made = mylist.get(i);
                 madeoption.putExtra("made", made);
-                madeoption.putExtra("kithi", makithi);
+                madeoption.putExtra("kithi", finalMakithi);
                 startActivity(madeoption);
             }
         });
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent danhsach = new Intent(MadeActivity.this, danhsachkithi.class);
-                startActivity(danhsach);
+//                Intent danhsach = new Intent(MadeActivity.this, danhsachkithi.class);
+//                danhsach.putExtra("kithi", finalMakithi);
+//                startActivity(danhsach);
             }
         });
         c.close();
