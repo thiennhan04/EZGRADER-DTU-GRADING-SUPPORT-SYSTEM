@@ -19,11 +19,12 @@ public class testlv extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testlv);
+        mylist = new ArrayList<>();
         lv1 = findViewById(R.id.lv1);
         for (int i = 0; i <5;i++){
             mylist.add("bai kiem tra");
         }
-        adapterTest = new AdapterTest(this,R.layout.activity_testlv,mylist);
+        adapterTest = new AdapterTest(this,R.layout.testlv,mylist);
         lv1.setAdapter(adapterTest);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

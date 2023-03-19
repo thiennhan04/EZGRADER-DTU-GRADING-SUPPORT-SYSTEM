@@ -26,7 +26,7 @@ public class danhsachkithi extends AppCompatActivity {
 
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb.db";
+    String DATABASE_NAME="ssdb2.db";
     String username = "";
     ImageButton backbtn;
     @Override
@@ -34,7 +34,7 @@ public class danhsachkithi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachkithi);
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
-        backbtn = findViewById(R.id.backbtn);
+        backbtn = findViewById(R.id.backmdoption);
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         processCopy();
@@ -42,7 +42,7 @@ public class danhsachkithi extends AppCompatActivity {
 
 
         myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-        database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
+        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
         String sql = "select * from kithi where username = '" + username + "'";
         Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
         c.moveToFirst();
@@ -56,38 +56,38 @@ public class danhsachkithi extends AppCompatActivity {
             c.moveToNext();
         }
         lvdanhsachkt.setAdapter(myArrayAdapter);
-        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
 //        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
-////                made.putExtra("makithi", mylist.get(i).getMakithi());
 //                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-////                startActivity(made);
 //            }
 //        });
-//        myArrayAdapter.notifyDataSetChanged();
+
+        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
+                String makithi = mylist.get(i).getMakithi() + "";
+                made.putExtra("makithi", makithi);
+//                Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
+                startActivity(made);
+            }
+        });
         c.close();
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-//                Intent testlv = new Intent(danhsachkithi.this,testlv.class);
-//                startActivity(testlv);
+                Intent Home = new Intent(danhsachkithi.this,HomeActivity.class);
+                startActivity(Home);
             }
         });
-
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
         if (!dbFile.exists())
         {
-            try{CopyDataBaseFromAsset();
+            try{
+                CopyDataBaseFromAsset();
 //                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
             }
             catch (Exception e){
@@ -109,7 +109,7 @@ public class danhsachkithi extends AppCompatActivity {
             String outFileName = getDatabasePath();
 
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists())
+//            if (!f.exists())
                 f.mkdir();
 
             OutputStream myOutput = new FileOutputStream(outFileName);

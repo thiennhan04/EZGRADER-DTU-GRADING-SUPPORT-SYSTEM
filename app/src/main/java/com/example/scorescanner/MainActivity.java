@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button signbtn;
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb.db";
+    String DATABASE_NAME="ssdb2.db";
     String username = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
 //                     home.putExtra("username", username);
 //                     startActivity(home);
 //                 }
-                database = openOrCreateDatabase("ssdb.db", MODE_PRIVATE, null);
-
+                database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+//                Toast.makeText(MainActivity.this, getDatabasePath()+"", Toast.LENGTH_SHORT).show();
                 String sql = "select * from kithi where username = '" + username + "'";
-                Cursor c = database.rawQuery("select * from user where username = '" + username + "' and password = '" + pass + "'", null);
+                Cursor c = database.rawQuery("select * from user where username = '"
+                        + username + "' and password = '" + pass + "'", null);
                 c.moveToFirst();
                 String data ="";
                 if(c != null){
@@ -66,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
+//        dbFile.delete();
         if (!dbFile.exists())
         {
-            try{CopyDataBaseFromAsset();
+            try{
+                CopyDataBaseFromAsset();
 //                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
             }
             catch (Exception e){
@@ -90,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             String outFileName = getDatabasePath();
 
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists())
-                f.mkdir();
+//            if (!f.exists())
+            f.mkdir();
 
             OutputStream myOutput = new FileOutputStream(outFileName);
 
