@@ -69,7 +69,7 @@
                 app:srcCompat="@drawable/key" />
 
             <Button
-                android:id="@+id/dapanbtn"
+                android:id="@+id/addfilebtn"
 
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                 app:srcCompat="@drawable/camera" />
 
             <Button
-                android:id="@+id/chambaibtn"
+                android:id="@+id/addhandbtn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

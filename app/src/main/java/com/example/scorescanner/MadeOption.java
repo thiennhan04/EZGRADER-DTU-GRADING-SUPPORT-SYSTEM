@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
@@ -49,8 +50,8 @@ public class MadeOption extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_option);
-        dapanbtn = findViewById(R.id.dapanbtn);
-        chambaibtn = findViewById(R.id.chambaibtn);
+        dapanbtn = findViewById(R.id.addfilebtn);
+        chambaibtn = findViewById(R.id.addhandbtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
         backbtn = findViewById(R.id.backmdoption);
@@ -73,6 +74,22 @@ public class MadeOption extends AppCompatActivity {
 
 
         Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+
+        dapanbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
+                    acti.putExtra("made", made + "");
+                    acti.putExtra("kithi", makithi + "");
+                    startActivity(acti);
+                }catch (Exception ex)
+                {
+                    Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+                }
+            }
+        });
+
         chambaibtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
