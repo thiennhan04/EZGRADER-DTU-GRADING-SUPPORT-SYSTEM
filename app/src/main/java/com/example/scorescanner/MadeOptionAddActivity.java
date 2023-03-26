@@ -1,10 +1,9 @@
 package com.example.scorescanner;
 
-<<<<<<< HEAD
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-=======
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -23,7 +22,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -41,8 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-=======
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+
 public class MadeOptionAddActivity extends AppCompatActivity {
 
     TextView txtmade;
@@ -60,14 +58,13 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_made_option_add);
         backbtn = findViewById(R.id.backbtn);
         txtmade = findViewById(R.id.txtmade);
-<<<<<<< HEAD
-        addFileBtn = findViewById(R.id.addfilebtn);
-        addHandBtn = findViewById(R.id.addhandbtn);
+
+
         viewAns = findViewById(R.id.addhandbtn11);
-=======
+
         addFileBtn = findViewById(R.id.dapanbtn);
         addHandBtn = findViewById(R.id.chambaibtn);
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+
         Intent intent = getIntent();
         makithi = intent.getStringExtra("kithi");
         made = intent.getStringExtra("made");
@@ -93,7 +90,14 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         addHandBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                try {
+                    Intent acti = new Intent(MadeOptionAddActivity.this, dapan_activity.class);
+                    acti.putExtra("kithi", makithi + "");
+                    startActivity(acti);
+                }catch (Exception ex)
+                {
+                    Log.println(Log.DEBUG,"=== add hand ===",ex.getMessage()+"");
+                }
             }
         });
 
@@ -102,7 +106,6 @@ public class MadeOptionAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     Intent acti = new Intent(MadeOptionAddActivity.this, MainActivityListAns.class);
-                    acti.putExtra("made", made + "");
                     acti.putExtra("kithi", makithi + "");
                     startActivity(acti);
                 }catch (Exception ex)
@@ -138,6 +141,7 @@ public class MadeOptionAddActivity extends AppCompatActivity {
             Workbook workbook = new XSSFWorkbook(input);
             Sheet sheet = workbook.getSheetAt(0);
             ArrayList<String> list = new ArrayList<>();
+            boolean status = true;
             for(int i=0; i<sheet.getPhysicalNumberOfRows(); i++)
             {
                 String s="";
@@ -161,41 +165,39 @@ public class MadeOptionAddActivity extends AppCompatActivity {
                 Log.println(Log.DEBUG,"read excel","----- database = null -----");
                 return false;
             }
+            list.remove(0);
             for(String line : list)
             {
-                if(line.contains(made))
+                String strmade = line.split("-")[0];
+                Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi +" and made = '"+
+                                                            strmade+"'", null);
+                String dataupdate = String.join("",line.substring(strmade.length()).split("-"));
+                ContentValues values = new ContentValues();
+                values.put("dapan",dataupdate);
+                if(c.getCount()==0)
                 {
-                    Cursor c = db.mydatabase.rawQuery("select dapan from cauhoi where makithi = " + makithi
-                            + " and made = '" + made + "'", null);
-                    String dataupdate = String.join("",line.substring(made.length()).split("-"));
-                    ContentValues values = new ContentValues();
-                    values.put("dapan",dataupdate);
-                    if(c.getCount()==0)
+                    values.put("made",strmade);
+                    values.put("makithi",makithi);
+                    if(db.mydatabase.insert("cauhoi",null,values)==-1)
                     {
-                        values.put("made",made);
-                        values.put("makithi",makithi);
-                        if(db.mydatabase.insert("cauhoi",null,values)==-1)
-                        {
-                            return false;
-                        }
-                        return true;
+                        status = false;
+                    }
+                }
+                else
+                {
+                    int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+                    if(row==0)
+                    {
+                        Log.println(Log.DEBUG,"read excel","update NOT OK ");
+                        status = false;
                     }
                     else
                     {
-                        int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{made,makithi});
-                        if(row==0)
-                        {
-                            Log.println(Log.DEBUG,"read excel","update NOT OK ");
-                            return false;
-                        }
-                        else
-                        {
-                            Log.println(Log.DEBUG,"read excel","update OK ");
-                            return true;
-                        }                    }
+                        Log.println(Log.DEBUG,"read excel","update OK ");
                     }
                 }
-            return false;
+            }
+            return status;
         } catch (Exception e) {
             Log.println(Log.DEBUG,"excel ","--- "+e.getMessage()+" ---");
         }

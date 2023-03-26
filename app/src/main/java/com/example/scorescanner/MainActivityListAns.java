@@ -16,15 +16,13 @@ public class MainActivityListAns extends AppCompatActivity {
         TextView view = findViewById(R.id.textView1);
         Intent intent = getIntent();
         String makithi = intent.getStringExtra("kithi");
-        String made = intent.getStringExtra("made");
         DataBase db = new DataBase(this);
-        Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi + " and made = '" + made + "'", null);
+        Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi, null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)
         {
-            String listanswer = c.getString(2);
-            data+=listanswer;
+            data += c.getString(0)+"  "+c.getString(2)+ "\n";
             c.moveToNext();
         }
         view.setText(data);
