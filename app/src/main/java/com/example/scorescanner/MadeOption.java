@@ -14,7 +14,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.os.Environment;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,8 +46,10 @@ public class MadeOption extends AppCompatActivity {
         chambaibtn = findViewById(R.id.chambaibtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
+
         backbtn = findViewById(R.id.backmdoption);
         baidachambtn = findViewById(R.id.baidachambtn);
+
         txtmade = findViewById(R.id.txtmade);
         Intent intent = getIntent();
         String makithi = intent.getStringExtra("makithi");
@@ -60,6 +64,7 @@ public class MadeOption extends AppCompatActivity {
 //                startActivity(made);
             }
         });
+
 
 
 
@@ -85,6 +90,7 @@ public class MadeOption extends AppCompatActivity {
             public void onClick(View v) {
                 Intent py = new Intent(MadeOption.this, TestPython.class);
                 startActivity(py);
+
             }
         });
         chambaibtn.setOnClickListener(new View.OnClickListener() {

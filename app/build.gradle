@@ -8,13 +8,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.scorescanner"
-<<<<<<< HEAD
-        minSdkVersion 26
-        targetSdk 32
-=======
+
         minSdk 26
         targetSdk 33
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+
         versionCode 1
         versionName "1.0"
 
@@ -46,6 +43,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    namespace 'com.example.scorescanner'
+
     sourceSets {
         main {
             jni {
@@ -54,6 +54,7 @@ android {
         }
 
     }
+
 }
 
 dependencies {
@@ -67,9 +68,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-<<<<<<< HEAD
-}
-=======
+
+
 
 
     implementation 'androidx.camera:camera-view:1.2.1'
@@ -88,4 +88,4 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.3'
 }
 
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+

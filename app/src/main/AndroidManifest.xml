@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.scorescanner">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -23,17 +22,18 @@
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
+            android:name=".dapan_activity"
             android:name=".MainActivityListAns"
-=======
+
             android:name=".TestPython"
             android:exported="false" />
         <activity
             android:name=".CameraChamBai"
->>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+
             android:exported="false" />
         <activity
             android:name=".MadeOptionAddActivity"
+
             android:exported="false" />
         <activity
             android:name=".MadeOption"
