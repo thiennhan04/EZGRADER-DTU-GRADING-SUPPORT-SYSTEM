@@ -6,22 +6,15 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,13 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import static android.provider.MediaStore.ACTION_IMAGE_CAPTURE;
 
 public class MadeOption extends AppCompatActivity {
     TextView txtmade;
@@ -50,16 +40,17 @@ public class MadeOption extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_option);
-        dapanbtn = findViewById(R.id.addfilebtn);
-        chambaibtn = findViewById(R.id.addhandbtn);
+        dapanbtn = findViewById(R.id.dapanbtn);
+        chambaibtn = findViewById(R.id.chambaibtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
         backbtn = findViewById(R.id.backmdoption);
+        baidachambtn = findViewById(R.id.baidachambtn);
         txtmade = findViewById(R.id.txtmade);
         Intent intent = getIntent();
-        String makithi = intent.getStringExtra("kithi");
-        String made = intent.getStringExtra("made");
-        txtmade.setText("Mã đề "+made);
+        String makithi = intent.getStringExtra("makithi");
+//        String made = intent.getStringExtra("made");
+        txtmade.setText("Kì thi "+makithi);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,14 +64,14 @@ public class MadeOption extends AppCompatActivity {
 
 
 
-        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
 
         dapanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
-                    acti.putExtra("made", made + "");
+//                    acti.putExtra("made", made + "");
                     acti.putExtra("kithi", makithi + "");
                     startActivity(acti);
                 }catch (Exception ex)
@@ -89,7 +80,13 @@ public class MadeOption extends AppCompatActivity {
                 }
             }
         });
-
+        baidachambtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent py = new Intent(MadeOption.this, TestPython.class);
+                startActivity(py);
+            }
+        });
         chambaibtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,15 +94,14 @@ public class MadeOption extends AppCompatActivity {
                 database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
 
                 int kithi = Integer.parseInt(makithi);
-                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi
-                        + " and made = '" + made + "'", null);
+                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
 //                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
                 c.moveToFirst();
                 String data ="";
                 while (c.isAfterLast() == false)
                 {
-                    String listanswer = c.getString(2);
-                    data+=made;
+                    String listanswer = c.getString(0);
+                    data+=listanswer;
                     c.moveToNext();
                 }
                 if(data.equals("")){
@@ -114,12 +110,19 @@ public class MadeOption extends AppCompatActivity {
                 }else{
 
                     Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
-                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
+//                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
+
+                    Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
+//                    camerachambai.putExtra("made", made + "");
+                    camerachambai.putExtra("kithi", makithi + "");
+                    startActivity(camerachambai);
                     if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                     {
                         ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
                         return;
-                    }startActivityForResult(myintent,99);
+                    }
+
+//                    startActivityForResult(myintent,99);
                 }
                 c.close();
 //                try{

@@ -1,7 +1,10 @@
 package com.example.scorescanner;
 
+<<<<<<< HEAD
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+=======
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -20,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -37,6 +41,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+=======
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
 public class MadeOptionAddActivity extends AppCompatActivity {
 
     TextView txtmade;
@@ -54,9 +60,14 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_made_option_add);
         backbtn = findViewById(R.id.backbtn);
         txtmade = findViewById(R.id.txtmade);
+<<<<<<< HEAD
         addFileBtn = findViewById(R.id.addfilebtn);
         addHandBtn = findViewById(R.id.addhandbtn);
         viewAns = findViewById(R.id.addhandbtn11);
+=======
+        addFileBtn = findViewById(R.id.dapanbtn);
+        addHandBtn = findViewById(R.id.chambaibtn);
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
         Intent intent = getIntent();
         makithi = intent.getStringExtra("kithi");
         made = intent.getStringExtra("made");

@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +23,14 @@
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".MainActivityListAns"
+=======
+            android:name=".TestPython"
+            android:exported="false" />
+        <activity
+            android:name=".CameraChamBai"
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
             android:exported="false" />
         <activity
             android:name=".MadeOptionAddActivity"

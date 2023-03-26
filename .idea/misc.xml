@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/drawable/rectanglecamera.xml" value="0.2595" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/drawable/rounded_bg.xml" value="0.241" />
-        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.11302083333333333" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_camera_cham_bai.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.264" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.11302083333333333" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.22826086956521738" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_surface_camera.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_test_python.xml" value="0.2" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_testlv.xml" value="0.2246376811594203" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_testradio.xml" value="0.264" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.25317028985507245" />
