@@ -23,8 +23,11 @@
         tools:targetApi="31">
         <activity
             android:name=".dapan_activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivityListAns"
-
+            android:exported="false" />
+        <activity
             android:name=".TestPython"
             android:exported="false" />
         <activity
