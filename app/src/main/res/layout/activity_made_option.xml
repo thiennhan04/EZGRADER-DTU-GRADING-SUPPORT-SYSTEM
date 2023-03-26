@@ -30,7 +30,7 @@
             android:layout_marginStart="70dp"
             android:layout_marginEnd="152dp"
             android:layout_marginBottom="24dp"
-            android:text="Mã đề"
+            android:text="Kì thi"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +69,7 @@
                 app:srcCompat="@drawable/key" />
 
             <Button
-                android:id="@+id/addfilebtn"
+                android:id="@+id/dapanbtn"
 
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                 app:srcCompat="@drawable/camera" />
 
             <Button
-                android:id="@+id/addhandbtn"
+                android:id="@+id/chambaibtn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

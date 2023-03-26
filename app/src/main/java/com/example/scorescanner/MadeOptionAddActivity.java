@@ -1,6 +1,5 @@
 package com.example.scorescanner;
 
-import androidx.activity.result.ActivityResult;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -14,8 +13,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.*;
 
 public class MadeOptionAddActivity extends AppCompatActivity {
 
@@ -33,8 +30,8 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_made_option_add);
         backbtn = findViewById(R.id.backbtn);
         txtmade = findViewById(R.id.txtmade);
-        addFileBtn = findViewById(R.id.addfilebtn);
-        addHandBtn = findViewById(R.id.addhandbtn);
+        addFileBtn = findViewById(R.id.dapanbtn);
+        addHandBtn = findViewById(R.id.chambaibtn);
         Intent intent = getIntent();
         String makithi = intent.getStringExtra("kithi");
         String made = intent.getStringExtra("made");

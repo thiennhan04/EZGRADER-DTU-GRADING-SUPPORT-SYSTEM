@@ -70,7 +70,7 @@
                 app:srcCompat="@drawable/image" />
 
             <Button
-                android:id="@+id/addfilebtn"
+                android:id="@+id/dapanbtn"
 
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                 app:srcCompat="@drawable/camera" />
 
             <Button
-                android:id="@+id/addhandbtn"
+                android:id="@+id/chambaibtn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
