@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class MadeOption extends AppCompatActivity {
         chambaibtn = findViewById(R.id.chambaibtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
-        backbtn = findViewById(R.id.backmdoption);
+        backbtn = findViewById(R.id.back_btn);
         txtmade = findViewById(R.id.txtmade);
         Intent intent = getIntent();
         String makithi = intent.getStringExtra("kithi");
@@ -50,6 +51,12 @@ public class MadeOption extends AppCompatActivity {
             }
         });
         Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+        dapanbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         chambaibtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

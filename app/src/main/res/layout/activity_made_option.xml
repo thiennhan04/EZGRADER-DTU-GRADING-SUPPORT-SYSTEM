@@ -13,7 +13,7 @@
         android:background="#B7F1F8">
 
         <ImageButton
-            android:id="@+id/backmdoption"
+            android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="296dp"
@@ -35,7 +35,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/backmdoption" />
+            app:layout_constraintStart_toEndOf="@+id/back_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

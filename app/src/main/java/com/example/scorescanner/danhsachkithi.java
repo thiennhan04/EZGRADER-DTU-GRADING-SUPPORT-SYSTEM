@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -34,7 +35,7 @@ public class danhsachkithi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachkithi);
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
-        backbtn = findViewById(R.id.backmdoption);
+        backbtn = findViewById(R.id.back_btn);
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         processCopy();
@@ -69,7 +70,7 @@ public class danhsachkithi extends AppCompatActivity {
                 Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
                 String makithi = mylist.get(i).getMakithi() + "";
                 made.putExtra("makithi", makithi);
-//                Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
                 startActivity(made);
             }
         });
