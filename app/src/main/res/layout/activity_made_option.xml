@@ -30,7 +30,7 @@
             android:layout_marginStart="70dp"
             android:layout_marginEnd="152dp"
             android:layout_marginBottom="24dp"
-            android:text="Mã đề"
+            android:text="Kì thi"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

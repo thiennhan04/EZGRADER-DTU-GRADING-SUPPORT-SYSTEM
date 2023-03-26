@@ -1,0 +1,204 @@
+package com.example.scorescanner;
+
+<<<<<<< HEAD
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+=======
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+<<<<<<< HEAD
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+=======
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+public class MadeOptionAddActivity extends AppCompatActivity {
+
+    TextView txtmade;
+    Button addFileBtn,addHandBtn,viewAns;
+    ImageButton backbtn;
+
+    String makithi;
+    String made;
+
+    DataBase db = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_made_option_add);
+        backbtn = findViewById(R.id.backbtn);
+        txtmade = findViewById(R.id.txtmade);
+<<<<<<< HEAD
+        addFileBtn = findViewById(R.id.addfilebtn);
+        addHandBtn = findViewById(R.id.addhandbtn);
+        viewAns = findViewById(R.id.addhandbtn11);
+=======
+        addFileBtn = findViewById(R.id.dapanbtn);
+        addHandBtn = findViewById(R.id.chambaibtn);
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
+        Intent intent = getIntent();
+        makithi = intent.getStringExtra("kithi");
+        made = intent.getStringExtra("made");
+        txtmade.setText("Mã đề "+made);
+        db = new DataBase(this);
+
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        addFileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                startActivityForResult(intent,requestCode);
+            }
+        });
+
+        addHandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        viewAns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent acti = new Intent(MadeOptionAddActivity.this, MainActivityListAns.class);
+                    acti.putExtra("made", made + "");
+                    acti.putExtra("kithi", makithi + "");
+                    startActivity(acti);
+                }catch (Exception ex)
+                {
+                    Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+                }
+            }
+        });
+    }
+
+    int requestCode = 1;
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
+        Context context = getApplicationContext();
+        if(this.requestCode == requestCode && resultCode == Activity.RESULT_OK)
+        {
+            if(data==null)
+                return;
+            Uri uri = data.getData();
+            if(readFile(context,uri))
+                Toast.makeText(context, "thêm thành công", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(context, "thêm không thành công", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean readFile(Context context,Uri uri)
+    {
+        try {
+            ContentResolver contentResolver = context.getContentResolver();
+            InputStream input = contentResolver.openInputStream(uri);
+            Workbook workbook = new XSSFWorkbook(input);
+            Sheet sheet = workbook.getSheetAt(0);
+            ArrayList<String> list = new ArrayList<>();
+            for(int i=0; i<sheet.getPhysicalNumberOfRows(); i++)
+            {
+                String s="";
+                boolean ishavestring = false;
+                for(int j=0; j<sheet.getRow(i).getPhysicalNumberOfCells(); j++)
+                {
+                    Cell cell = sheet.getRow(i).getCell(j);
+                    String str = cell.toString();
+                    if(!str.isEmpty())
+                    {
+                        ishavestring=true;
+                        s+=str+"-";
+                    }
+                }
+                list.add(s);
+                if(!ishavestring) break;
+            }
+            workbook.close();
+            if(db.mydatabase == null)
+            {
+                Log.println(Log.DEBUG,"read excel","----- database = null -----");
+                return false;
+            }
+            for(String line : list)
+            {
+                if(line.contains(made))
+                {
+                    Cursor c = db.mydatabase.rawQuery("select dapan from cauhoi where makithi = " + makithi
+                            + " and made = '" + made + "'", null);
+                    String dataupdate = String.join("",line.substring(made.length()).split("-"));
+                    ContentValues values = new ContentValues();
+                    values.put("dapan",dataupdate);
+                    if(c.getCount()==0)
+                    {
+                        values.put("made",made);
+                        values.put("makithi",makithi);
+                        if(db.mydatabase.insert("cauhoi",null,values)==-1)
+                        {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{made,makithi});
+                        if(row==0)
+                        {
+                            Log.println(Log.DEBUG,"read excel","update NOT OK ");
+                            return false;
+                        }
+                        else
+                        {
+                            Log.println(Log.DEBUG,"read excel","update OK ");
+                            return true;
+                        }                    }
+                    }
+                }
+            return false;
+        } catch (Exception e) {
+            Log.println(Log.DEBUG,"excel ","--- "+e.getMessage()+" ---");
+        }
+        return false;
+    }
+}

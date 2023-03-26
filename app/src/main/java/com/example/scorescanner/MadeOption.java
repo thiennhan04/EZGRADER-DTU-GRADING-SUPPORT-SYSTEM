@@ -1,12 +1,22 @@
 package com.example.scorescanner;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
+import android.os.Environment;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +34,7 @@ public class MadeOption extends AppCompatActivity {
     Button dapanbtn,chambaibtn,baidachambtn,xuatdiembtn,thongkebtn;
     ImageView backbtn;
 
+    Uri imageUri;
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb2.db";
@@ -35,12 +46,15 @@ public class MadeOption extends AppCompatActivity {
         chambaibtn = findViewById(R.id.chambaibtn);
         xuatdiembtn = findViewById(R.id.xuatdiembtn);
         thongkebtn = findViewById(R.id.thongkebtn);
-        backbtn = findViewById(R.id.back_btn);
+
+        backbtn = findViewById(R.id.backmdoption);
+        baidachambtn = findViewById(R.id.baidachambtn);
+
         txtmade = findViewById(R.id.txtmade);
         Intent intent = getIntent();
-        String makithi = intent.getStringExtra("kithi");
-        String made = intent.getStringExtra("made");
-        txtmade.setText("Mã đề "+made);
+        String makithi = intent.getStringExtra("makithi");
+//        String made = intent.getStringExtra("made");
+        txtmade.setText("Kì thi "+makithi);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,10 +64,32 @@ public class MadeOption extends AppCompatActivity {
 //                startActivity(made);
             }
         });
-        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+
+
+
+
+
+//        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
+
         dapanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
+//                    acti.putExtra("made", made + "");
+                    acti.putExtra("kithi", makithi + "");
+                    startActivity(acti);
+                }catch (Exception ex)
+                {
+                    Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+                }
+            }
+        });
+        baidachambtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent py = new Intent(MadeOption.this, TestPython.class);
+                startActivity(py);
 
             }
         });
@@ -64,15 +100,15 @@ public class MadeOption extends AppCompatActivity {
                 database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
 
                 int kithi = Integer.parseInt(makithi);
-                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi
-                        + " and made = '" + made + "'", null);
+                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
 //                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
                 c.moveToFirst();
                 String data ="";
                 while (c.isAfterLast() == false)
                 {
+                    String listanswer = c.getString(0);
+                    data+=listanswer;
                     c.moveToNext();
-                    data += c.getString(2);
                 }
                 if(data.equals("")){
 
@@ -80,6 +116,19 @@ public class MadeOption extends AppCompatActivity {
                 }else{
 
                     Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
+//                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
+
+                    Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
+//                    camerachambai.putExtra("made", made + "");
+                    camerachambai.putExtra("kithi", makithi + "");
+                    startActivity(camerachambai);
+                    if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    {
+                        ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
+                        return;
+                    }
+
+//                    startActivityForResult(myintent,99);
                 }
                 c.close();
 //                try{
@@ -93,7 +142,11 @@ public class MadeOption extends AppCompatActivity {
             }
         });
 
+
     }
+
+
+    //hàm load database từ asset
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
         if (!dbFile.exists())
@@ -120,7 +173,7 @@ public class MadeOption extends AppCompatActivity {
             String outFileName = getDatabasePath();
 
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-//            if (!f.exists())
+            if (!f.exists())
                     f.mkdir();
 
             OutputStream myOutput = new FileOutputStream(outFileName);
@@ -136,6 +189,38 @@ public class MadeOption extends AppCompatActivity {
         } catch (IOException e) {
 
             e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 99){
+            if(resultCode == Activity.RESULT_OK){
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+
+                String imgname = String.valueOf(System.currentTimeMillis());//tên ảnh
+                File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                File mypath = new File(directory.getAbsolutePath()+"/myimg.jpg");
+
+                Toast.makeText(this, mypath+"", Toast.LENGTH_SHORT).show();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(mypath);
+                    // Use the compress method on the BitMap object to write image to the OutputStream
+                    image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
         }
     }
 }

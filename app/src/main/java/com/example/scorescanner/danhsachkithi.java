@@ -67,7 +67,7 @@ public class danhsachkithi extends AppCompatActivity {
         lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent made = new Intent(danhsachkithi.this, MadeActivity.class);
+                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
                 String makithi = mylist.get(i).getMakithi() + "";
                 made.putExtra("makithi", makithi);
                 Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
