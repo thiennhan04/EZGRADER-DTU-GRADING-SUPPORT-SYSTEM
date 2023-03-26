@@ -23,10 +23,14 @@
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
+            android:name=".MainActivityListAns"
+=======
             android:name=".TestPython"
             android:exported="false" />
         <activity
             android:name=".CameraChamBai"
+>>>>>>> c7b1cc3ed7b5bdeb32609f485b9d48b95a2d898f
             android:exported="false" />
         <activity
             android:name=".MadeOptionAddActivity"
