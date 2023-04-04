@@ -39,7 +39,10 @@ public class danhsachkithi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachkithi);
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
+<<<<<<< HEAD
         addbtn = findViewById(R.id.addbtn);
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
         backbtn = findViewById(R.id.back_btn);
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
@@ -78,7 +81,10 @@ public class danhsachkithi extends AppCompatActivity {
                 Intent made = new Intent(danhsachkithi.this, MadeOption.class);
                 String makithi = mylist.get(i).getMakithi() + "";
                 made.putExtra("makithi", makithi);
+<<<<<<< HEAD
                 made.putExtra("username", username);
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
                 Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
                 startActivity(made);
             }

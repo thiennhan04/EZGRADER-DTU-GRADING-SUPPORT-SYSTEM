@@ -20,6 +20,21 @@
         android:backgroundTint="#518EF8"
         android:text="Sign in" />
 
+<<<<<<< HEAD
+=======
+    <ImageView
+        android:id="@+id/background_img"
+        android:layout_width="match_parent"
+        android:layout_height="731dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-20dp"
+        android:layout_marginEnd="-7dp"
+        android:layout_marginBottom="20dp"
+        app:srcCompat="@drawable/background" />
+
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
     <EditText
         android:id="@+id/edtusername"
         android:layout_width="278dp"

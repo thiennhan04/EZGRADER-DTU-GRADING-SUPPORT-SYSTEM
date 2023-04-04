@@ -22,6 +22,7 @@
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".testLoadAnh"
             android:exported="false" />
         <activity
@@ -34,6 +35,8 @@
             android:name=".DanhSachKithi_Add"
             android:exported="false" />
         <activity
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
             android:name=".dapan_activity"
             android:exported="false" />
         <activity
@@ -44,9 +47,11 @@
             android:exported="false" />
         <activity
             android:name=".CameraChamBai"
+
             android:exported="false" />
         <activity
             android:name=".MadeOptionAddActivity"
+
             android:exported="false" />
         <activity
             android:name=".MadeOption"

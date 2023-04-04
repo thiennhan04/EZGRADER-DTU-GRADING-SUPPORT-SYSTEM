@@ -55,7 +55,10 @@ public class MadeOption extends AppCompatActivity {
             txtmade = findViewById(R.id.txtmade);
             Intent intent = getIntent();
             String makithi = intent.getStringExtra("makithi");
+<<<<<<< HEAD
             String username =  intent.getStringExtra("username");
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
 //        String made = intent.getStringExtra("made");
             txtmade.setText("Kì thi "+makithi);
 
@@ -78,9 +81,14 @@ public class MadeOption extends AppCompatActivity {
             baidachambtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+<<<<<<< HEAD
                 Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
                 baidacham.putExtra("makithi", makithi + "");
                 startActivity(baidacham);
+=======
+//                Intent py = new Intent(MadeOption.this, TestPython.class);
+//                startActivity(py);
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
                 }
             });
             chambaibtn.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +107,7 @@ public class MadeOption extends AppCompatActivity {
                         String listanswer = c.getString(0);
                         data+=listanswer;
                         c.moveToNext();
+<<<<<<< HEAD
 
                     }
                     if(data.equals("")){
@@ -106,13 +115,24 @@ public class MadeOption extends AppCompatActivity {
                         Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
                     }else{
 
+=======
+                    }
+                    if(data.equals("")){
+
+                        Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
+                    }else{
+
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
                         Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
 //                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
 
                         Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
 //                    camerachambai.putExtra("made", made + "");
                         camerachambai.putExtra("kithi", makithi + "");
+<<<<<<< HEAD
                         camerachambai.putExtra("username", username + "");
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
                         startActivity(camerachambai);
                         if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                         {

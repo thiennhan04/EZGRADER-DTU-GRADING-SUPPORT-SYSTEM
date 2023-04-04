@@ -26,6 +26,9 @@ public class MainActivityListAns extends AppCompatActivity {
             c.moveToNext();
         }
         view.setText(data);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
     }
 }

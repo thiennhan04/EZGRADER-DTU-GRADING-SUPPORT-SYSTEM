@@ -106,6 +106,10 @@ public class MadeOptionAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     Intent acti = new Intent(MadeOptionAddActivity.this, MainActivityListAns.class);
+<<<<<<< HEAD
+=======
+                    acti.putExtra("kithi", makithi + "");
+>>>>>>> 62800fdb12a50ed3d6cb7d454ef3bb57708112bf
                     startActivity(acti);
                 }catch (Exception ex)
                 {
