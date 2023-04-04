@@ -11,11 +11,11 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": -1191816241
+    "memoizedHashCode": 611260130
   },
   {
     "level_": 0,
-    "message_": "rebuilding JSON D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\android_gradle_build.json due to:",
+    "message_": "JSON \u0027D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\android_gradle_build.json\u0027 was up-to-date",
     "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
     "tag_": "release|x86",
     "diagnosticCode_": 0,
@@ -25,133 +25,7 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": 600690152
-  },
-  {
-    "level_": 0,
-    "message_": "- expected json D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\android_gradle_build.json file is not present, will remove stale json folder",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 177951920
-  },
-  {
-    "level_": 0,
-    "message_": "- missing previous command file D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\metadata_generation_command.txt, will remove stale json folder",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 1344806926
-  },
-  {
-    "level_": 0,
-    "message_": "- command changed from previous, will remove stale json folder",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -86053996
-  },
-  {
-    "level_": 0,
-    "message_": "created folder \u0027D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\u0027",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 1040795460
-  },
-  {
-    "level_": 0,
-    "message_": "executing cmake Executable : D:\\SDK_AndroidStudio\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d26\n-DANDROID_PLATFORM\u003dandroid-26\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dD:\\SDK_AndroidStudio\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\CDIO\\ScoreScanner\\OpenCv4\\build\\intermediates\\cxx\\RelWithDebInfo\\2s385o1l\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\CDIO\\ScoreScanner\\OpenCv4\\build\\intermediates\\cxx\\RelWithDebInfo\\2s385o1l\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dRelWithDebInfo\n-BD:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 341207749
-  },
-  {
-    "level_": 0,
-    "message_": "Executable : D:\\SDK_AndroidStudio\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d26\n-DANDROID_PLATFORM\u003dandroid-26\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dD:\\SDK_AndroidStudio\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dD:\\SDK_AndroidStudio\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\CDIO\\ScoreScanner\\OpenCv4\\build\\intermediates\\cxx\\RelWithDebInfo\\2s385o1l\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\CDIO\\ScoreScanner\\OpenCv4\\build\\intermediates\\cxx\\RelWithDebInfo\\2s385o1l\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dRelWithDebInfo\n-BD:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -397256124
-  },
-  {
-    "level_": 0,
-    "message_": "Exiting generation of D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\compile_commands.json.bin normally",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 607302042
-  },
-  {
-    "level_": 0,
-    "message_": "done executing cmake",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -398400247
-  },
-  {
-    "level_": 0,
-    "message_": "write command file D:\\CDIO\\ScoreScanner\\OpenCv4\\.cxx\\RelWithDebInfo\\2s385o1l\\x86\\metadata_generation_command.txt",
-    "file_": "D:\\CDIO\\ScoreScanner\\OpenCv4\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "release|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -1034008740
+    "memoizedHashCode": 1707933042
   },
   {
     "level_": 0,
@@ -165,6 +39,6 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": 1539672837
+    "memoizedHashCode": -952218088
   }
 ]

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.scorescanner">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -22,6 +21,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
+        <activity
+            android:name=".testLoadAnh"
+            android:exported="false" />
+        <activity
+            android:name=".TestloadImage"
+            android:exported="false" />
+        <activity
+            android:name=".Baidacham"
+            android:exported="false" />
+        <activity
+            android:name=".DanhSachKithi_Add"
+            android:exported="false" />
+        <activity
+            android:name=".dapan_activity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivityListAns"
+            android:exported="false" />
         <activity
             android:name=".TestPython"
             android:exported="false" />

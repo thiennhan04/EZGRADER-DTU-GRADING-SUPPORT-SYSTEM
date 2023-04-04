@@ -14,7 +14,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.os.Environment;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,93 +40,89 @@ public class MadeOption extends AppCompatActivity {
     String DATABASE_NAME="ssdb2.db";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_made_option);
-        dapanbtn = findViewById(R.id.dapanbtn);
-        chambaibtn = findViewById(R.id.chambaibtn);
-        xuatdiembtn = findViewById(R.id.xuatdiembtn);
-        thongkebtn = findViewById(R.id.thongkebtn);
-        backbtn = findViewById(R.id.backmdoption);
-        baidachambtn = findViewById(R.id.baidachambtn);
-        txtmade = findViewById(R.id.txtmade);
-        Intent intent = getIntent();
-        String makithi = intent.getStringExtra("makithi");
+        try{
+
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_made_option);
+            dapanbtn = findViewById(R.id.dapanbtn);
+            chambaibtn = findViewById(R.id.chambaibtn);
+            xuatdiembtn = findViewById(R.id.xuatdiembtn);
+            thongkebtn = findViewById(R.id.thongkebtn);
+
+            backbtn = findViewById(R.id.backbtn);
+            baidachambtn = findViewById(R.id.baidachambtn);
+
+            txtmade = findViewById(R.id.txtmade);
+            Intent intent = getIntent();
+            String makithi = intent.getStringExtra("makithi");
+            String username =  intent.getStringExtra("username");
 //        String made = intent.getStringExtra("made");
-        txtmade.setText("Kì thi "+makithi);
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent made = new Intent(MadeOption.this,MadeActivity.class);
-//                made.putExtra("made", made);
-//                made.putExtra("kithi", makithi);
-//                startActivity(made);
-            }
-        });
-
-
-
+            txtmade.setText("Kì thi "+makithi);
 
 //        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
 
-        dapanbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
+            dapanbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
 //                    acti.putExtra("made", made + "");
-                    acti.putExtra("kithi", makithi + "");
-                    startActivity(acti);
-                }catch (Exception ex)
-                {
-                    Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+                        acti.putExtra("kithi", makithi + "");
+                        startActivity(acti);
+                    }catch (Exception ex)
+                    {
+                        Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+                    }
                 }
-            }
-        });
-        baidachambtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent py = new Intent(MadeOption.this, TestPython.class);
-                startActivity(py);
-            }
-        });
-        chambaibtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                processCopy();
-                database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+            });
+            baidachambtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
+                baidacham.putExtra("makithi", makithi + "");
+                startActivity(baidacham);
+                }
+            });
+            chambaibtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    processCopy();
+                    database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
 
-                int kithi = Integer.parseInt(makithi);
-                Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
+                    int kithi = Integer.parseInt(makithi);
+                    Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
 //                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
-                c.moveToFirst();
-                String data ="";
-                while (c.isAfterLast() == false)
-                {
-                    String listanswer = c.getString(0);
-                    data+=listanswer;
-                    c.moveToNext();
-                }
-                if(data.equals("")){
+                    c.moveToFirst();
+                    String data ="";
+                    while (c.isAfterLast() == false)
+                    {
+                        String listanswer = c.getString(0);
+                        data+=listanswer;
+                        c.moveToNext();
 
-                    Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
-                }else{
+                    }
+                    if(data.equals("")){
 
-                    Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
+                    }else{
+
+                        Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
 //                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
 
-                    Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
+                        Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
 //                    camerachambai.putExtra("made", made + "");
-                    camerachambai.putExtra("kithi", makithi + "");
-                    startActivity(camerachambai);
-                    if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                    {
-                        ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
-                        return;
-                    }
+                        camerachambai.putExtra("kithi", makithi + "");
+                        camerachambai.putExtra("username", username + "");
+                        startActivity(camerachambai);
+                        if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                        {
+                            ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
+                            return;
+                        }
 
 //                    startActivityForResult(myintent,99);
-                }
-                c.close();
+                    }
+                    c.close();
 //                try{
 //
 //                }catch (Exception e){
@@ -133,8 +131,12 @@ public class MadeOption extends AppCompatActivity {
 
 //                Toast.makeText(MadeOption.this, "cham bai", Toast.LENGTH_SHORT).show();
 
-            }
-        });
+                }
+            });
+        }catch (Exception e)
+        {
+            Log.println(Log.ERROR,"====",e.getMessage());
+        }
 
 
     }

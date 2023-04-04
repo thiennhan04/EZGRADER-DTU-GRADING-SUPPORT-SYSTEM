@@ -85,38 +85,11 @@
             app:strokeWidth="0dp" />
 
         <ImageButton
-            android:id="@+id/thuvienbtn"
+            android:id="@+id/taiphieubtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="36dp"
-            android:backgroundTint="#00000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/gallery" />
-
-        <Button
-            android:id="@+id/button4"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="151dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="144dp"
-            android:layout_marginEnd="36dp"
-            android:backgroundTint="#00000000"
-            android:text="Bài đã chấm"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="#00000000" />
-
-        <ImageButton
-            android:id="@+id/imageButton11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="224dp"
-            android:layout_marginBottom="300dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="500dp"
             android:backgroundTint="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,36 +100,10 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="150dp"
             android:layout_height="46dp"
-            android:layout_marginEnd="236dp"
-            android:layout_marginBottom="264dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="468dp"
             android:backgroundTint="#00000000"
             android:text="Tải phiếu"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageButton
-            android:id="@+id/thongkeimage"
-            android:layout_width="154dp"
-            android:layout_height="143dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginBottom="300dp"
-            android:backgroundTint="#00000000"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/thongke" />
-
-        <Button
-            android:id="@+id/button6"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="137dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="264dp"
-            android:backgroundTint="#00000000"
-            android:text="Thống kê"
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -166,8 +113,8 @@
             android:id="@+id/imageButton13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="232dp"
-            android:layout_marginBottom="108dp"
+            android:layout_marginEnd="224dp"
+            android:layout_marginBottom="284dp"
             android:backgroundTint="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,8 +125,8 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="152dp"
             android:layout_height="44dp"
-            android:layout_marginEnd="240dp"
-            android:layout_marginBottom="72dp"
+            android:layout_marginEnd="224dp"
+            android:layout_marginBottom="252dp"
             android:backgroundTint="#00000000"
             android:text="Xáo đề"
             android:textColor="#000000"

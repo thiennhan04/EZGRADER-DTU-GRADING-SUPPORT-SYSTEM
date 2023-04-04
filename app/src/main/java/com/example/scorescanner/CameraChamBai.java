@@ -4,9 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Matrix;
 import android.os.Bundle;
+
+import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.io.File;
@@ -27,22 +35,33 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.os.Handler;
 import android.util.SparseIntArray;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.hardware.camera2.*;
 import android.hardware.camera2.CameraManager;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
+
 public class CameraChamBai extends AppCompatActivity {
     ImageButton btncap;
     TextureView textureView;
+    DataBase db = null;
+    String makithi = "";
+    String username = "";
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
     static{
@@ -84,13 +103,28 @@ public class CameraChamBai extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Python.isStarted()) {
+            Python.start(new AndroidPlatform(this));
+        }
         setContentView(R.layout.activity_camera_cham_bai);
+        Intent intent = getIntent();
+        makithi = intent.getStringExtra("kithi");
+         username =  intent.getStringExtra("username");
         btncap = findViewById(R.id.btncap);
         textureView = findViewById(R.id.textureView);
+
+        //set zoom x1 cho camera
+        Matrix matrix = new Matrix();
+        matrix.setScale(1.0f, 1.0f);
+        textureView.setTransform(matrix);
+
         //From Java 1.4 , you can use keyword 'assert' to check expression true or false
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
         btncap= findViewById(R.id.btncap);
+
+        db = new DataBase(this);
         btncap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,13 +144,15 @@ public class CameraChamBai extends AppCompatActivity {
                         .getOutputSizes(ImageFormat.JPEG);
 
             //Capture image with custom size
-            int width = 640;
-            int height = 480;
-            if(jpegSizes != null && jpegSizes.length > 0)
-            {
-                width = jpegSizes[0].getWidth();
-                height = jpegSizes[0].getHeight();
-            }
+//            int width = 640;
+//            int height = 480;
+//            if(jpegSizes != null && jpegSizes.length > 0)
+//            {
+//                width = jpegSizes[0].getWidth();
+//                height = jpegSizes[0].getHeight();
+//            }
+            int width = (int)imageDimension.getWidth();
+            int height = (int)(imageDimension.getWidth() * 3)/2;
             final ImageReader reader = ImageReader.newInstance(width,height,ImageFormat.JPEG,1);
             List<Surface> outputSurface = new ArrayList<>(2);
             outputSurface.add(reader.getSurface());
@@ -131,8 +167,13 @@ public class CameraChamBai extends AppCompatActivity {
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
 //            file = new File(Environment.getExternalStorageDirectory()+"/"+UUID.randomUUID().toString()+".jpg");
-            File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-            file = new File(directory.getAbsolutePath()+"/" + UUID.randomUUID().toString()+".jpg");
+            File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + username+makithi);
+            String name = UUID.randomUUID().toString();
+            file = new File(directory.getAbsolutePath()+"/"+ name +".jpg");
+            String strimg = directory.getAbsolutePath()+"/"+ name +".jpg";
+            //them ten anh vao db
+
+//            Toast.makeText(CameraChamBai.this, msg, Toast.LENGTH_SHORT).show();
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader imageReader) {
@@ -142,8 +183,71 @@ public class CameraChamBai extends AppCompatActivity {
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
-                        save(bytes);
+                        String s = Base64.getEncoder().encodeToString(bytes);
 
+
+
+                        //lay he diem cua ki thi
+                        int hediem = 10;
+                        String masv = "000001";
+                        String made = "";
+                        Python py = Python.getInstance();
+                        PyObject pyob = py.getModule("betaTest");
+                        PyObject obj = pyob.callAttr("run1", s);
+                        made = obj.toString();
+                        Log.d("==== BUG ===","--------------" + made + "-----------");
+//                        Toast.makeText(CameraChamBai.this, "" + made, Toast.LENGTH_SHORT).show();
+                        Cursor c = db.mydatabase.query("kithi",null,"makithi=?",new String[]{makithi},null,null,null);
+                        c.moveToFirst();
+                        while (c.isAfterLast() == false)
+                        {
+                             hediem = Integer.parseInt(c.getString(4));
+                            c.moveToNext();
+                        }
+                        c.close();
+//                        Toast.makeText(CameraChamBai.this, "" + hediem, Toast.LENGTH_SHORT).show();
+                        //lay list ans cua ki thi
+                        String strdapan = "";
+                        /*doan nay chay code python lay ma de*/
+
+//                        Cursor c2 = db.mydatabase.query("cauhoi",null,"makithi=? and made =?",new String[]{makithi, made},null,null,null);
+                        Cursor c2 = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",new  String[]{makithi, made});
+                        c2.moveToFirst();
+                        while (c2.isAfterLast() == false)
+                        {
+                            strdapan = c2.getString(2);
+                            c2.moveToNext();
+                        }
+                        c2.close();
+
+//                        Toast.makeText(CameraChamBai.this, "" + strdapan, Toast.LENGTH_SHORT).show();
+
+
+//                        xu ly python
+                        Python py2 = Python.getInstance();
+                        PyObject pyob2 = py.getModule("betaTest");
+                        PyObject obj2 = pyob.callAttr("run2", s,strdapan,hediem);
+
+                        String resultImg = obj2.toString();
+                        String[] list = resultImg.split("#####");
+                        Log.d("==== BUG ===","--------------" + made + "-----------");
+                        for(int i=0; i<list.length; i++)
+                            Log.d("==== BUG ===","--------------" + list[i] + "-----------");
+                        byte data[] = android.util.Base64.decode(list[1], android.util.Base64.DEFAULT);
+                        //save img to database
+                        ContentValues valuediem = new ContentValues();
+                        valuediem.put("makithi",makithi );
+                        valuediem.put("diemso", 10);
+                        valuediem.put("hinhanh",strimg);
+                        valuediem.put("masv", masv);
+                        String msg  = "";
+                        if(db.mydatabase.insert("diem",null,valuediem)==-1){
+                            msg = "Fail to insert record";
+                        }else{
+                            msg = "Insert record sucess";
+                        }
+//                        save(bytes);
+                        save(data);
                     }
                     catch (FileNotFoundException e)
                     {
@@ -208,7 +312,10 @@ public class CameraChamBai extends AppCompatActivity {
         try{
             SurfaceTexture texture = textureView.getSurfaceTexture();
             assert  texture != null;
-            texture.setDefaultBufferSize(imageDimension.getWidth(),imageDimension.getHeight());
+            int height = (int)(imageDimension.getWidth() * 3)/2;
+            texture.setDefaultBufferSize(imageDimension.getWidth(),height);
+//            texture.setDefaultBufferSize(imageDimension.getWidth(),imageDimension.getHeight());
+
             Surface surface = new Surface(texture);
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(surface);
@@ -260,6 +367,7 @@ public class CameraChamBai extends AppCompatActivity {
                 },REQUEST_CAMERA_PERMISSION);
                 return;
             }
+
             manager.openCamera(cameraId,stateCallback,null);
 
         } catch (CameraAccessException e) {

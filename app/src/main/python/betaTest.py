@@ -1,6 +1,7 @@
-import cv2, imutils, numpy as np
+import cv2, imutils, numpy as np, io, base64
 from imutils import contours
 from imutils.perspective import four_point_transform
+from PIL import Image
 
 def show(name,imagetoshow,standard=500):
 	h,w = imagetoshow.shape[0:2]
@@ -14,41 +15,124 @@ def show(name,imagetoshow,standard=500):
 	imagetoshow = cv2.resize(imagetoshow,(int(w),int(h)))
 	cv2.imshow(str(name),imagetoshow)
 
+def sortArray4point(listCntIn):
+	listCntInCop = listCntIn.copy()
+	for i in range(len(listCntInCop)):
+		listCntInCop[i] = sort4point(listCntInCop[i])
+	return listCntInCop
+
+def sort4point(CntIn):
+	cnttmp = CntIn.copy()
+	cnttmp = np.array(  contours.sort_contours(cnttmp, method="left-to-right")[0]  )
+	cnttmp[0:2] = np.array(  contours.sort_contours(cnttmp[0:2], method="top-to-bottom")[0]  )
+	cnttmp[2:4] = np.array(  contours.sort_contours(cnttmp[2:4], method="bottom-to-top")[0]  )
+	return cnttmp
+
 def getCnt(img,minVal=-1,maxVal=-1):
+	# print('========== begin =========')
 	imggray =  cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	blurred = cv2.GaussianBlur(imggray, (3, 3), 0)
-	edged = cv2.Canny(blurred, 50, 200)
+	# edged = cv2.Canny(blurred, 50, 200)
+
+	edged = cv2.adaptiveThreshold(imggray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 7, 2)
+	edged = cv2.bitwise_not(edged)
+	# show('edged',edged,900)
+	# cv2.waitKey(0)
+
 	cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	cnts = imutils.grab_contours(cnts)
+
 	neoCnt = []
 	cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
+
+	img1 = img.copy()
+
 	for c in cnts:
 		peri = cv2.arcLength(c, True)
-		approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+		approx = cv2.approxPolyDP(c, 4, True)
 		area = cv2.contourArea(approx)
-		if len(approx) == 4 and ((minVal<=area and area<=maxVal and minVal!=-1 and maxVal!=-1)
+		
+		if len(approx)==4 and ((minVal<=area and area<=maxVal and minVal!=-1 and maxVal!=-1)
 			or (minVal<=area and minVal!=-1 and maxVal==-1)
 			or (area<=maxVal and minVal==-1 and maxVal!=-1)
 			or (minVal==-1 and maxVal==-1)):
 			neoCnt.append(approx)
+			# print(area)
+			# (x, y, w, h) = cv2.boundingRect(c)
+			# ar = w / float(h)
+			# if w >= 15 and h >= 15 and ar >= 0.85 and ar <= 1.15:
+				# cv2.drawContours(img1, [c], -1, (0,255,0), 3)
+				# cv2.rectangle(img1, (x,y), 
+				# 					(x+w,y+h), (0, 0, 255), 3)
+				# print('w: {} h:{}'.format(w,h))
+	# for i in range(len(neoCnt)):
+	# 	# if i!=28:
+	# 	# 	continue
+	# 	cv2.putText(img1, "{}".format(i), (neoCnt[i][0][0][0], neoCnt[i][0][0][1]),
+	# 							cv2.FONT_HERSHEY_SIMPLEX, 1.75, (0, 0, 255), 2)
+	# cv2.drawContours(img1,neoCnt, -1, (0,255,0), 3)
+
+	# cv2.drawContours(img1, cnts, -1, (0,255,0), 3)
+	# cv2.drawContours(img1, neoCnt, -1, (0,255,0), 3)
+	# show('img1',img1,900)
+	# show('img',img,900)
+
+	neoCnt = sortArray4point(neoCnt)
+	# print(len(neoCnt))
+	# for i in range(0,len(neoCnt)):
+	# 	pnt = np.round(cv2.mean(neoCnt[i])[0:2]).astype("int")
+	# 	print('[{},{}],'.format(pnt[0],pnt[1]))
+	# print('========== end =========')
+	# cv2.waitKey(0)
 	return neoCnt
 
 def transform_img_input(img):
-	listCnt = np.array(getCnt(img.copy(),1200,2000))
-	shapecvt = np.array([[0,0]]*4)
+	minnn, maxxx = 1500, 2100
+	listCnt = np.array(getCnt(img,minnn,maxxx))
+	while len(listCnt) != 8:
+		# print(len(listCnt))
+		# if len(listCnt) < 8:
+		minnn = minnn - 100
+		maxxx = maxxx - 100
+		if(minnn) == 500:
+			return
+		# else:
+		# minnn = minnn + 100
+		# maxxx = maxxx + 100
+		listCnt = np.array(getCnt(img,minnn,maxxx))
 
+	# print(len(listCnt))
+
+	shapecvt = np.array([[0,0]]*4)
+	
 	cntleft = np.array(  contours.sort_contours(listCnt, method="left-to-right")[0][0:3]  )
 	cntleft = np.array(  contours.sort_contours(cntleft, method="top-to-bottom")[0]  )
+	cntleft = sortArray4point(cntleft)
 
 	cntright = np.array(  contours.sort_contours(listCnt, method="right-to-left")[0][0:3]  )
 	cntright = np.array(  contours.sort_contours(cntright, method="top-to-bottom")[0]  )
-	
+	cntright = sortArray4point(cntright)
+
+	# tmpcnt = np.array((cntleft[0][0][0],cntleft[0][1][0],cntleft[0][2][0],cntleft[0][3][0]))
 	shapecvt[0] = cntleft[0][0] + (-10,-10)
 	shapecvt[1] = cntleft[2][1] + (-10, 10)
 	shapecvt[2] = cntright[2][2] + (10, 10)
 	shapecvt[3] = cntright[0][3] + (10,-10)
 
-	imgcopy = four_point_transform(img.copy(), shapecvt.reshape(4, 2))
+	imgcopy = four_point_transform(img, shapecvt.reshape(4, 2))
+	# for i in range(len(shapecvt)):
+	# 	cv2.putText(img, "{}".format(i), (shapecvt[i][0], shapecvt[i][1]),
+	# 							cv2.FONT_HERSHEY_SIMPLEX, 1.75, (0, 0, 255), 2)
+	# cv2.drawContours(imgcopy,listCnt, -1, (0,255,0), 3)
+	# print(cntleft[0][0])
+
+	# cv2.rectangle(img, (cntleft[0][0][0][0],cntleft[0][0][0][1]), (cntleft[0][2][0][0],cntleft[0][2][0][1]), (0, 0, 255), 3)
+	# cv2.rectangle(img, (cntleft[2][0][0][0],cntleft[2][0][0][1]), (cntleft[2][2][0][0],cntleft[2][2][0][1]), (0, 0, 255), 3)
+	# cv2.rectangle(img, (cntright[2][0][0][0],cntright[2][0][0][1]), (cntright[2][2][0][0],cntright[2][2][0][1]), (0, 0, 255), 3)
+
+	# show('imgcopy',imgcopy,900)
+	# show('tesstimg',img,900)
+	# cv2.waitKey(0)
 	return imgcopy
 
 def cropimg(img,point_start,point_end):
@@ -63,8 +147,8 @@ def crop_1(img,listCnt):
 	shapecvt = np.array([[0,0],[0,0]])
 	cntsbd = np.array(contours.sort_contours(listCnt, method="left-to-right")[0][3:8])
 	cntsbd1 = np.array(contours.sort_contours(cntsbd[0:2], method="top-to-bottom")[0])
-	shapecvt[0] = cntsbd1[0][2]
-	shapecvt[1] = cntsbd1[1][3]
+	# print(cntsbd1[0][2][0][0])
+	shapecvt[0] = np.array((cntsbd1[0][2][0][0],cntsbd1[0][2][0][1]+50))
 
 	cntsbd2 = np.array(contours.sort_contours(cntsbd[2:5], method="top-to-bottom")[0])
 	shapecvt[1] = cntsbd2[1][0]
@@ -73,6 +157,22 @@ def crop_1(img,listCnt):
 	return imgcopy
 
 def crop_2(img,listCnt):
+	shapecvt = np.array([[0,0],[0,0]])
+	cntans = np.array(contours.sort_contours(listCnt, method="top-to-bottom")[0][3:8])
+	cntans = np.array(contours.sort_contours(cntans, method="left-to-right")[0])
+	cntans[0:2] = np.array(contours.sort_contours(cntans[0:2], method="top-to-bottom")[0])
+	cntans[3:5] = np.array(contours.sort_contours(cntans[3:5], method="top-to-bottom")[0])
+
+	cntans = sortArray4point(cntans)
+	shapecvt[0] = np.array((cntans[0][2][0][0],cntans[0][2][0][1]+70))
+	shapecvt[1] = cntans[4][0]
+
+	imgcopy = cropimg(img,shapecvt[0],shapecvt[1])
+	# show('imgtest',imgcopy,900)
+	# cv2.waitKey(0)
+	return imgcopy
+
+def crop_ans_to_10_img(img,listCnt):
 	cntans = np.array(contours.sort_contours(listCnt, method="left-to-right")[0])
 	cntans[1:7] = np.array(contours.sort_contours(cntans[1:7], method="top-to-bottom")[0])
 	cntans[7:13] = np.array(contours.sort_contours(cntans[7:13], method="top-to-bottom")[0])
@@ -92,17 +192,19 @@ def crop_2(img,listCnt):
 	listright = np.array(listright)
 	listimg = []
 	for i in range(0,10):
-		imgcopy = cropimg(img, listleft[i], listright[i])
+		imgcopy = cropimg(img, listleft[i], (listright[i][0],listright[i][1]))
 		listimg.append(imgcopy)
 	return listimg
 
-def findAns(img,listCircle,num,isVertical):
+def findAns(img,listCircle,num,isVertical,strAnswer=None):
 	if isVertical==True:
 		listCircle = np.array(sorted(listCircle, key=lambda k: k[0]))
 	else:
 		listCircle = np.array(sorted(listCircle, key=lambda k: k[1]))
 	thresh = cv2.threshold(cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 	anschoose = []
+	stringans = str(strAnswer)
+	dem=0
 	for (col, index) in enumerate(np.arange(0, len(listCircle), num)):
 		cnts = listCircle[index:index+num]
 		if isVertical==True:
@@ -110,83 +212,265 @@ def findAns(img,listCircle,num,isVertical):
 		else:
 			cnts = np.array(sorted(cnts, key=lambda k: k[0]))
 
+		idTrueAns = -1
+		if strAnswer != None:
+			if int(index/4)>=len(stringans):
+				break
+			idTrueAns = ['A','B','C','D'].index(stringans[int(index/4)])
+
+
 		bubbled = []
-		for (j,(x,y,_)) in enumerate(cnts):
+		for (j,(x,y)) in enumerate(cnts):
 			mask = np.zeros(thresh.shape, dtype="uint8").copy()
 			cv2.circle(mask, (x, y), 10, 255, -1)
 			mask = cv2.bitwise_and(thresh, thresh, mask=mask)
 			total = cv2.countNonZero(mask)
-			if total > 300:
+			if total > 220:
 				bubbled.append(j)
-		color = (0,255,0)
-		if len(bubbled)!=1:
-			color = (0,0,255)  # (b,g,r)  (r,g,b)
-			anschoose.append('#')
+		if strAnswer != None:
+			if len(bubbled)==0:
+				color = (0,255,255)  # (b,g,r)  (r,g,b)
+				x,y = cnts[idTrueAns]
+				cv2.circle(img, (x, y), 14, color, 3)
+				anschoose.append('#')
+			elif len(bubbled)==1:
+				if idTrueAns==bubbled[0]:
+					dem = dem+1
+					color = (0,255,0)  # (b,g,r)  (r,g,b)
+					x,y = cnts[bubbled[0]]
+					cv2.circle(img, (x, y), 14, color, 3)
+					anschoose.append(bubbled[0])
+				else:
+					color = (0,255,255)  # (b,g,r)  (r,g,b)
+					x,y = cnts[idTrueAns]
+					cv2.circle(img, (x, y), 14, color, 3)
+					color = (0,0,255)  # (b,g,r)  (r,g,b)
+					x,y = cnts[bubbled[0]]
+					cv2.circle(img, (x, y), 14, color, 3)
+					anschoose.append(bubbled[0])
+			else:
+				for i in range(0,len(bubbled)):
+					color = (0,0,255)  # (b,g,r)  (r,g,b)
+					x,y = cnts[bubbled[0]]
+					cv2.circle(img, (x, y), 14, color, 3)
+				color = (0,255,255)  # (b,g,r)  (r,g,b)
+				x,y = cnts[idTrueAns]
+				cv2.circle(img, (x, y), 14, color, 3)
 		else:
-			anschoose.append(bubbled[0])
-		for j in bubbled:
-			x,y,_ = cnts[j]
-			cv2.circle(img, (x, y), 14, color, 3)
-	return ''.join(map(str,anschoose))
+			color = (0,255,0)
+			if len(bubbled)!=1:
+				color = (0,0,255)
+				anschoose.append('#')
+			else:
+				anschoose.append(bubbled[0])
+			for j in bubbled:
+				x,y = cnts[j]
+				cv2.circle(img, (x, y), 14, color, 3)
+	# show('imggggg',img,900)
+	# cv2.waitKey(0)
+	return (''.join(map(str,anschoose)),dem)
 
-def get_Sbd_and_maDe(img):
-	neoCnt = getCnt(img.copy(),200,500)
+def get_Sbd_and_maDe(img,returnMade):
+	# show('sbd-made',img.copy(),900)
+	minnn, maxxx = 400,800
+	neoCnt = getCnt(img.copy(),minnn,maxxx)
+	while len(neoCnt) != 3:
+		minnn = minnn - 100
+		maxxx = maxxx - 100
+		if minnn==0:
+			return
+		neoCnt = getCnt(img.copy(),minnn,maxxx)
+	# print(minnn)
+	# print(maxxx)
 	neoCnt = np.array(contours.sort_contours(neoCnt, method="top-to-bottom")[0])
 	point0 = np.round(cv2.mean(neoCnt[0])[0:2]).astype("int")
 	point2 = np.round(cv2.mean(neoCnt[2])[0:2]).astype("int")
 	w = img.shape[1]
-	img1 = cropimg(img,(0,point0[1]),(point2[0],point2[1]))
-	img2 = cropimg(img,(point2[0],point0[1]),(w,point2[1]))
+	img2 = cropimg(img,(point2[0]+20,point0[1]),(w,point2[1]))
+	made = get_Made(img2)
+	if returnMade==True:
+		# print(made)
+		return made
 
-	circles1 = detect_circles_and_get_ans(img1)
-	circles2 = detect_circles_and_get_ans(img2)
+	img1 = cropimg(img,(0,point0[1]),(point2[0]-20,point2[1]))
+	sbd = get_Sbd(img1)
 
-	sbd = findAns(img1,circles1,10,True)
-	made = findAns(img2,circles2,10,True)
+	# show('sbd',img1.copy(),900)
+	# show('made',img2.copy(),900)
+
+	# cv2.waitKey(0)
 	return sbd,made
 
-def get_ans(img):
-	circles = detect_circles_and_get_ans(img)
-	ans = findAns(img,circles,4,False)
-	return ans
+def get_Sbd(img1):
+	circles1 = detect_circlesv2(img1,10,6)
+	sbd = findAns(img1,circles1,10,True)
+	return sbd
 
-def detect_circles_and_get_ans(img):
-	imggray =  cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY)
-	blurred = cv2.GaussianBlur(imggray, (3, 3), 0)
-	circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, 1, 20, param1=40, param2=20, minRadius=9, maxRadius=15)[0]
-	if circles is not None:
-		circles = np.round(circles[::]).astype("int")
+def get_Made(img2):
+	circles2 = detect_circlesv2(img2,10,3)
+	made = findAns(img2,circles2,10,True)
+	return made
+
+def get_ans(img,stringans):
+	minnn, maxxx = 700,1300
+	neoCnt = getCnt(img.copy(),minnn,maxxx)
+	while len(neoCnt) != 14:
+		minnn = minnn - 100
+		maxxx = maxxx - 100
+		if minnn==0:
+			return
+		neoCnt = getCnt(img.copy(),minnn,maxxx)
+	listIMGcrop = crop_ans_to_10_img(img,neoCnt)
+
+	# cnt = getCnt(listIMGcrop[0])
+	# print(len(cnt))
+
+	listans = []
+	for i in range(0,int(len(stringans)/5+1)):
+		circles = detect_circlesv2(listIMGcrop[i],5,4)
+		# print(str(i)+'  '+str(len(circles)))
+		stringansss = 'ABCD'
+		if i*5+5 < len(stringans):
+			stringansss = stringans[i*5:i*5+5]
+		else:
+			stringansss = stringans[i*5:len(stringans)]
+		# print(stringansss)
+		ans = findAns(listIMGcrop[i],circles,4,False,stringansss)
+		listans.append(ans)
+		# print('ans   '+str(ans))
+		# show('listIMGcrop[{}]'.format(i),listIMGcrop[i],900)
+	return listans
+
+def detect_circlesv2(img,row,cel):
+	if row == 5:
+		return np.array(([178,221],[280,173],[484,124],[280,26],[484,222],
+						[484,76],[280,75],[484,173],[280,124],[280,222],
+						[484,26],[384,125],[178,26],[178,75],[383,26],
+						[178,173],[178,124],[383,74],[383,222],[382,173]))
+	rows, cols = img.shape[:2]
+	cell_width = cols / cel
+	cell_height = rows / row
+
+	# print('wid: '+str(cell_width))
+	# print('hei: '+str(cell_height))
+	circles = []
+	for i in range(cel):
+		for j in range(row):
+			# print(str(i)+" "+str(j))
+			circles.append(np.array((round(cell_width*i+cell_width/2),round(cell_height*j+cell_height/2))))
+
+	# for (x,y) in tmp:
+	# 	cv2.circle(img, (x, y), 11, (0,0,255), 2)
+	# cv2.imshow("Result", img)
+	# cv2.waitKey(0)
 	return circles
 
-def run():
-	imgpath = 'images/test21-choose.png'
-	img = cv2.imread(imgpath).copy()
-	img = cv2.resize(img,(1654,2339))
+def detect_circles(img):
+	imggray =  cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY)
+	blurred = cv2.GaussianBlur(imggray, (1, 1), 0)
+	circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, 1, 30, param1=40, param2=10, minRadius=9, maxRadius=14)[0]
+	if circles is not None:
+		circles = np.round(circles[::]).astype("int")
+	for (x,y,r) in circles:
+		cv2.circle(img, (x, y), 11, (0,0,0), 1)
 
+	show("Result", img, 900)
+	cv2.waitKey(0)
+	return circles
+
+def img2string(img):
+	retval, buffer = cv2.imencode('.jpg', img)
+	jpg_as_text = base64.b64encode(buffer)
+	jpg_as_text = jpg_as_text.decode('utf-8')
+	return str(jpg_as_text)
+
+def string2img(stringIMG):
+    imgdata = base64.b64decode(str(stringIMG))
+    img = np.array(cv2.imdecode(np.frombuffer(imgdata, np.uint8), -1))
+    return img
+
+def run1(stringimage):
+# 	return 'loiday'
+	# imgpath = 'images/Test22-choose.png'
+	# img = cv2.imread(imgpath).copy()
+	img = string2img(stringimage)
+	img = cv2.resize(img,(1654,2339),interpolation = cv2.INTER_CUBIC)
+	# brightened_img = cv2.convertScaleAbs(img, alpha=1.2, beta=0)
+	# img = brightened_img
+	# gray =  cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	# thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 2)
+	# show('thresh',thresh,1000)
+	# cv2.waitKey(0)
 	img = transform_img_input(img)
-	img = cv2.resize(img,(1466,2136))
+	img = cv2.resize(img,(1466,2136),interpolation = cv2.INTER_CUBIC)
+	# show('img',img,1000)
+	# cv2.waitKey(0)
 
-	neoBigCnt = getCnt(img,1200,2000)
-	neoSmallCnt = getCnt(img,500,1200)
+	minnn1, maxxx1 = 1500,2100
+	neoBigCnt = getCnt(img,minnn1,maxxx1)
+	while len(neoBigCnt) != 8:
+		minnn1 = minnn1 - 100
+		maxxx1 = maxxx1 - 100
+		if minnn1==0:
+			return
+		neoBigCnt = getCnt(img,minnn1,maxxx1)
 	neoBigCnt = np.array(neoBigCnt)
-	neoSmallCnt = np.array(neoSmallCnt)
 
 	img_sbd_and_made = crop_1(img,neoBigCnt)
-	sbd, maDe = get_Sbd_and_maDe(img_sbd_and_made)
+	maDe = get_Sbd_and_maDe(img_sbd_and_made,True)
 
-	# print('sbd: '+sbd)
 	# print('made: '+maDe)
-	if '#' not in maDe:
-		listimgans = crop_2(img,neoSmallCnt)
-		ans = []
-		for i in range(len(listimgans)):
-			ans.append(get_ans(listimgans[i]))
-			show('img'+str(i+100),listimgans[i])
-		# print('ans: '+str(ans))
-	show('img',img,1000)
-	show('img_sbd_and_made',img_sbd_and_made,500)
-	cv2.waitKey(0)
+	return maDe[0]
+
+def run2(stringimage,ansTrue,HeDiem):
+	img = string2img(stringimage)
+	img = cv2.resize(img,(1654,2339),interpolation = cv2.INTER_CUBIC)
+	img = transform_img_input(img)
+	img = cv2.resize(img,(1466,2136),interpolation = cv2.INTER_CUBIC)
+
+	minnn1, maxxx1 = 1500,2100
+	neoBigCnt = getCnt(img,minnn1,maxxx1)
+	while len(neoBigCnt) != 8:
+		minnn1 = minnn1 - 100
+		maxxx1 = maxxx1 - 100
+		neoBigCnt = getCnt(img,minnn1,maxxx1)
+		if minnn1==0:
+			return
+	neoBigCnt = np.array(neoBigCnt)
+
+	img_sbd_and_made = crop_1(img,neoBigCnt)
+	sbd, maDe = get_Sbd_and_maDe(img_sbd_and_made,False)
+
+	img_ans = crop_2(img,neoBigCnt)
+	anschoose = get_ans(img_ans,ansTrue)
+
+	diemMoiCau = HeDiem/len(ansTrue)
+	sumdiem = 0
+	# print('diem moi cau    '+str(diemMoiCau))
+
+	for tup in anschoose:
+		sumdiem = sumdiem + diemMoiCau*tup[1]
+
+	# print('sumdiem    '+str(sumdiem))
+	# show('img',img,1000)
+	# show('img_sbd_and_made',img_sbd_and_made,700)
+	# show('img_ans',img_ans,900)
+	# cv2.waitKey(0)
+
+	stringimgreturn = img2string(img)
+
+	return (str(sumdiem)+"#####"+stringimgreturn)
 
 ########## end ##########
 
-run()
+# imgpath = 'images/real5.jpg'
+##img = cv2.imread(imgpath).copy()
+##strngimg = img2string(img)
+# print(len(strngimg))
+##run111 = run1(strngimg)
+##print(run111)
+# rum222 = run2(strngimg,'ABABAACDABDACABCDABD',10)
+# print(rum222[1])
+# imgg = string2img(rum222[0])
+# show('imgg',imgg,900)
+# cv2.waitKey(0)
