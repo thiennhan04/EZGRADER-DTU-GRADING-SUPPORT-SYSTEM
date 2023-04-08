@@ -65,4 +65,13 @@ public class dapan_adapter extends ArrayAdapter<dapan_item> {
         }
         return convertView;
     }
+    public String getData(){
+        String data="";
+        for(int i=0; i<mylist.size(); i++)
+        {
+            dapan_item item = mylist.get(i);
+            data+= item.getDapan();
+        }
+        return data;
+    }
 }

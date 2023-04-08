@@ -48,9 +48,8 @@ public class dapan_activity extends AppCompatActivity {
             myArrayAdapter = new dapan_adapter(this, R.layout.cauhoi_item, mylist);
 
             // đọc database gì đó để add vào mylist
-            String ans = "CDBDCADCAABDCABCDACD";
-            for (int i = 1; i <= 20; i++) {
-                dapan_item item = new dapan_item(i, ans.charAt(i-1) + "");
+            for (int i = 1; i <= 50; i++) {
+                dapan_item item = new dapan_item(i, "#");
                 mylist.add(item);
             }
             lvCauHoi.setAdapter(myArrayAdapter);
@@ -58,6 +57,13 @@ public class dapan_activity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                }
+            });
+            saveAns.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String data = myArrayAdapter.getData();
+                    Log.d("=== test ===",data+"");
                 }
             });
         }

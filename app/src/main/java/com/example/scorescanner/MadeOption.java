@@ -133,6 +133,19 @@ public class MadeOption extends AppCompatActivity {
 
                 }
             });
+            thongkebtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent iten = new Intent(MadeOption.this,ThongkeActivity.class);
+                        iten.putExtra("kithi", makithi + "");
+                        startActivity(iten);
+                    }catch(Exception ex)
+                    {
+                        Log.d("===== thongke onclick =====",ex.getMessage()+"");
+                    }
+                }
+            });
         }catch (Exception e)
         {
             Log.println(Log.ERROR,"====",e.getMessage());
