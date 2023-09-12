@@ -72,12 +72,16 @@ public class danhsachkithi extends AppCompatActivity {
         lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
+//                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
+                Intent madeoption2= new Intent(danhsachkithi.this, madeoption2.class);
                 String makithi = mylist.get(i).getMakithi() + "";
-                made.putExtra("makithi", makithi);
-                made.putExtra("username", username);
+//                made.putExtra("makithi", makithi);
+//                made.putExtra("username", username);
+
+                madeoption2.putExtra("makithi", makithi);
+                madeoption2.putExtra("username", username);
 //                Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
-                startActivity(made);
+                startActivity(madeoption2);
             }
         });
 //        c.close();/
