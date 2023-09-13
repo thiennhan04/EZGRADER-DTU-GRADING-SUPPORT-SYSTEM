@@ -25,6 +25,8 @@
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/rectangle.xml" value="0.22826086956521738" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/restangle.xml" value="0.264" />
         <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/testlv.xml" value="0.19972826086956522" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_camera_real_time.xml" value="0.18541666666666667" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_view_image.xml" value="0.18541666666666667" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/drawable/radiobuttonicon.xml" value="0.2985" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.5" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_dapan.xml" value="0.33" />
@@ -44,6 +46,9 @@
         <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.264" />
         <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.2359375" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_danh_sach_kithi_add.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.22826086956521738" />
         <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/btn_support_page.xml" value="0.168" />
         <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/round_back_blue_10.xml" value="0.139" />
         <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/round_back_white_1000.xml" value="0.1795" />
