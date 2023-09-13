@@ -28,6 +28,7 @@
             android:name=".CameraRealTime"
             android:exported="false" />
         <activity
+
             android:name=".madeoption2"
             android:exported="false" />
         <activity
