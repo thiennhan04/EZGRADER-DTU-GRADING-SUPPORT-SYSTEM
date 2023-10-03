@@ -41,9 +41,7 @@ public class dapan_adapter extends ArrayAdapter<dapan_item> {
         try
         {
             dapan_item item = mylist.get(position);
-
             TextView number = convertView.findViewById(R.id.num);
-
             ArrayList<RadioButton> array = new ArrayList<>();
 //            RadioButton radioButton = convertView.findViewById(R.id.btnA);
             array.add(convertView.findViewById(R.id.btnA));

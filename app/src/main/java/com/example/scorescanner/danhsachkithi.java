@@ -25,7 +25,6 @@ public class danhsachkithi extends AppCompatActivity {
     ListView lvdanhsachkt;
     ArrayList<Exam> mylist;
     MyArrayAdapter myArrayAdapter;
-
     String DB_PATH_SUFFIX = "/databases/";
     public static SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb2.db";
@@ -55,7 +54,8 @@ public class danhsachkithi extends AppCompatActivity {
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            Exam exam = new Exam(madethi, tendethi, username);
+            int kieukithi = Integer.parseInt(c.getString(6));
+            Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();
         }
@@ -73,15 +73,25 @@ public class danhsachkithi extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
-                Intent madeoption2= new Intent(danhsachkithi.this, madeoption2.class);
+
                 String makithi = mylist.get(i).getMakithi() + "";
 //                made.putExtra("makithi", makithi);
 //                made.putExtra("username", username);
 
-                madeoption2.putExtra("makithi", makithi);
-                madeoption2.putExtra("username", username);
+
+                if (mylist.get(i).getKieukithi() == 1){
+                    Intent madeoption1 = new Intent(danhsachkithi.this, MadeOption.class);
+                    madeoption1.putExtra("makithi", makithi);
+                    madeoption1.putExtra("username", username);
+                    startActivity(madeoption1);
+                } else{
+                    Intent madeoption2= new Intent(danhsachkithi.this, madeoption2.class);
+                    madeoption2.putExtra("makithi", makithi);
+                    madeoption2.putExtra("username", username);
+                    startActivity(madeoption2);
+                }
 //                Toast.makeText(danhsachkithi.this, "makithi " +  mylist.get(i).getMakithi(), Toast.LENGTH_SHORT).show();
-                startActivity(madeoption2);
+
             }
         });
 //        c.close();/
@@ -143,13 +153,14 @@ public class danhsachkithi extends AppCompatActivity {
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            Exam exam = new Exam(madethi, tendethi, username);
+            int kieukithi = Integer.parseInt(c.getString(6));
+            Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();
         }
         myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
         lvdanhsachkt.setAdapter(myArrayAdapter);
-//        myArrayAdapter.notifyDataSetChanged();
+
         c.close();
     }
 
