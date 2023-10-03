@@ -90,6 +90,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
                 myintent.putExtra("hediem",hediem);
                 myintent.putExtra("loaiphieu",loaiphieu);
                 myintent.putExtra("username",username);
+
                 setResult(33,myintent);
                 finish();
             }

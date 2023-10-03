@@ -20,20 +20,24 @@
             android:id="@+id/imageView3"
             android:layout_width="51dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="344dp"
-            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.044"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.515"
             app:srcCompat="@drawable/usericon" />
 
         <ImageButton
             android:id="@+id/logout"
             android:layout_width="60dp"
             android:layout_height="59dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.944"
+            app:layout_constraintStart_toEndOf="@+id/txtusername"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logout3" />
 
@@ -41,12 +45,13 @@
             android:id="@+id/txtusername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="232dp"
             android:text="Hello Nhân"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,20 +64,20 @@
             android:id="@+id/chambaibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="228dp"
             android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.108"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.015"
             app:srcCompat="@drawable/checklist2" />
 
         <Button
             android:id="@+id/titlechambtn"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="182dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="144dp"
-            android:layout_marginEnd="212dp"
+            android:layout_width="152dp"
+            android:layout_height="35dp"
             android:backgroundTint="#00000000"
             android:text="Danh sách chấm"
             android:textColor="#000000"
@@ -80,8 +85,12 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chambaibtn"
+            app:layout_constraintVertical_bias="0.015"
             app:strokeColor="#00000000"
             app:strokeWidth="0dp" />
 
@@ -89,38 +98,43 @@
             android:id="@+id/taiphieubtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/chambaibtn"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.031"
             app:srcCompat="@drawable/file" />
 
         <Button
             android:id="@+id/button5"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="150dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="152dp"
-            android:layout_marginEnd="44dp"
+            android:layout_width="148dp"
+            android:layout_height="39dp"
             android:backgroundTint="#00000000"
             android:text="Tải phiếu"
             android:textColor="#000000"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.221"
+            app:layout_constraintStart_toEndOf="@+id/titlechambtn"
+            app:layout_constraintTop_toBottomOf="@+id/taiphieubtn"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="224dp"
-            android:layout_marginBottom="284dp"
             android:backgroundTint="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.108"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titlechambtn"
+            app:layout_constraintVertical_bias="0.054"
             app:srcCompat="@drawable/userguide" />
 
         <Button
@@ -128,14 +142,16 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="152dp"
             android:layout_height="44dp"
-            android:layout_marginEnd="224dp"
-            android:layout_marginBottom="252dp"
             android:backgroundTint="#00000000"
             android:text="Thông tin"
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.108"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guide"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
