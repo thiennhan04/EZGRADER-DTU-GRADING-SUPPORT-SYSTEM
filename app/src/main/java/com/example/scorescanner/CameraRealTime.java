@@ -74,7 +74,7 @@ public class CameraRealTime extends CameraActivity {
     private CameraBridgeViewBase.CvCameraViewListener2 callBack = new CameraBridgeViewBase.CvCameraViewListener2() {
         @Override
         public void onCameraViewStarted(int width, int height) {
-            int edge = height / 4;
+            int edge = height / 5;
             int startEdge = (height * 9) / 8;
             listMatHCN = new Mat[4];
             listMatHCNGray = new Mat[4];

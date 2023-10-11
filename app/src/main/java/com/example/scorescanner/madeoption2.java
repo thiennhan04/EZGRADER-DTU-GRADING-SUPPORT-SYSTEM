@@ -31,7 +31,10 @@ public class madeoption2 extends AppCompatActivity {
         findViewById(R.id.tn_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(madeoption2.this, OptionAddFileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(madeoption2.this, OptionAddFileActivity.class);
+                intent.putExtra("makithi", makithi);
+                intent.putExtra("username",username);
+                startActivity(intent);
             }
         });
 

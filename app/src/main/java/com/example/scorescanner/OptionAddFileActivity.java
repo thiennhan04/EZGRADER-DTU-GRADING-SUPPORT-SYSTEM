@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +42,8 @@ public class OptionAddFileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_02_option_add_file);
         db = new DataBase(this);
-
+        Intent intent = getIntent();
+        makithi = intent.getStringExtra("makithi");
         findViewById(R.id.backbtn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +68,11 @@ public class OptionAddFileActivity extends AppCompatActivity {
             if (data == null)
                 return;
             Uri uri = data.getData();
+            String fileExtension = getFileExtension(uri);
+            if (!fileExtension.equalsIgnoreCase("xlsx") && !fileExtension.equalsIgnoreCase("xls")) {
+                Toast.makeText(context, "Hãy chọn file excel!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (readFileExcel(context, uri))
                 Toast.makeText(context, "Đọc và thêm thành công!", Toast.LENGTH_SHORT).show();
             else
@@ -73,63 +80,11 @@ public class OptionAddFileActivity extends AppCompatActivity {
         }
     }
 
-    public boolean readFile(Context context, Uri uri) {
-        try {
-            ContentResolver contentResolver = context.getContentResolver();
-            InputStream input = contentResolver.openInputStream(uri);
-            Workbook workbook = new XSSFWorkbook(input);
-            Sheet sheet = workbook.getSheetAt(0);
-            ArrayList<String> list = new ArrayList<>();
-            boolean status = true;
-            for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
-                String s = "";
-                boolean ishavestring = false;
-                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells(); j++) {
-                    Cell cell = sheet.getRow(i).getCell(j);
-                    String str = cell.toString();
-                    if (!str.isEmpty()) {
-                        ishavestring = true;
-                        s += str + "-";
-                    }
-                }
-                list.add(s);
-                if (!ishavestring) break;
-            }
-            workbook.close();
-            if (db.mydatabase == null) {
-                Log.println(Log.DEBUG, "read excel", "----- database = null -----");
-                return false;
-            }
-            list.remove(0);
-            for (String line : list) {
-                String strmade = line.split("-")[0];
-                Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi + " and made = '" +
-                        strmade + "'", null);
-                String dataupdate = String.join("", line.substring(strmade.length()).split("-"));
-                ContentValues values = new ContentValues();
-                values.put("dapan", dataupdate);
-                if (c.getCount() == 0) {
-                    values.put("made", strmade);
-                    values.put("makithi", makithi);
-                    if (db.mydatabase.insert("cauhoi", null, values) == -1) {
-                        status = false;
-                    }
-                } else {
-                    int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ?",
-                            new String[]{strmade, makithi});
-                    if (row == 0) {
-                        Log.println(Log.DEBUG, "read excel", "update NOT OK ");
-                        status = false;
-                    } else {
-                        Log.println(Log.DEBUG, "read excel", "update OK ");
-                    }
-                }
-            }
-            return status;
-        } catch (Exception e) {
-            Log.println(Log.DEBUG, "excel ", "--- " + e.getMessage() + " ---");
-        }
-        return false;
+    private String getFileExtension(Uri uri) {
+        Context context = getApplicationContext();
+        ContentResolver contentResolver = context.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     private boolean readFileExcel(Context context, Uri uri) {
@@ -154,13 +109,13 @@ public class OptionAddFileActivity extends AppCompatActivity {
             if (db.mydatabase == null) {
                 return false;
             }
-            boolean status = true;
+            Boolean status = true;
             if (!data.isEmpty()) {
                 for (String dt : data) {
                     String made = dt.substring(0, 3);
                     String dapan = dt.substring(4);
-                    Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi
-                            + " and made = '" + made + "'", null);
+                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ?",
+                            new String[]{makithi, made});
                     ContentValues values = new ContentValues();
                     values.put("dapan", dapan);
                     if (c.getCount() == 0) {
@@ -173,10 +128,7 @@ public class OptionAddFileActivity extends AppCompatActivity {
                         int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ?",
                                 new String[]{made, makithi});
                         if (row == 0) {
-                            Log.println(Log.DEBUG, "read excel", "update NOT OK ");
                             status = false;
-                        } else {
-                            Log.println(Log.DEBUG, "read excel", "update OK ");
                         }
                     }
                 }

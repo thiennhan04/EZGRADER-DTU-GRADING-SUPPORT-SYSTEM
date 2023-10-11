@@ -73,6 +73,7 @@ public class Methods extends AppCompatActivity {
     private static Bitmap imgRightAnswer;
     private static ArrayList<Bitmap> listImgAnswer;
     private static String score = "";
+    private static File file;
     private static String TAG = "Checkkkkkkkkk";
 
     private static void cutImage(Bitmap bitmap) {
@@ -251,12 +252,12 @@ public class Methods extends AppCompatActivity {
                     Core.bitwise_and(thresh, thresh, mark, mark);
                     double count = Core.countNonZero(mark);
                     if ((count / (Math.PI * radius * radius) > 0.6)) {
-                        ans = quantity + ":" + (char) (k + 65) + " | ";
+                        ans += (char) (k + 65);
                         pstChoose.add(points[j][k]);
                     }
                 }
                 if (pstChoose.size() > 1) {
-                    ans = quantity + ":# | ";
+                    ans = quantity + "#";
                 }
                 ans5 += ans;
                 if (pstChoose.size() == 0) {
@@ -278,7 +279,6 @@ public class Methods extends AppCompatActivity {
             Utils.matToBitmap(mat, listImgAnswer.get(i));
         }
         score = String.format("%.2f", (ques * 1.0 / list_answer.length() * hediem));
-        Log.d(TAG, "getAnswer: Score = " + score);
         return ansStr;
     }
 
@@ -302,7 +302,7 @@ public class Methods extends AppCompatActivity {
         }
         Paint paint = new Paint();
         int x;
-        if (score == "Không nhận diện được mã đề!") {
+        if (score == "Không nhận diện được mã đề!" || score == "Mã đề không tồn tại!") {
             paint.setColor(Color.RED);
             paint.setTextSize(80);
             x = 100;
@@ -329,25 +329,53 @@ public class Methods extends AppCompatActivity {
                 score = "Không nhận diện được mã đề!";
                 return recoverBitmap(bitmap);
             }
-            Log.d(TAG, "getDataFromDB: Ma de, Sbd = " + made + " | " + sbd);
-
             Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
                     new String[]{makithi, made});
+            if (!c.moveToFirst()) {
+                score = "Mã đề không tồn tại!";
+                return recoverBitmap(bitmap);
+            }
             c.moveToFirst();
+            Log.d(TAG, "getDataFromDB: falseeee");
             while (c.isAfterLast() == false) {
                 list_answer = c.getString(c.getColumnIndex("dapan"));
                 c.moveToNext();
             }
             c.close();
-
-            Log.d(TAG, "getDataFromDB: list answer: " + list_answer);
             String list_select_ans = getAnswer(list_answer, hediem);
+//            Bitmap finalBitmap = recoverBitmap(bitmap);
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//            String strimg = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+//            byte data[] = android.util.Base64.decode(strimg, android.util.Base64.DEFAULT);
+            ContentValues valuediem = new ContentValues();
+            valuediem.put("makithi", makithi);
+            valuediem.put("diemso", score);
+//            valuediem.put("hinhanh", imguri);
+            valuediem.put("masv", sbd);
+            String msg = "";
+            if (db.mydatabase.insert("diem", null, valuediem) == -1) {
+                msg = "Fail to insert record";
+            } else {
+                msg = "Insert record sucess";
+            }
+//            save(data);
             return recoverBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
             return bitmap;
         }
+    }
 
+    private void save(byte[] bytes) throws IOException {
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
+            outputStream.write(bytes);
+        } finally {
+            if (outputStream != null)
+                outputStream.close();
+        }
     }
 
     public Bitmap run(Bitmap bitmap) {
