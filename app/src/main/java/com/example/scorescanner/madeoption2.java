@@ -25,7 +25,9 @@ public class madeoption2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_madeoption2);
-
+        Intent intent = getIntent();
+        makithi = intent.getStringExtra("makithi");
+        username = intent.getStringExtra("username");
         findViewById(R.id.tn_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,20 +38,27 @@ public class madeoption2 extends AppCompatActivity {
         findViewById(R.id.tl_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(madeoption2.this, OptionAddFileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent dapantuluan = new Intent(madeoption2.this, list_danhsachtuluan.class);
+                dapantuluan.putExtra("makithi", makithi);
+                dapantuluan.putExtra("username",username);
+                startActivity(dapantuluan);
             }
         });
 
         findViewById(R.id.camera_cham_bai_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makithi = getIntent().getStringExtra("makithi");
-                username = getIntent().getStringExtra("username");
                 Intent intent = new Intent(madeoption2.this, CameraRealTime.class);
                 intent.putExtra("makithi", makithi);
                 intent.putExtra("username", username);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+            }
+        });
+        findViewById(R.id.backbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                madeoption2.this.finish();
             }
         });
     }

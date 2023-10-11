@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.nio.charset.CoderResult;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Base64;
 
 import android.companion.WifiDeviceFilter;
@@ -53,12 +56,15 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import kotlin.text.UStringsKt;
 
 public class Methods extends AppCompatActivity {
-    private static DataBase db = null;
-    private static File file;
+    DataBase db = null;
+    String username = madeoption2.getUsername();
+    String makithi = madeoption2.getMakithi();
     private static Bitmap imgSbdMade;
     private static Bitmap imgAnswer;
     private static Bitmap imgSbd;
@@ -66,7 +72,7 @@ public class Methods extends AppCompatActivity {
     private static Bitmap imgLeftAnswer;
     private static Bitmap imgRightAnswer;
     private static ArrayList<Bitmap> listImgAnswer;
-    private static String score;
+    private static String score = "";
     private static String TAG = "Checkkkkkkkkk";
 
     private static void cutImage(Bitmap bitmap) {
@@ -295,43 +301,53 @@ public class Methods extends AppCompatActivity {
             y += 260;
         }
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(150);
-        canvas.drawText(score, 700, 600, paint);
+        int x;
+        if (score == "Không nhận diện được mã đề!") {
+            paint.setColor(Color.RED);
+            paint.setTextSize(80);
+            x = 100;
+        } else {
+            paint.setColor(Color.RED);
+            paint.setTextSize(150);
+            x = 700;
+        }
+        canvas.drawText(score, x, 600, paint);
         return finalBitmap;
     }
 
-    private void getDataFromDB(Bitmap bitmap) {
+    private Bitmap getDataFromDB(Bitmap bitmap) {
+        db = OptionAddFileActivity.getDb();
+        if (db == null) {
+            return bitmap;
+        }
         try {
-            db = new DataBase(this);
-            Log.d(TAG, "getDataFromDB: db");
             String made = getMade();
             String sbd = getSbd();
-            Log.d(TAG, "getDataFromDB: Mã đề: " + made + "\n\t\t\t\t\tSố báo danh: " + sbd);
             int hediem = 10;
-            String list_answer = "ABCDABCDABCDABCDABCDABCD";
-            String makithi = madeoption2.getMakithi();
-            String username = madeoption2.getUsername();
-            Log.d(TAG, "getDataFromDB: Mã kì thi: " + makithi + "\nUsername: " + username);
+            String list_answer = "";
             if (made.contains("#")) {
-                Toast.makeText(Methods.this, "Không nhận diện được mã đề!", Toast.LENGTH_SHORT).show();
-                return;
+                score = "Không nhận diện được mã đề!";
+                return recoverBitmap(bitmap);
             }
-//            Cursor c = db.mydatabase.query("kithi", null, "makithi=?", new String[]{makithi},
-//                    null, null, null);
-//            c.moveToFirst();
-//            while (c.isAfterLast() == false) {
-//                hediem = Integer.parseInt(c.getString(4));
-//                c.moveToNext();
-//            }
-//            c.close();
-//            Log.d(TAG, "getDataFromDB: He diem: " + hediem);
+            Log.d(TAG, "getDataFromDB: Ma de, Sbd = " + made + " | " + sbd);
 
+            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
+                    new String[]{makithi, made});
+            c.moveToFirst();
+            while (c.isAfterLast() == false) {
+                list_answer = c.getString(c.getColumnIndex("dapan"));
+                c.moveToNext();
+            }
+            c.close();
+
+            Log.d(TAG, "getDataFromDB: list answer: " + list_answer);
             String list_select_ans = getAnswer(list_answer, hediem);
-            Log.d(TAG, "getDataFromDB: List select answer: " + list_select_ans);
+            return recoverBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
+            return bitmap;
         }
+
     }
 
     public Bitmap run(Bitmap bitmap) {
@@ -340,10 +356,10 @@ public class Methods extends AppCompatActivity {
             cutSbdMade();
             cutAnswer22Pic();
             cutAnswer210Pic();
-            getDataFromDB(bitmap);
-            return recoverBitmap(bitmap);
+            return getDataFromDB(bitmap);
         } catch (Exception ex) {
             ex.printStackTrace();
+            score = "";
             imgSbdMade = null;
             imgAnswer = null;
             imgSbd = null;
