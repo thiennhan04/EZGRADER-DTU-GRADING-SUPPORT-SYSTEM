@@ -28,6 +28,9 @@
             android:name=".ViewImage"
             android:exported="false" />
         <activity
+            android:name=".OptionAddFileActivity"
+            android:exported="false" />
+        <activity
             android:name=".CameraRealTime"
             android:exported="false" />
         <activity
