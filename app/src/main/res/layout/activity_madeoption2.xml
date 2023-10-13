@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Text View -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/textview_background"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:text="KÌ THI"
+        android:textSize="30sp" />
+
+
+    <!-- Button 1 -->
+    <Button
+        android:id="@+id/tn_btn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_rounded"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="ĐÁP ÁN TN" />
+
+    <!-- Button 2 -->
+    <Button
+        android:id="@+id/tl_btn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tn_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_rounded"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="ĐÁP ÁN TL" />
+
+    <!-- Button 3 -->
+    <!-- Button 4 -->
+
+    <Button
+        android:id="@+id/camera_cham_bai_btn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tl_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_rounded"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="CHẤM BÀI" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/camera_cham_bai_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_rounded"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="BÀI ĐÃ CHẤM" />
+
+    <!-- Button 5 -->
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/button4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_rounded"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="THỐNG KÊ" />
+
+    <ImageButton
+        android:id="@+id/backbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="300dp"
+        android:backgroundTint="#00000000"
+        android:contentDescription="back"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/returnicon2" />
+</RelativeLayout>

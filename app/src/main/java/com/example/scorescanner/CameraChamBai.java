@@ -66,12 +66,13 @@ public class CameraChamBai extends AppCompatActivity {
     PyObject pyob;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
-    static{
-        ORIENTATIONS.append(Surface.ROTATION_0,90);
-        ORIENTATIONS.append(Surface.ROTATION_90,0);
-        ORIENTATIONS.append(Surface.ROTATION_180,270);
-        ORIENTATIONS.append(Surface.ROTATION_270,180);
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 90);
+        ORIENTATIONS.append(Surface.ROTATION_90, 0);
+        ORIENTATIONS.append(Surface.ROTATION_180, 270);
+        ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
+
     private String cameraId;
     private CameraDevice cameraDevice;
     private CameraCaptureSession cameraCaptureSessions;
@@ -99,9 +100,10 @@ public class CameraChamBai extends AppCompatActivity {
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int i) {
             cameraDevice.close();
-            cameraDevice=null;
+            cameraDevice = null;
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +115,7 @@ public class CameraChamBai extends AppCompatActivity {
         setContentView(R.layout.activity_camera_cham_bai);
         Intent intent = getIntent();
         makithi = intent.getStringExtra("kithi");
-         username =  intent.getStringExtra("username");
+        username = intent.getStringExtra("username");
         btncap = findViewById(R.id.btncap);
         textureView = findViewById(R.id.textureView);
 
@@ -125,7 +127,7 @@ public class CameraChamBai extends AppCompatActivity {
         //From Java 1.4 , you can use keyword 'assert' to check expression true or false
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
-        btncap= findViewById(R.id.btncap);
+        btncap = findViewById(R.id.btncap);
 
         db = new DataBase(this);
         btncap.setOnClickListener(new View.OnClickListener() {
@@ -135,14 +137,15 @@ public class CameraChamBai extends AppCompatActivity {
             }
         });
     }
+
     private void takePicture() {
-        if(cameraDevice == null)
+        if (cameraDevice == null)
             return;
-        CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
-        try{
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
             Size[] jpegSizes = null;
-            if(characteristics != null)
+            if (characteristics != null)
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                         .getOutputSizes(ImageFormat.JPEG);
 
@@ -154,9 +157,9 @@ public class CameraChamBai extends AppCompatActivity {
 //                width = jpegSizes[0].getWidth();
 //                height = jpegSizes[0].getHeight();
 //            }
-            int width = (int)imageDimension.getWidth();
-            int height = (int)(imageDimension.getWidth() * 3)/2;
-            final ImageReader reader = ImageReader.newInstance(width,height,ImageFormat.JPEG,1);
+            int width = (int) imageDimension.getWidth();
+            int height = (int) (imageDimension.getWidth() * 3) / 2;
+            final ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurface = new ArrayList<>(2);
             outputSurface.add(reader.getSurface());
             outputSurface.add(new Surface(textureView.getSurfaceTexture()));
@@ -167,13 +170,13 @@ public class CameraChamBai extends AppCompatActivity {
 
             //Check orientation base on device
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
 //            file = new File(Environment.getExternalStorageDirectory()+"/"+UUID.randomUUID().toString()+".jpg");
-            File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + username+makithi);
+            File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + username + makithi);
             String name = UUID.randomUUID().toString();
-            file = new File(directory.getAbsolutePath()+"/" + name +".jpg");
-            String imguri = directory.getAbsolutePath()+"/"+ name + ".jpg";
+            file = new File(directory.getAbsolutePath() + "/" + name + ".jpg");
+            String imguri = directory.getAbsolutePath() + "/" + name + ".jpg";
             //them ten anh vao db
 
 //            Toast.makeText(CameraChamBai.this, msg, Toast.LENGTH_SHORT).show();
@@ -181,7 +184,7 @@ public class CameraChamBai extends AppCompatActivity {
                 @Override
                 public void onImageAvailable(ImageReader imageReader) {
                     Image image = null;
-                    try{
+                    try {
                         image = reader.acquireLatestImage();
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
@@ -197,16 +200,15 @@ public class CameraChamBai extends AppCompatActivity {
                         made = obj.toString();
 //                        Log.d("==== BUG ===","--------------" + made + "-----------");
                         Toast.makeText(CameraChamBai.this, "" + made, Toast.LENGTH_SHORT).show();
-                        if(made.equals("###")){
+                        if (made.equals("###")) {
                             Toast.makeText(CameraChamBai.this, "Không nhận diện được mã đề!", Toast.LENGTH_SHORT).show();
 //                            save(bytes);
                             return;
                         }
-                        Cursor c = db.mydatabase.query("kithi",null,"makithi=?",new String[]{makithi},null,null,null);
+                        Cursor c = db.mydatabase.query("kithi", null, "makithi=?", new String[]{makithi}, null, null, null);
                         c.moveToFirst();
-                        while (c.isAfterLast() == false)
-                        {
-                             hediem = Integer.parseInt(c.getString(4));
+                        while (c.isAfterLast() == false) {
+                            hediem = Integer.parseInt(c.getString(4));
                             c.moveToNext();
                         }
                         c.close();
@@ -216,10 +218,9 @@ public class CameraChamBai extends AppCompatActivity {
 //                        /*doan nay chay code python lay ma de*/
 //
 ////                        Cursor c2 = db.mydatabase.query("cauhoi",null,"makithi=? and made =?",new String[]{makithi, made},null,null,null);
-                        Cursor c2 = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",new  String[]{makithi, made});
+                        Cursor c2 = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?", new String[]{makithi, made});
                         c2.moveToFirst();
-                        while (c2.isAfterLast() == false)
-                        {
+                        while (c2.isAfterLast() == false) {
                             strdapan = c2.getString(2);
                             c2.moveToNext();
                         }
@@ -229,13 +230,13 @@ public class CameraChamBai extends AppCompatActivity {
 //
 //
 ////                        xu ly python
-                         obj = pyob.callAttr("run2", s,strdapan,hediem);
+                        obj = pyob.callAttr("run2", s, strdapan, hediem);
                         String result = obj.toString();
                         String[] list = result.split("#####");
                         masv = list[0];
                         String strdiem = list[1];
                         String strimg = list[2];
-                        Log.d("bug","----------------" + strdiem + "------------");
+                        Log.d("bug", "----------------" + strdiem + "------------");
                         Float diemso = Float.parseFloat(strdiem);
 //                        Log.d("==== BUG ===","--------------" + made + "-----------");
 //                        for(int i=0; i<list.length; i++)
@@ -243,48 +244,44 @@ public class CameraChamBai extends AppCompatActivity {
                         byte data[] = android.util.Base64.decode(strimg, android.util.Base64.DEFAULT);
                         //save img to database
                         ContentValues valuediem = new ContentValues();
-                        valuediem.put("makithi",makithi );
+                        valuediem.put("makithi", makithi);
                         valuediem.put("diemso", diemso);
-                        valuediem.put("hinhanh",imguri);
+                        valuediem.put("hinhanh", imguri);
                         valuediem.put("masv", masv);
                         Toast.makeText(CameraChamBai.this, "" + imguri, Toast.LENGTH_SHORT).show();
-                        String msg  = "";
-                        if(db.mydatabase.insert("diem",null,valuediem)==-1){
+                        String msg = "";
+                        if (db.mydatabase.insert("diem", null, valuediem) == -1) {
                             msg = "Fail to insert record";
-                        }else{
+                        } else {
                             msg = "Insert record sucess";
                         }
 //                        save(bytes);
                         save(data);
-                    }
-                    catch (FileNotFoundException e)
-                    {
+                    } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         e.printStackTrace();
-                    }
-                    finally {
+                    } finally {
                         {
-                            if(image != null)
+                            if (image != null)
                                 image.close();
                         }
                     }
                 }
+
                 private void save(byte[] bytes) throws IOException {
                     OutputStream outputStream = null;
-                    try{
+                    try {
                         outputStream = new FileOutputStream(file);
                         outputStream.write(bytes);
-                    }finally {
-                        if(outputStream != null)
+                    } finally {
+                        if (outputStream != null)
                             outputStream.close();
                     }
                 }
             };
 
-            reader.setOnImageAvailableListener(readerListener,mBackgroundHandler);
+            reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
@@ -297,8 +294,8 @@ public class CameraChamBai extends AppCompatActivity {
             cameraDevice.createCaptureSession(outputSurface, new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    try{
-                        cameraCaptureSession.capture(captureBuilder.build(),captureListener,mBackgroundHandler);
+                    try {
+                        cameraCaptureSession.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
                     }
@@ -308,7 +305,7 @@ public class CameraChamBai extends AppCompatActivity {
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
 
                 }
-            },mBackgroundHandler);
+            }, mBackgroundHandler);
 
 
         } catch (CameraAccessException e) {
@@ -317,11 +314,11 @@ public class CameraChamBai extends AppCompatActivity {
     }
 
     private void createCameraPreview() {
-        try{
+        try {
             SurfaceTexture texture = textureView.getSurfaceTexture();
-            assert  texture != null;
-            int height = (int)(imageDimension.getWidth() * 3)/2;
-            texture.setDefaultBufferSize(imageDimension.getWidth(),height);
+            assert texture != null;
+            int height = (int) (imageDimension.getWidth() * 3) / 2;
+            texture.setDefaultBufferSize(imageDimension.getWidth(), height);
 //            texture.setDefaultBufferSize(imageDimension.getWidth(),imageDimension.getHeight());
 
             Surface surface = new Surface(texture);
@@ -330,7 +327,7 @@ public class CameraChamBai extends AppCompatActivity {
             cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    if(cameraDevice == null)
+                    if (cameraDevice == null)
                         return;
                     cameraCaptureSessions = cameraCaptureSession;
                     updatePreview();
@@ -340,18 +337,18 @@ public class CameraChamBai extends AppCompatActivity {
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
                     Toast.makeText(CameraChamBai.this, "Changed", Toast.LENGTH_SHORT).show();
                 }
-            },null);
+            }, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     private void updatePreview() {
-        if(cameraDevice == null)
+        if (cameraDevice == null)
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE,CaptureRequest.CONTROL_MODE_AUTO);
-        try{
-            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(),null,mBackgroundHandler);
+        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        try {
+            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -359,24 +356,23 @@ public class CameraChamBai extends AppCompatActivity {
 
 
     private void openCamera() {
-        CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
-        try{
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
             cameraId = manager.getCameraIdList()[0];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
             imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
             //Check realtime permission if run higher API 23
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-            {
-                ActivityCompat.requestPermissions(this,new String[]{
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
-                },REQUEST_CAMERA_PERMISSION);
+                }, REQUEST_CAMERA_PERMISSION);
                 return;
             }
 
-            manager.openCamera(cameraId,stateCallback,null);
+            manager.openCamera(cameraId, stateCallback, null);
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -420,7 +416,7 @@ public class CameraChamBai extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startBackgroundThread();
-        if(textureView.isAvailable())
+        if (textureView.isAvailable())
             openCamera();
         else
             textureView.setSurfaceTextureListener(textureListener);
@@ -434,9 +430,9 @@ public class CameraChamBai extends AppCompatActivity {
 
     private void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
-        try{
+        try {
             mBackgroundThread.join();
-            mBackgroundThread= null;
+            mBackgroundThread = null;
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
             e.printStackTrace();

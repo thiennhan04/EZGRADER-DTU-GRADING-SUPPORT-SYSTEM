@@ -57,10 +57,7 @@ public class MadeOption extends AppCompatActivity {
             String makithi = intent.getStringExtra("makithi");
 //            Toast.makeText(this, ""+ makithi, Toast.LENGTH_SHORT).show();
             String username =  intent.getStringExtra("username");
-//        String made = intent.getStringExtra("made");
             txtmade.setText("Kì thi "+makithi);
-
-//        Toast.makeText(MadeOption.this, "Ki thi " + makithi + " made " + made, Toast.LENGTH_SHORT).show();
             backbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
