@@ -169,7 +169,6 @@ public class CameraRealTime extends CameraActivity {
                     Intent intent = new Intent(CameraRealTime.this, ViewImage.class);
                     intent.putExtra("path", path);
                     startActivityForResult(intent, 100);
-
                 } catch (Exception ex) {
 //                    Log.i(TAG, "onCameraFrame: ======" + ex.toString());
                 }
@@ -267,6 +266,8 @@ public class CameraRealTime extends CameraActivity {
 
             Mat perspectiveMatrix = Imgproc.getPerspectiveTransform(new MatOfPoint2f(pt), new MatOfPoint2f(dstPoints));
             Imgproc.warpPerspective(mMain, mSize, perspectiveMatrix, new Size(heightImg, widthImg));
+
+            Imgproc.resize(mSize, mSize, new Size(2126, 1418));
             return true;
         }
         return false;

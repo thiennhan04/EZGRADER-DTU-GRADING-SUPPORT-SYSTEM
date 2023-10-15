@@ -3,6 +3,7 @@ package com.example.scorescanner;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class ViewImage extends AppCompatActivity {
         methods = new Methods();
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
+        Log.i("", "onCreate: ========="+bitmap.getWidth()+" "+bitmap.getHeight());
         if (bitmap != null && view != null) {
             Bitmap result = methods.run(bitmap);
             view.setImageBitmap(result != null ? result : bitmap);
