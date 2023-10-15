@@ -1,41 +1,44 @@
 package com.example.scorescanner;
 
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 public class ImageHelper {
-
     private static String getRandomString() {
         Date now = new Date();
         String tmp = now.getHours()+"-"+now.getMinutes()+"_"+(now.getDate()+1)+"-"+(now.getMonth()+1)+"-"+(now.getYear()+1900)+"-" + now.getTime();
         return tmp;
     }
 
-    public static String saveImage(Bitmap bitmapImage){
+    public static String saveImage(Bitmap bitmapImage) {
+        String fileName = getRandomString()+".jpg";
+        return saveImage(bitmapImage, null,fileName);
+    }
+
+    public static String saveImage(Bitmap bitmapImage, String directoryPath, String fileName){
         try {
-            String directoryPath = Environment.getExternalStorageDirectory() + "/DCIM/ScoreScanner/";
+            if(directoryPath == null){
+                directoryPath = Environment.getExternalStorageDirectory() + "/DCIM/ScoreScanner/";
+            }
+
+            if(directoryPath == null){
+                fileName = getRandomString()+".jpg";
+            }
 
             File directory = new File(directoryPath);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-            String fileName = getRandomString()+".jpg";
-            fileName = "bb.jpg";
             File file = new File(directory, fileName);
 
             try {
@@ -61,31 +64,8 @@ public class ImageHelper {
             return bitmap;
         }
         catch (Exception ex){
+            ex.printStackTrace();
             return null;
-        }
-    }
-
-    public static class ProcessImage {
-        public Mat mat = new Mat();
-
-        public String MADE;
-        public String SBD;
-
-        public ArrayList<MatOfPoint> cnts = new ArrayList<>();
-
-        public boolean getMadeAndSBD(Bitmap input) {
-            try {
-                Utils.bitmapToMat(input,mat);
-                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGBA2RGB);
-
-                // Lưu ý: ảnh ở đây đang ở dạng RGB
-                Imgproc.circle(mat,new Point(200,200),15, new Scalar(0,255,0),2);
-
-                return true;
-            }
-            catch(Exception ex) {
-                return false;
-            }
         }
     }
 }

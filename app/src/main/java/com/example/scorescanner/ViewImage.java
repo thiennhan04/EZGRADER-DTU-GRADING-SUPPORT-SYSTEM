@@ -1,40 +1,33 @@
 package com.example.scorescanner;
 
-import org.opencv.android.Utils;
-
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class ViewImage extends AppCompatActivity {
+    private Methods methods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
+        methods = new Methods();
         ImageView view = findViewById(R.id.imageView);
+        Bitmap bitmap = CameraRealTime.getRotatedBitmap();
+        Log.i("", "onCreate: ========="+bitmap.getWidth()+" "+bitmap.getHeight());
+        if (bitmap != null && view != null) {
+            Bitmap result = methods.run(bitmap);
+            view.setImageBitmap(result != null ? result : bitmap);
 
-        String path = getIntent().getStringExtra("path");
-        Bitmap bmp = ImageHelper.loadImage(path);
-
-        // ở đây gọi các hàm xử lý method rồi set bitmap cho view
-        ImageHelper.ProcessImage process = new ImageHelper.ProcessImage();
-        // test
-        if(process.getMadeAndSBD(bmp))
-        {
-            Utils.matToBitmap(process.mat,bmp);
-        }
-
-        if (bmp != null && view != null) {
-            view.setImageBitmap(bmp);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     finish();
                 }
-            }, 2000);
+            }, 5000);
         }
     }
 }

@@ -53,7 +53,7 @@
     <!-- Button 4 -->
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/camera_cham_bai_btn"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_below="@id/tl_btn"
@@ -70,7 +70,7 @@
         android:id="@+id/button4"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@id/button3"
+        android:layout_below="@id/camera_cham_bai_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_rounded"

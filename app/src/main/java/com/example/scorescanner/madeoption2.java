@@ -3,12 +3,22 @@ package com.example.scorescanner;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class madeoption2 extends AppCompatActivity {
+    static String makithi;
+    static String username;
 
+    public static String getMakithi() {
+        return makithi;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -16,12 +26,15 @@ public class madeoption2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_madeoption2);
         Intent intent = getIntent();
-        String makithi = intent.getStringExtra("makithi");
-        String username = intent.getStringExtra("username");
+        makithi = intent.getStringExtra("makithi");
+        username = intent.getStringExtra("username");
         findViewById(R.id.tn_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(madeoption2.this, OptionAddFileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(madeoption2.this, OptionAddFileActivity.class);
+                intent.putExtra("makithi", makithi);
+                intent.putExtra("username",username);
+                startActivity(intent);
             }
         });
 
@@ -34,10 +47,15 @@ public class madeoption2 extends AppCompatActivity {
                 startActivity(dapantuluan);
             }
         });
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.camera_cham_bai_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(madeoption2.this, CameraRealTime.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(madeoption2.this, CameraRealTime.class);
+                intent.putExtra("makithi", makithi);
+                intent.putExtra("username", username);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         findViewById(R.id.backbtn).setOnClickListener(new View.OnClickListener() {
