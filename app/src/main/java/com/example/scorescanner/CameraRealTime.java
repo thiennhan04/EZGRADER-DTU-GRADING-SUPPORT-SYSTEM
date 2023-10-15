@@ -12,14 +12,12 @@ import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 
 import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
@@ -46,19 +44,15 @@ public class CameraRealTime extends CameraActivity {
             Log.i(TAG, "=== ERROR ===");
     }
 
-    CameraBridgeViewBase mCameraView;
-    Mat mRgba;
-    Mat mMain;
-    Mat mSize;
-    Rect[] listRectHCN;
-    Mat[] listMatHCN;
-    Mat[] listMatHCNGray;
-    int width;
-    int height;
-    float mScale;
-    int mStartY;
+    private static CameraBridgeViewBase mCameraView;
+    private static Mat mRgba;
+    private static Mat imgMain;
+    private static Rect[] listRectHCN;
+    private static Mat[] listMatHCN;
+    private static Mat[] listMatHCNGray;
+    private static Mat transformedImage;
+    private static Bitmap rotatedBitmap;
     int demTimeCheck;
-    static Bitmap rotatedBitmap;
 
     public static Bitmap getRotatedBitmap() {
         return rotatedBitmap;
@@ -70,9 +64,11 @@ public class CameraRealTime extends CameraActivity {
         requestWindowFeature(1);
         super.onCreate(bundle);
         setContentView((int) R.layout.activity_camera_real_time);
+        getPermission();
         mCameraView = (CameraBridgeViewBase) findViewById(R.id.frame_Surface);
-        if(!getPermission()){
-            findCameraView();
+        mCameraView.setCvCameraViewListener(callBack);
+        if (OpenCVLoader.initDebug()) {
+            mCameraView.enableView();
         }
     }
 
@@ -86,98 +82,50 @@ public class CameraRealTime extends CameraActivity {
 
     private CameraBridgeViewBase.CvCameraViewListener2 callBack = new CameraBridgeViewBase.CvCameraViewListener2() {
         @Override
-        public void onCameraViewStarted(int frameWidth, int frameHeight) {
-//            Display display = getWindowManager().getDefaultDisplay();
-//            android.graphics.Point size = new android.graphics.Point();
-//            display.getSize(size);
-//            frameHeight = size.x;
-//            frameWidth = size.y;
-
-            mScale = ((float) frameWidth) / ((float) frameHeight);
-            float f = mScale;
-            if (f >= 1.7777778f) {
-                height = frameHeight;
-                width = (frameHeight * 16) / 9;
-            } else {
-                width = frameWidth;
-                height = (frameWidth * 9) / 16;
-            }
-            if (f >= 1.7777778f) {
-                mStartY = 0;
-            } else {
-                mStartY = (frameHeight - height) / 2;
-            }
-            mRgba = new Mat(frameHeight, frameWidth, CvType.CV_8UC4);
-            mMain = new Mat(frameHeight, frameWidth, CvType.CV_8UC4);
-
+        public void onCameraViewStarted(int width, int height) {
+            demTimeCheck = 0;
+            int edge = height / 3;
+            int startEdge = (height * 9) / 8;
             listMatHCN = new Mat[4];
             listMatHCNGray = new Mat[4];
-
-            demTimeCheck = 0;
-
-            int i5 = height / 4;
-            int widthImg = (height * 3) / 4;
-            int heightImg = (height * 9) / 8;
-
-            mSize = new Mat(widthImg, heightImg, CvType.CV_8UC4);
-
             listRectHCN = new Rect[4];
-            listRectHCN[0] = new Rect(0, mStartY, i5, i5);
-            listRectHCN[1] = new Rect(heightImg, mStartY, i5, i5);
-            listRectHCN[2] = new Rect(0, mStartY + widthImg, i5, i5);
-            listRectHCN[3] = new Rect(heightImg, mStartY + widthImg, i5, i5);
+            listRectHCN[0] = new Rect(0, 0, edge, edge * 3 / 4);
+            listRectHCN[1] = new Rect(startEdge, 0, edge, edge * 3 / 4);
+            listRectHCN[2] = new Rect(0, height - edge * 3 / 4, edge, edge * 3 / 4);
+            listRectHCN[3] = new Rect(startEdge, height - edge * 3 / 4, edge, edge * 3 / 4);
         }
 
         @Override
         public void onCameraViewStopped() {
-            mRgba.release();
-            mMain.release();
-            mSize.release();
-            for(int i=0; i<listMatHCNGray.length; i++) {
-                if(listMatHCNGray[i] != null) {
-                    listMatHCNGray[i].release();
-                }
-                if(listMatHCN[i] != null) {
-                    listMatHCN[i].release();
-                }
-            }
+
         }
 
         @Override
         public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-            if(inputFrame != null){
-                mRgba = inputFrame.rgba();
-            }
-            if(mRgba != null){
-                mMain = mRgba.clone();
-            }
-
-            float f = ((float) width) / 1280.0f;
-            drawSquare(f);
+            mRgba = inputFrame.rgba();
+            drawSquare();
             if (checkSquare()) {
                 try {
-                    Bitmap bitmap = Bitmap.createBitmap(mSize.width(), mSize.height(), Bitmap.Config.ARGB_8888);
-                    Utils.matToBitmap(mSize, bitmap);
-
+                    Bitmap bitmap = Bitmap.createBitmap(transformedImage.width(), transformedImage.height(),
+                            Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(transformedImage, bitmap);
                     Matrix matrix = new Matrix();
                     float rotationAngleDegrees = 90;
                     matrix.postRotate(rotationAngleDegrees);
-
-                    rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-                    String path = ImageHelper.saveImage(rotatedBitmap);
+                    rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                            bitmap.getHeight(), matrix, true);
                     Intent intent = new Intent(CameraRealTime.this, ViewImage.class);
-                    intent.putExtra("path", path);
                     startActivityForResult(intent, 100);
                 } catch (Exception ex) {
-//                    Log.i(TAG, "onCameraFrame: ======" + ex.toString());
+                    ex.printStackTrace();
                 }
             }
             return mRgba;
         }
     };
 
-    private void drawSquare(float f) {
+    private void drawSquare() {
+        imgMain = mRgba.clone();
         for (int i = 0; i < 4; i++) {
             if (mRgba != null) {
                 listMatHCN[i] = mRgba.submat(listRectHCN[i]);
@@ -185,7 +133,8 @@ public class CameraRealTime extends CameraActivity {
                 listMatHCNGray[i] = listMatHCN[i].clone();
                 Imgproc.cvtColor(listMatHCNGray[i], listMatHCNGray[i], Imgproc.COLOR_BGR2GRAY);
                 Imgproc.GaussianBlur(listMatHCNGray[i], listMatHCNGray[i], new Size(3.0d, 3.0d), 2.0d);
-                Imgproc.adaptiveThreshold(listMatHCNGray[i], listMatHCNGray[i], 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 31, 3);
+                Imgproc.adaptiveThreshold(listMatHCNGray[i], listMatHCNGray[i], 255,
+                        Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 31, 3);
             }
         }
     }
@@ -193,13 +142,14 @@ public class CameraRealTime extends CameraActivity {
     private boolean checkSquare() {
         int dem = 0;
         Point[] pt = new Point[4];
+        transformedImage = new Mat();
         Rect[] arrRect = new Rect[4];
         for (int i = 0; i < 4; i++) {
             if (listMatHCNGray[i] != null) {
                 try {
                     ArrayList<MatOfPoint> arrayList = new ArrayList<>();
-                    Imgproc.findContours(listMatHCNGray[i], arrayList, new Mat(), Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0.0d, 0.0d));
-
+                    Imgproc.findContours(listMatHCNGray[i], arrayList, new Mat(),
+                            Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0.0d, 0.0d));
                     Collections.sort(arrayList, new Comparator<MatOfPoint>() {
                         @Override
                         public int compare(MatOfPoint contour1, MatOfPoint contour2) {
@@ -208,40 +158,38 @@ public class CameraRealTime extends CameraActivity {
                             return Double.compare(area1, area2);
                         }
                     });
-
                     for (int j = 0; j < arrayList.size(); j++) {
                         Rect boundingRect = Imgproc.boundingRect(arrayList.get(j));
                         RotatedRect minAreaRect = Imgproc.minAreaRect(new MatOfPoint2f(arrayList.get(j).toArray()));
-
                         int contourArea = (int) Imgproc.contourArea(arrayList.get(j));
                         int i3 = (int) minAreaRect.size.width;
                         int i4 = (int) minAreaRect.size.height;
                         float f2 = ((float) i3) / ((float) i4);
-
-                        double countNonZero = ((double) (contourArea - Core.countNonZero(listMatHCNGray[i].submat(boundingRect)))) / ((double) contourArea);
-
-                        if (countNonZero > 0.70 && f2 > 0.8f && f2 < 1.2f) {
+                        double countNonZero = ((double) (contourArea -
+                                Core.countNonZero(listMatHCNGray[i].submat(boundingRect)))) / ((double) contourArea);
+                        if (countNonZero > 0.6 && f2 > 0.8f && f2 < 1.2f) {
+                            Imgproc.rectangle(listMatHCN[i], boundingRect, new Scalar(255, 0, 0), 3);
                             dem++;
                             arrRect[i] = boundingRect;
                             arrRect[i].x += listRectHCN[i].x;
                             arrRect[i].y += listRectHCN[i].y;
-                            Imgproc.rectangle(mRgba, arrRect[i], new Scalar(255, 0, 0), 3);
-                            pt[i] = new Point(minAreaRect.center.x + listRectHCN[i].x, minAreaRect.center.y + listRectHCN[i].y);
-                            if (pt[i].x < mMain.width() / 2) {
-                                if (pt[i].y < mMain.height() / 2) {
-                                    pt[i].x += i3 / 2;
-                                    pt[i].y += i3 / 2;
+                            pt[i] = new Point(minAreaRect.center.x + listRectHCN[i].x,
+                                    minAreaRect.center.y + listRectHCN[i].y);
+                            if (pt[i].x < imgMain.width() / 2) {
+                                if (pt[i].y < imgMain.height() / 2) {
+                                    pt[i].x += i3 * 3 / 4;
+                                    pt[i].y += i3 * 3 / 5;
                                 } else {
-                                    pt[i].x += i3 / 2;
-                                    pt[i].y -= i3 / 2;
+                                    pt[i].x += i3 * 3 / 4;
+                                    pt[i].y -= i3 * 3 / 4;
                                 }
                             } else {
-                                if (pt[i].y < mMain.height() / 2) {
-                                    pt[i].x -= i3 / 2;
-                                    pt[i].y += i3 / 2;
+                                if (pt[i].y < imgMain.height() / 2) {
+                                    pt[i].x -= i3 * 3 / 4;
+                                    pt[i].y += i3 * 3 / 4;
                                 } else {
-                                    pt[i].x -= i3 / 2;
-                                    pt[i].y -= i3 / 2;
+                                    pt[i].x -= i3 * 3 / 4;
+                                    pt[i].y -= i3 * 3 / 4;
                                 }
                             }
                             break;
@@ -252,22 +200,16 @@ public class CameraRealTime extends CameraActivity {
                 }
             }
         }
-        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 15) {
+        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 8) {
             demTimeCheck = 0;
-
-            int widthImg = height * 3 / 4;
-            int heightImg = height * 9 / 8;
-
             Point[] dstPoints = new Point[4];
             dstPoints[0] = new Point(0, 0);
-            dstPoints[1] = new Point(heightImg, 0);
-            dstPoints[2] = new Point(0, widthImg);
-            dstPoints[3] = new Point(heightImg, widthImg);
-
+            dstPoints[1] = new Point(mRgba.width(), 0);
+            dstPoints[2] = new Point(0, mRgba.height());
+            dstPoints[3] = new Point(mRgba.width(), mRgba.height());
             Mat perspectiveMatrix = Imgproc.getPerspectiveTransform(new MatOfPoint2f(pt), new MatOfPoint2f(dstPoints));
-            Imgproc.warpPerspective(mMain, mSize, perspectiveMatrix, new Size(heightImg, widthImg));
-
-            Imgproc.resize(mSize, mSize, new Size(2126, 1418));
+            Imgproc.warpPerspective(imgMain, transformedImage, perspectiveMatrix, mRgba.size());
+            Imgproc.resize(transformedImage, transformedImage, new Size(2126, 1418));
             return true;
         }
         return false;
@@ -290,6 +232,7 @@ public class CameraRealTime extends CameraActivity {
         demTimeCheck++;
         return true;
     }
+
 
     @Override
     protected void onPause() {
@@ -315,20 +258,16 @@ public class CameraRealTime extends CameraActivity {
         }
     }
 
-    private boolean getPermission() {
+    private void getPermission() {
         if (Build.VERSION.SDK_INT > 22) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, 101);
-                return true;
             } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
-                return true;
             } else if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-                return true;
             }
         }
-        return false;
     }
 
     @Override

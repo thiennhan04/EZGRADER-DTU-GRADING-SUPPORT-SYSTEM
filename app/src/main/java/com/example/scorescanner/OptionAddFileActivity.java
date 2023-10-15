@@ -113,7 +113,22 @@ public class OptionAddFileActivity extends AppCompatActivity {
             if (!data.isEmpty()) {
                 for (String dt : data) {
                     String made = dt.substring(0, 3);
-                    String dapan = dt.substring(4);
+                    String dapan = dt.substring(3);
+                    Cursor getSoCau = db.mydatabase.rawQuery("Select socau from kithi where makithi = ?", new String[]{makithi});
+                    getSoCau.moveToFirst();
+                    int socau = 0;
+                    while (getSoCau.isAfterLast() == false) {
+                        socau = getSoCau.getInt(getSoCau.getColumnIndex("socau"));
+                        getSoCau.moveToNext();
+                    }
+                    getSoCau.close();
+                    if (dapan.length() < socau) {
+                        Toast.makeText(context, "Đáp án không đủ! Kiểm tra lại!", Toast.LENGTH_SHORT).show();
+                        break;
+                    } else if (dapan.length() > socau) {
+                        Toast.makeText(context, "Thừa đáp án! Kiểm tra lại!", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ?",
                             new String[]{makithi, made});
                     ContentValues values = new ContentValues();
