@@ -425,55 +425,28 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 
         if (bmpValid && mCacheBitmap != null) {
             Canvas canvas = getHolder().lockCanvas();
-//            float mScale1=canvas.getHeight()/mCacheBitmap.getWidth();
-//            float mScale2=canvas.getWidth()/mCacheBitmap.getHeight();
-//            if(canvas.getHeight()>canvas.getWidth()){
-//                canvas.rotate(90f,canvas.getWidth()/2,canvas.getHeight()/2);
-//            }
-//            if(mScale1<mScale2){
-//                mScale1=mScale2;
-//            }
-//            else{
-//                mScale2=mScale1;
-//            }
 
             if (canvas != null) {
-//                Log.i(TAG, "deliverAndDrawFrame: "+canvas.getWidth()+" "+canvas.getHeight());
-//                Log.i(TAG, "deliverAndDrawFrame: "+mCacheBitmap.getWidth()+" "+mCacheBitmap.getHeight());
-
                 canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "mStretch value: " + mScale);
 
-//                if (mScale1 != 0) {
-////                    Bitmap bitmap = Bitmap.createScaledBitmap(mCacheBitmap, mCacheBitmap.getHeight(), canvas.getWidth(), true);
-//                    Bitmap bitmap;
-//                    if(mScale1>mScale2) {
-//                        bitmap = Bitmap.createScaledBitmap(mCacheBitmap, 100, canvas.getWidth(), true);
-//                    }
-//                    else {
-//                        bitmap = Bitmap.createScaledBitmap(mCacheBitmap, canvas.getHeight(), 100, true);
-//                    }
-//                    canvas.drawBitmap(bitmap, new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()),
-//                            new Rect((int)((canvas.getWidth() - mScale1*bitmap.getWidth()) / 2),
-//                                    (int)((canvas.getHeight() - mScale2*bitmap.getHeight()) / 2),
-//                                    (int)((canvas.getWidth() - mScale1*bitmap.getWidth()) / 2 + mScale1*bitmap.getWidth()),
-//                                    (int)((canvas.getHeight() - mScale2*bitmap.getHeight()) / 2 + mScale2*bitmap.getHeight())), null);
-//                } else {
-//                     canvas.drawBitmap(mCacheBitmap, new Rect(0,0,mCacheBitmap.getWidth(), mCacheBitmap.getHeight()),
-//                         new Rect((canvas.getWidth() - mCacheBitmap.getWidth()) / 2,
-//                         (canvas.getHeight() - mCacheBitmap.getHeight()) / 2,
-//                         (canvas.getWidth() - mCacheBitmap.getWidth()) / 2 + mCacheBitmap.getWidth(),
-//                         (canvas.getHeight() - mCacheBitmap.getHeight()) / 2 + mCacheBitmap.getHeight()), null);
-//                }
-
-                Matrix matrix = new Matrix();
-                matrix.preTranslate( ( canvas.getWidth() - mCacheBitmap.getWidth() ) / 2f, ( canvas.getHeight() - mCacheBitmap.getHeight() ) / 2f );
-                matrix.postRotate( 90f, ( canvas.getWidth()) / 2f, canvas.getHeight() / 2f );
-                float scale = (float) canvas.getWidth() / (float) mCacheBitmap.getHeight();
-                matrix.postScale(scale, scale, canvas.getWidth() / 2f , canvas.getHeight() / 2f );
-                canvas.drawBitmap( mCacheBitmap, matrix, null );
-
+                try {
+                    Matrix matrix = new Matrix();
+                    matrix.preTranslate((canvas.getWidth() - mCacheBitmap.getWidth()) / 2f, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2f);
+                    matrix.postRotate(90f, (canvas.getWidth()) / 2f, canvas.getHeight() / 2f);
+                    float scale = (float) canvas.getWidth() / (float) mCacheBitmap.getHeight();
+                    float scale1 = (float) canvas.getHeight() / (float) mCacheBitmap.getWidth();
+                    if (scale > scale1) {
+                        matrix.postScale(scale, scale, canvas.getWidth() / 2f, canvas.getHeight() / 2f);
+                    } else {
+                        matrix.postScale(scale1, scale1, canvas.getWidth() / 2f, canvas.getHeight() / 2f);
+                    }
+                    canvas.drawBitmap(mCacheBitmap, matrix, null);
+                }
+                catch(Exception ex) {
+                    ex.printStackTrace();
+                }
                 if (mFpsMeter != null) {
                     mFpsMeter.measure();
                     mFpsMeter.mPaint.setTextSize(60);
@@ -520,42 +493,31 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
      * @return optimal frame size
      */
     protected Size calculateCameraFrameSize(List<?> supportedSizes, ListItemAccessor accessor, int surfaceWidth, int surfaceHeight) {
-        int calcWidth = 0;
-        int calcHeight = 0;
+        int calcWidth = this.mMaxHeight;
+        if (calcWidth != -1 && calcWidth < surfaceWidth) {
+            surfaceWidth = calcWidth;
+        }
 
-        int maxAllowedWidth = (mMaxWidth != MAX_UNSPECIFIED && mMaxWidth < surfaceHeight)? mMaxWidth : surfaceHeight;
-        int maxAllowedHeight = (mMaxHeight != MAX_UNSPECIFIED && mMaxHeight < surfaceWidth)? mMaxHeight : surfaceWidth;
+        int calcHeight = this.mMaxWidth;
+        if (calcHeight != -1 && calcHeight < surfaceHeight) {
+            surfaceHeight = calcHeight;
+        }
 
-        maxAllowedWidth = 1280;
-        maxAllowedHeight = 720;
+        int tmp = surfaceHeight;
+        surfaceHeight = surfaceWidth;
+        surfaceWidth = tmp;
 
-        for (Object size : supportedSizes) {
-            int width = accessor.getWidth(size);
-            int height = accessor.getHeight(size);
-//            Log.d(TAG, "trying size: " + width + "x" + height);
-
-            if (width <= maxAllowedWidth && height <= maxAllowedHeight) {
-                if (width >= calcWidth && height >= calcHeight) {
-                    calcWidth = (int) width;
-                    calcHeight = (int) height;
-                }
-//                double cur = Math.sqrt(width*width + height*height);
-//                if(cur>rate && cur<maxRate)
-//                {
-//                    calcWidth = (int) width;
-//                    calcHeight = (int) height;
-//                    rate = cur;
-//                }
+        int i5 = 0;
+        int i6 = 0;
+        for (Object next : supportedSizes) {
+            int width = accessor.getWidth(next);
+            int height = accessor.getHeight(next);
+            if (/*width * 1.0 / height == 16.0 / 9 &&*/ width <= surfaceWidth && height <= surfaceHeight  && width >= i5 && height >= i6) {
+                i6 = height;
+                i5 = width;
             }
         }
-        if ((calcWidth == 0 || calcHeight == 0) && supportedSizes.size() > 0)
-        {
-//            Log.i(TAG, "fallback to the first frame size");
-            Object size = supportedSizes.get(0);
-            calcWidth = accessor.getWidth(size);
-            calcHeight = accessor.getHeight(size);
-        }
-
-        return new Size(calcWidth, calcHeight);
+        Log.i(TAG, "Choose frame size: "+i5+"x"+i6);
+        return new Size((double) i5, (double) i6);
     }
 }
