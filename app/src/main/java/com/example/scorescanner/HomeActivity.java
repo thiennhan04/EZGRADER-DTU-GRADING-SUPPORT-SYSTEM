@@ -17,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         txtusername = findViewById(R.id.txtusername);
-        chambaibtn = findViewById(R.id.chambaibtn);
+        chambaibtn = findViewById(R.id.camerachambai);
         taiphieubtn = findViewById(R.id.taiphieubtn);
         logout = findViewById(R.id.logout);
         guide = findViewById(R.id.guide);

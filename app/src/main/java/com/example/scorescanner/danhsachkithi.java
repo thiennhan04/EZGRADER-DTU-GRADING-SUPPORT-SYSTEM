@@ -37,47 +37,48 @@ public class danhsachkithi extends AppCompatActivity {
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
         addbtn = findViewById(R.id.addbtn);
         backbtn = findViewById(R.id.back_btnds);
+
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
-        processCopy();
-
-        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
-//        String sql = "select * from kithi where username = '" + username + "'";
-        mylist = new ArrayList<>();//tạo mới mảng rỗng
-        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
-        c.moveToFirst();
-        mylist.clear();
-        String data ="";
-        while (c.isAfterLast() == false)
-        {
-            int madethi = Integer.parseInt(c.getString(0));
-            String tendethi = c.getString(1);
-            int kieukithi = Integer.parseInt(c.getString(6));
-            Exam exam = new Exam(madethi, tendethi, username,kieukithi);
-            mylist.add(exam);
-            c.moveToNext();
-        }
-        lvdanhsachkt.setAdapter(myArrayAdapter);
-        myArrayAdapter.notifyDataSetChanged();
+        loadDataListKithi();
+//        processCopy();
+//
+//        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+////        String sql = "select * from kithi where username = '" + username + "'";
+//        mylist = new ArrayList<>();//tạo mới mảng rỗng
+//        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+//
+//        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+//        c.moveToFirst();
+//        mylist.clear();
+//        String data ="";
+//        while (c.isAfterLast() == false)
+//        {
+//            int madethi = Integer.parseInt(c.getString(0));
+//            String tendethi = c.getString(1);
+//            int kieukithi = Integer.parseInt(c.getString(6));
+//            Exam exam = new Exam(madethi, tendethi, username,kieukithi);
+//            mylist.add(exam);
+//            c.moveToNext();
+//        }
+//        lvdanhsachkt.setAdapter(myArrayAdapter);
+//        myArrayAdapter.notifyDataSetChanged();
 //        addkithi();
-        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         lvdanhsachkt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
-
+//                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
                 String makithi = mylist.get(i).getMakithi() + "";
 //                made.putExtra("makithi", makithi);
 //                made.putExtra("username", username);
-
 
                 if (mylist.get(i).getKieukithi() == 1){
                     Intent madeoption1 = new Intent(danhsachkithi.this, MadeOption.class);
@@ -112,6 +113,36 @@ public class danhsachkithi extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataListKithi();
+    }
+    private void loadDataListKithi(){
+        lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+        processCopy();
+
+        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+        mylist = new ArrayList<>();//tạo mới mảng rỗng
+        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
+        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+        c.moveToFirst();
+        mylist.clear();
+        String data ="";
+        while (c.isAfterLast() == false)
+        {
+            int madethi = Integer.parseInt(c.getString(0));
+            String tendethi = c.getString(1);
+            int kieukithi = Integer.parseInt(c.getString(6));
+            Exam exam = new Exam(madethi, tendethi, username,kieukithi);
+            mylist.add(exam);
+            c.moveToNext();
+        }
+        lvdanhsachkt.setAdapter(myArrayAdapter);
+        myArrayAdapter.notifyDataSetChanged();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

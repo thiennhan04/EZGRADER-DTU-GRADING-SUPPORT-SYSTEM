@@ -13,7 +13,6 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/null"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="34dp"
@@ -25,14 +24,14 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="371dp"
-        android:layout_height="249dp"
+        android:layout_width="wrap_content"
+        android:layout_height="202dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="19dp"
         android:layout_marginEnd="21dp"
-        android:layout_marginBottom="443dp"
+        android:layout_marginBottom="529dp"
         app:srcCompat="@drawable/ezlogo" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,9 +40,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="53dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="119dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="216dp"
         android:background="@drawable/red_rounded_bg">
 
         <Button
