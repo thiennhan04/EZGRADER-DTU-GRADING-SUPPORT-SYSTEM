@@ -49,8 +49,8 @@ public class MadeOptionAddActivity extends AppCompatActivity {
 
 //        viewAns = findViewById(R.id.addhandbtn11);
 
-        addFileBtn = findViewById(R.id.dapanbtn);
-        addHandBtn = findViewById(R.id.chambaibtn);
+        addFileBtn = findViewById(R.id.datlbtn);
+        addHandBtn = findViewById(R.id.camerachambai);
 
         Intent intent = getIntent();
         makithi = intent.getStringExtra("kithi");

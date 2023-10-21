@@ -116,7 +116,7 @@
                 app:srcCompat="@drawable/camera" />
 
             <Button
-                android:id="@+id/chambaibtn"
+                android:id="@+id/camerachambai"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

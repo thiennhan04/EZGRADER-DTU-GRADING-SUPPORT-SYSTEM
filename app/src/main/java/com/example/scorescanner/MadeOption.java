@@ -32,11 +32,12 @@ import java.io.OutputStream;
 public class MadeOption extends AppCompatActivity {
     TextView txtmade;
     Button dapanbtn,chambaibtn,baidachambtn,xuatdiembtn,thongkebtn;
-    ImageButton backbtn;
+    ImageButton backbtn,imgremove;
 
     Uri imageUri;
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
+    DataBase db = null;
     String DATABASE_NAME="ssdb2.db";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +45,48 @@ public class MadeOption extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_made_option);
-            dapanbtn = findViewById(R.id.dapanbtn);
-            chambaibtn = findViewById(R.id.chambaibtn);
+            dapanbtn = findViewById(R.id.datlbtn);
+            chambaibtn = findViewById(R.id.camerachambai);
+            imgremove = findViewById(R.id.imgremove1);
 //            xuatdiembtn = findViewById(R.id.xuatdiembtn);
-            thongkebtn = findViewById(R.id.thongkebtn);
+            thongkebtn = findViewById(R.id.thongkebtn1);
 
             backbtn = findViewById(R.id.back_btnds);
-            baidachambtn = findViewById(R.id.baidachambtn);
+            baidachambtn = findViewById(R.id.baidachambtn1);
 
             txtmade = findViewById(R.id.txtmade);
             Intent intent = getIntent();
+            db = new DataBase(this);
             String makithi = intent.getStringExtra("makithi");
 //            Toast.makeText(this, ""+ makithi, Toast.LENGTH_SHORT).show();
             String username =  intent.getStringExtra("username");
             txtmade.setText("Kì thi "+makithi);
+
+            //nút xóa kì thi
+            imgremove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean removeStatus = true;
+                    int rowAffect1 = 0,rowAffect2 = 0,rowAffect3 = 0,rowAffect4 = 0;
+                    String msgDeleteComplete = "";
+                    String msgDeleteFailed = "";
+                    rowAffect1 = db.mydatabase.delete("cauhoi",
+                            "makithi = ? and username = ?",new String[]{makithi,username});
+                    rowAffect2 = db.mydatabase.delete("diem",
+                            "makithi = ?",new String[]{makithi});
+                    rowAffect3 = db.mydatabase.delete("made",
+                            "makithi = ?",new String[]{makithi});
+                    rowAffect4 = db.mydatabase.delete("kithi",
+                            "makithi = ? and username = ?",new String[]{makithi, username});
+                    if(rowAffect4 > 0) Toast.makeText(MadeOption.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(MadeOption.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                    }
+//                Toast.makeText(madeoption2.this,
+//                        "" + rowAffect1 + " " + rowAffect2 + " " + rowAffect3 + " " + rowAffect4, Toast.LENGTH_SHORT).show();
+                    MadeOption.this.finish();
+                }
+            });
             backbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
