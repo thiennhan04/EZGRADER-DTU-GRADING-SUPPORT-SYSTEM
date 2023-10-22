@@ -14,7 +14,7 @@ public class ViewImage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
-        methods = new Methods();
+        methods = new Methods(this);
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
         Log.i("", "onCreate: ========="+bitmap.getWidth()+" "+bitmap.getHeight());
@@ -22,12 +22,12 @@ public class ViewImage extends AppCompatActivity {
             Bitmap result = methods.run(bitmap);
             view.setImageBitmap(result != null ? result : bitmap);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            }, 5000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    finish();
+//                }
+//            }, 5000);
         }
     }
 }
