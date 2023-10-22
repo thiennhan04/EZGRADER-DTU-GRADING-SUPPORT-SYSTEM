@@ -101,76 +101,97 @@ public class MadeOption extends AppCompatActivity {
                 }
             });
             dapanbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        Intent acti = new Intent(MadeOption.this, MadeOptionAddActivity.class);
-//                    acti.putExtra("made", made + "");
-                        acti.putExtra("kithi", makithi + "");
-                        startActivity(acti);
-                    }catch (Exception ex)
-                    {
-                        Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
-                    }
-                }
+//                @Override
+//                public void onClick(View view) {
+//                    try {
+//                        Intent acti = new Intent(MadeOption.this, OptionAddFileActivity.class);
+////                    acti.putExtra("made", made + "");
+//                        acti.putExtra("kithi", makithi + "");
+//                        startActivity(acti);
+//                    }catch (Exception ex)
+//                    {
+//                        Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
+//                    }
+//                }
+@Override
+public void onClick(View v) {
+    Intent intent = new Intent(MadeOption.this, OptionAddFileActivity.class);
+    intent.putExtra("makithi", makithi);
+    intent.putExtra("username",username);
+    startActivity(intent);
+}
             });
             baidachambtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
-                baidacham.putExtra("makithi", makithi + "");
-                startActivity(baidacham);
-                }
+//                @Override
+//                public void onClick(View v) {
+//                Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
+//                baidacham.putExtra("makithi", makithi + "");
+//                startActivity(baidacham);
+//                }
+@Override
+public void onClick(View view) {
+    Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
+    baidacham.putExtra("makithi", makithi + "");
+    startActivity(baidacham);
+}
             });
             chambaibtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    processCopy();
-                    database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
-
-                    int kithi = Integer.parseInt(makithi);
-                    Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
-//                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
-                    c.moveToFirst();
-                    String data ="";
-                    while (c.isAfterLast() == false)
-                    {
-                        String listanswer = c.getString(0);
-                        data+=listanswer;
-                        c.moveToNext();
-
-                    }
-                    if(data.equals("")){
-
-                        Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
-                    }else{
-
-                        Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
-//                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
-
-                        Intent camerachambai = new Intent(MadeOption.this, CameraRealTime.class);
-//                    camerachambai.putExtra("made", made + "");
-                        camerachambai.putExtra("kithi", makithi + "");
-                        camerachambai.putExtra("username", username + "");
-                        startActivity(camerachambai);
-                        if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                        {
-                            ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
-                            return;
-                        }
-
-//                    startActivityForResult(myintent,99);
-                    }
-                    c.close();
-//                try{
+//                @Override
+//                public void onClick(View view) {
+//                    processCopy();
+//                    database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
 //
-//                }catch (Exception e){
-//                    Toast.makeText(MadeOption.this, "Bị lỗi", Toast.LENGTH_SHORT).show();
+//                    int kithi = Integer.parseInt(makithi);
+//                    Cursor c = database.rawQuery("select * from cauhoi where makithi = " + makithi, null);
+////                    Cursor c = database.query("cauhoi2",null,null,null,null,null,null, null);
+//                    c.moveToFirst();
+//                    String data ="";
+//                    while (c.isAfterLast() == false)
+//                    {
+//                        String listanswer = c.getString(0);
+//                        data+=listanswer;
+//                        c.moveToNext();
+//
+//                    }
+//                    if(data.equals("")){
+//
+//                        Toast.makeText(MadeOption.this, "Vui lòng nhập đáp án!", Toast.LENGTH_SHORT).show();
+//                    }else{
+//
+//                        Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
+////                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
+//
+//                        Intent camerachambai = new Intent(MadeOption.this, CameraRealTime.class);
+////                    camerachambai.putExtra("made", made + "");
+//                        camerachambai.putExtra("kithi", makithi + "");
+//                        camerachambai.putExtra("username", username + "");
+//                        startActivity(camerachambai);
+//                        if (ActivityCompat.checkSelfPermission(MadeOption.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+//                        {
+//                            ActivityCompat.requestPermissions(MadeOption.this,new String[]{Manifest.permission.CAMERA}, 1);
+//                            return;
+//                        }
+//
+////                    startActivityForResult(myintent,99);
+//                    }
+//                    c.close();
+////                try{
+////
+////                }catch (Exception e){
+////                    Toast.makeText(MadeOption.this, "Bị lỗi", Toast.LENGTH_SHORT).show();
+////                }
+//
+////                Toast.makeText(MadeOption.this, "cham bai", Toast.LENGTH_SHORT).show();
+//
 //                }
-
-//                Toast.makeText(MadeOption.this, "cham bai", Toast.LENGTH_SHORT).show();
-
-                }
+@Override
+public void onClick(View view) {
+    Intent intent = new Intent(MadeOption.this, CameraRealTime.class);
+    intent.putExtra("makithi", makithi);
+    intent.putExtra("username", username);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+}
             });
         }catch (Exception e)
         {

@@ -84,7 +84,7 @@ public class CameraRealTime extends CameraActivity {
         @Override
         public void onCameraViewStarted(int width, int height) {
             demTimeCheck = 0;
-            int edge = height / 3;
+            int edge = height / 4;
             int startEdge = (height * 9) / 8;
             listMatHCN = new Mat[4];
             listMatHCNGray = new Mat[4];

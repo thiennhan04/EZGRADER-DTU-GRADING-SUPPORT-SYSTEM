@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.nio.charset.CoderResult;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -73,8 +74,13 @@ public class Methods extends AppCompatActivity {
     private static Bitmap imgRightAnswer;
     private static ArrayList<Bitmap> listImgAnswer;
     private static String score = "";
-    private static File file;
     private static String TAG = "Checkkkkkkkkk";
+    private static File file;
+    private Context context;
+
+    public Methods(Context context) {
+        this.context = context;
+    }
 
     private static void cutImage(Bitmap bitmap) {
         try {
@@ -134,7 +140,7 @@ public class Methods extends AppCompatActivity {
             Bitmap tempLeftBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
             int y = 5;
             for (int i = 0; i < 5; i++) {
-                tempLeftMat = leftAnswerMat.submat(new Rect(125, y, 440, 265));
+                tempLeftMat = leftAnswerMat.submat(new Rect(125, y, 440, 260));
                 tempLeftBitmap = Bitmap.createBitmap(tempLeftMat.width(), tempLeftMat.height(), Bitmap.Config.ARGB_8888);
                 tempListBitmap.add(tempLeftBitmap);
                 Utils.matToBitmap(tempLeftMat, tempLeftBitmap);
@@ -315,9 +321,12 @@ public class Methods extends AppCompatActivity {
         return finalBitmap;
     }
 
+//create folder
+
     private Bitmap getDataFromDB(Bitmap bitmap) {
         db = OptionAddFileActivity.getDb();
         if (db == null) {
+            Log.d(TAG, "getDataFromDB: db is null");
             return bitmap;
         }
         try {
@@ -336,22 +345,32 @@ public class Methods extends AppCompatActivity {
                 return recoverBitmap(bitmap);
             }
             c.moveToFirst();
-            Log.d(TAG, "getDataFromDB: falseeee");
-            while (c.isAfterLast() == false) {
+            while (!c.isAfterLast()) {
                 list_answer = c.getString(c.getColumnIndex("dapan"));
                 c.moveToNext();
             }
             c.close();
             String list_select_ans = getAnswer(list_answer, hediem);
-//            Bitmap finalBitmap = recoverBitmap(bitmap);
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-//            String strimg = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-//            byte data[] = android.util.Base64.decode(strimg, android.util.Base64.DEFAULT);
+            Log.d(TAG, "getDataFromDB: answer ==== " + list_select_ans);
+
+            //////
+            File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + username + makithi);
+            String name = UUID.randomUUID().toString();
+            file = new File(directory.getAbsolutePath() + "/" + name + ".jpg");
+            String imguri = directory.getAbsolutePath() + "/" + name + ".jpg";
+
+            Log.d(TAG, "getDataFromDB: checkkkkkkkkkkkkkkkkk");
+            // save result image to folder
+            byte[] data = convertBitmapToByteArray(recoverBitmap(bitmap));
+            Log.d(TAG, "getDataFromDB: convert bitmap to byte oke");
+            save(data);
+            Log.d(TAG, "getDataFromDB: save data to folder oke");
+            // save to db
             ContentValues valuediem = new ContentValues();
             valuediem.put("makithi", makithi);
             valuediem.put("diemso", score);
-//            valuediem.put("hinhanh", imguri);
+            valuediem.put("hinhanh", imguri);
+            Log.d(TAG, "getDataFromDB: img uri = " + imguri);
             valuediem.put("masv", sbd);
             String msg = "";
             if (db.mydatabase.insert("diem", null, valuediem) == -1) {
@@ -359,12 +378,17 @@ public class Methods extends AppCompatActivity {
             } else {
                 msg = "Insert record sucess";
             }
-//            save(data);
             return recoverBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
             return bitmap;
         }
+    }
+
+    private byte[] convertBitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 
     private void save(byte[] bytes) throws IOException {

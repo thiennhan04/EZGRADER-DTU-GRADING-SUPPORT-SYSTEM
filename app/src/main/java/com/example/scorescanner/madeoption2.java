@@ -28,7 +28,7 @@ public class madeoption2 extends AppCompatActivity {
         Intent intent = getIntent();
         makithi = intent.getStringExtra("makithi");
         username = intent.getStringExtra("username");
-        findViewById(R.id.tn_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.dapantnbtn1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(madeoption2.this, OptionAddFileActivity.class);
@@ -38,7 +38,7 @@ public class madeoption2 extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.tl_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.datlbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent dapantuluan = new Intent(madeoption2.this, list_danhsachtuluan.class);
@@ -48,7 +48,7 @@ public class madeoption2 extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.camera_cham_bai_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.camerachambai).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(madeoption2.this, CameraRealTime.class);
