@@ -148,7 +148,7 @@ public class MadeOption extends AppCompatActivity {
                         Toast.makeText(MadeOption.this, "chuyển sang chấm bài", Toast.LENGTH_SHORT).show();
 //                    Intent myintent = new Intent(ACTION_IMAGE_CAPTURE);
 
-                        Intent camerachambai = new Intent(MadeOption.this, CameraChamBai.class);
+                        Intent camerachambai = new Intent(MadeOption.this, CameraRealTime.class);
 //                    camerachambai.putExtra("made", made + "");
                         camerachambai.putExtra("kithi", makithi + "");
                         camerachambai.putExtra("username", username + "");
