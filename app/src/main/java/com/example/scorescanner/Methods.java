@@ -324,7 +324,7 @@ public class Methods extends AppCompatActivity {
 //create folder
 
     private Bitmap getDataFromDB(Bitmap bitmap) {
-        db = OptionAddFileActivity.getDb();
+        db = new DataBase((AppCompatActivity) context);
         if (db == null) {
             Log.d(TAG, "getDataFromDB: db is null");
             return bitmap;
