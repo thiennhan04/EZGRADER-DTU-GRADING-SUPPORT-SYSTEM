@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -73,11 +74,13 @@
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_madeoption2.xml" value="0.2" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_support_option.xml" value="0.2056159420289855" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_test_load_anh.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_test_python.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testload_image.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testlv.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testradio.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_view_image.xml" value="0.2056159420289855" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/cauhoi_item.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/imageitem.xml" value="0.22826086956521738" />
         <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.25416666666666665" />
@@ -104,7 +107,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
