@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -21,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
+        <activity
+            android:name=".ThongKeActivity"
+            android:exported="false" />
         <activity
             android:name=".list_danhsachtuluan"
             android:exported="false" />
@@ -65,13 +69,12 @@
             android:exported="false" />
         <activity
             android:name=".MainActivityListAns"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".TestPython"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".CameraChamBai"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".TestPython" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".CameraChamBai" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".MadeOptionAddActivity"
             android:exported="false" />

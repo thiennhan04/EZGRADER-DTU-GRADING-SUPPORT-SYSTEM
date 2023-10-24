@@ -136,7 +136,20 @@ public class madeoption2 extends AppCompatActivity {
             }
         });
 
+
+        findViewById(R.id.thongkebtn1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(madeoption2.this, ThongKeActivity.class);
+                intent.putExtra("makithi",makithi);
+                intent.putExtra("username",username);
+                startActivity(intent);
+            }
+        });
+
+
         //sự kiện cho nút quay lại
+
         findViewById(R.id.backbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

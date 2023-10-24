@@ -36,6 +36,13 @@
         <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.17426545086119555" />
         <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_view_image.xml" value="0.18541666666666667" />
         <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/tab_02_option_add_file.xml" value="0.20652173913043478" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_baidacham.xml" value="0.5" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_made_option.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_made_option_add.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_madeoption2.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_thong_ke.xml" value="0.25" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/drawable/radiobuttonicon.xml" value="0.2985" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.5" />
         <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_dapan.xml" value="0.33" />
@@ -107,7 +114,11 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17_PREVIEW" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+=======
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+>>>>>>> 055aa678df87db445e327df762b60eb61ccbc12c
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
