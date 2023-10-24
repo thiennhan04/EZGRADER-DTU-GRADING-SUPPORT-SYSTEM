@@ -83,6 +83,15 @@ public class madeoption2 extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btnBaiDaCham).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent baidacham = new Intent(madeoption2.this, Baidacham.class);
+                baidacham.putExtra("makithi", makithi + "");
+                startActivity(baidacham);
+            }
+        });
+
 
 //
 //        findViewById(R.id.camera_cham_bai_btn).setOnClickListener(new View.OnClickListener() {

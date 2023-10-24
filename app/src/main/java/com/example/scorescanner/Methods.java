@@ -324,7 +324,11 @@ public class Methods extends AppCompatActivity {
 //create folder
 
     private Bitmap getDataFromDB(Bitmap bitmap) {
-        db = new DataBase(this);
+//<<<<<<< HEAD
+        db = new DataBase((AppCompatActivity) context);
+//=======
+//        db = new DataBase(this);
+//>>>>>>> 9b012978fb23c49e9359cb11015b7792e303624f
         if (db == null) {
             Log.d(TAG, "getDataFromDB: db is null");
             return bitmap;
@@ -337,7 +341,7 @@ public class Methods extends AppCompatActivity {
             if (made.contains("#")) {
                 score = "Không nhận diện được mã đề!";
                 Log.i(TAG, "getDataFromDB: "+score);
-                bitmap = imgMade;
+//                bitmap = imgMade;
                 return recoverBitmap(bitmap);
             }
             Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
