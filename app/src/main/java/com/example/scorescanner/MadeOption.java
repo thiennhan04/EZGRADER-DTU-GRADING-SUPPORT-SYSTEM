@@ -199,8 +199,6 @@ public void onClick(View view) {
         {
             Log.println(Log.ERROR,"====",e.getMessage());
         }
-
-
     }
 
 
