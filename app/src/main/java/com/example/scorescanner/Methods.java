@@ -244,7 +244,7 @@ public class Methods extends AppCompatActivity {
             Mat imgGray = new Mat();
             Imgproc.cvtColor(mat, imgGray, Imgproc.COLOR_BGR2GRAY);
             Mat thresh = new Mat();
-            Imgproc.threshold(imgGray, thresh, 0, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
+            Imgproc.threshold(imgGray, thresh, 100, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
             String ans5 = "";
             double radius = mat.width() / 25;
             for (int j = 0; j < 5; j++) {
