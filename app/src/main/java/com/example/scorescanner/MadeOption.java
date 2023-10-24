@@ -96,8 +96,10 @@ public class MadeOption extends AppCompatActivity {
             thongkebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent testload = new Intent(MadeOption.this, testLoadAnh.class);
-                    startActivity(testload);
+                    Intent intent = new Intent(MadeOption.this, ThongKeActivity.class);
+                    intent.putExtra("makithi",makithi);
+                    intent.putExtra("username",username);
+                    startActivity(intent);
                 }
             });
             dapanbtn.setOnClickListener(new View.OnClickListener() {
