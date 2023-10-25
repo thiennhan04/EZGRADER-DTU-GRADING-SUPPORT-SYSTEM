@@ -138,7 +138,7 @@ public class Methods extends AppCompatActivity {
             Mat tempLeftMat = new Mat();
             Mat tempRightMat = new Mat();
             Bitmap tempLeftBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-            int y = 5;
+            int y = 0;
             for (int i = 0; i < 5; i++) {
                 tempLeftMat = leftAnswerMat.submat(new Rect(125, y, 440, 260));
                 tempLeftBitmap = Bitmap.createBitmap(tempLeftMat.width(), tempLeftMat.height(), Bitmap.Config.ARGB_8888);
@@ -147,7 +147,7 @@ public class Methods extends AppCompatActivity {
                 y += 260;
             }
             Bitmap tempRightBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-            y = 5;
+            y = 0;
             for (int i = 0; i < 5; i++) {
                 tempRightMat = rightAnswerMat.submat(new Rect(180, y, 420, 260));
                 tempRightBitmap = Bitmap.createBitmap(tempRightMat.width(), tempRightMat.height(), Bitmap.Config.ARGB_8888);
@@ -183,7 +183,10 @@ public class Methods extends AppCompatActivity {
         Mat imgGray = new Mat();
         Imgproc.cvtColor(mat, imgGray, Imgproc.COLOR_BGR2GRAY);
         Mat thresh = new Mat();
-        Imgproc.threshold(imgGray, thresh, 0, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
+        Imgproc.adaptiveThreshold(imgGray, thresh, 255,
+                Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 31, 3);
+        Core.bitwise_not(thresh, thresh);
+//        Imgproc.threshold(imgGray, thresh, 0, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
         String ansStr = "";
         boolean columnTouched = false;
         double radius = mat.width() / r;
@@ -244,7 +247,10 @@ public class Methods extends AppCompatActivity {
             Mat imgGray = new Mat();
             Imgproc.cvtColor(mat, imgGray, Imgproc.COLOR_BGR2GRAY);
             Mat thresh = new Mat();
-            Imgproc.threshold(imgGray, thresh, 100, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
+            Imgproc.adaptiveThreshold(imgGray, thresh, 255,
+                    Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 31, 3);
+            Core.bitwise_not(thresh, thresh);
+//            Imgproc.threshold(imgGray, thresh, 100, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
             String ans5 = "";
             double radius = mat.width() / 25;
             for (int j = 0; j < 5; j++) {
@@ -294,13 +300,13 @@ public class Methods extends AppCompatActivity {
         canvas.drawBitmap(bitmap, 0, 0, null);
         canvas.drawBitmap(imgSbd, bitmap.getWidth() * 3 / 4 + 25, 110, null);
         canvas.drawBitmap(imgMade, bitmap.getWidth() * 3 / 4 + 260, 110, null);
-        int y = bitmap.getHeight() / 3 + 75;
+        int y = bitmap.getHeight() / 3 + 70;
         for (int i = 0; i < 5; i++) {
             Bitmap subBitmap = listImgAnswer.get(i);
             canvas.drawBitmap(subBitmap, 205, y, null);
             y += 260;
         }
-        y = bitmap.getHeight() / 3 + 75;
+        y = bitmap.getHeight() / 3 + 70;
         for (int i = 5; i < 10; i++) {
             Bitmap subBitmap = listImgAnswer.get(i);
             canvas.drawBitmap(subBitmap, bitmap.getWidth() - (bitmap.getWidth() - 710) + 180, y, null);
@@ -308,7 +314,7 @@ public class Methods extends AppCompatActivity {
         }
         Paint paint = new Paint();
         int x;
-        if (score == "Không nhận diện được mã đề!" || score == "Mã đề không tồn tại!") {
+        if (score == "Không nhận diện được mã đề!" || score == "Mã đề không tồn tại!" || score == "Bạn đã chấm bài này rồi!") {
             paint.setColor(Color.RED);
             paint.setTextSize(80);
             x = 100;
@@ -334,8 +340,13 @@ public class Methods extends AppCompatActivity {
             return bitmap;
         }
         try {
-            String made = getMade();
             String sbd = getSbd();
+//            Cursor cSBD = db.mydatabase.rawQuery("select * from diem where masv = ?", new String[]{sbd});
+//            if (!cSBD.moveToFirst()) {
+//                score = "Bạn đã chấm bài này rồi!";
+//                return recoverBitmap(bitmap);
+//            }
+            String made = getMade();
             int hediem = 10;
             String list_answer = "";
             if (made.contains("#")) {

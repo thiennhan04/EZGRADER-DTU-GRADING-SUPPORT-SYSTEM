@@ -84,7 +84,7 @@ public class CameraRealTime extends CameraActivity {
         @Override
         public void onCameraViewStarted(int width, int height) {
             demTimeCheck = 0;
-            int edge = height / 4;
+            int edge = height / 3;
             int startEdge = (height * 9) / 8;
             listMatHCN = new Mat[4];
             listMatHCNGray = new Mat[4];
@@ -200,7 +200,7 @@ public class CameraRealTime extends CameraActivity {
                 }
             }
         }
-        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 8) {
+        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 30) {
             demTimeCheck = 0;
             Point[] dstPoints = new Point[4];
             dstPoints[0] = new Point(0, 0);

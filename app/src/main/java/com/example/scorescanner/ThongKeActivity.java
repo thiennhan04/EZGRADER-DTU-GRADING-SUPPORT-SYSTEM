@@ -157,7 +157,12 @@ public class ThongKeActivity extends AppCompatActivity {
         int[] diem = new int[11];
         c.moveToFirst();
         while (!c.isAfterLast()) {
-            diem[Integer.parseInt(c.getString(0))]++;
+            String str = c.getString(0);
+            if (str.contains(",")) {
+                str = str.split(",")[0];
+            }
+            diem[Integer.parseInt(str)]++;
+
             c.moveToNext();
         }
         for(int i=0; i<=10; i++){
