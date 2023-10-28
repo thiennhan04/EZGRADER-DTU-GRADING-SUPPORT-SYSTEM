@@ -102,7 +102,7 @@ public class Methods extends AppCompatActivity {
         try {
             Mat mat = new Mat();
             Utils.bitmapToMat(imgSbdMade, mat);
-            Mat sbd = mat.clone().submat(new Rect(25, 60, 190, mat.height() - 100));
+            Mat sbd = mat.clone().submat(new Rect(20, 60, 190, mat.height() - 100));
             Mat made = mat.clone().submat(new Rect(mat.width() - 95, 60, 95, mat.height() - 100));
             imgSbd = Bitmap.createBitmap(sbd.width(), sbd.height(), Bitmap.Config.ARGB_8888);
             imgMade = Bitmap.createBitmap(made.width(), made.height(), Bitmap.Config.ARGB_8888);
@@ -117,8 +117,8 @@ public class Methods extends AppCompatActivity {
         try {
             Mat mat = new Mat();
             Utils.bitmapToMat(imgAnswer, mat);
-            Mat leftAnswer = mat.clone().submat(new Rect(80, 70, 620, mat.height() - 90));
-            Mat rightAnswer = mat.clone().submat(new Rect(710, 70, 610, mat.height() - 90));
+            Mat leftAnswer = mat.clone().submat(new Rect(80, 75, 620, mat.height() - 90));
+            Mat rightAnswer = mat.clone().submat(new Rect(710, 75, 620, mat.height() - 90));
             imgLeftAnswer = Bitmap.createBitmap(leftAnswer.width(), leftAnswer.height(), Bitmap.Config.ARGB_8888);
             imgRightAnswer = Bitmap.createBitmap(rightAnswer.width(), rightAnswer.height(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(leftAnswer, imgLeftAnswer);
@@ -140,7 +140,7 @@ public class Methods extends AppCompatActivity {
             Bitmap tempLeftBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
             int y = 0;
             for (int i = 0; i < 5; i++) {
-                tempLeftMat = leftAnswerMat.submat(new Rect(125, y, 440, 260));
+                tempLeftMat = leftAnswerMat.submat(new Rect(125, y, 435, 260));
                 tempLeftBitmap = Bitmap.createBitmap(tempLeftMat.width(), tempLeftMat.height(), Bitmap.Config.ARGB_8888);
                 tempListBitmap.add(tempLeftBitmap);
                 Utils.matToBitmap(tempLeftMat, tempLeftBitmap);
@@ -149,7 +149,7 @@ public class Methods extends AppCompatActivity {
             Bitmap tempRightBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
             y = 0;
             for (int i = 0; i < 5; i++) {
-                tempRightMat = rightAnswerMat.submat(new Rect(180, y, 420, 260));
+                tempRightMat = rightAnswerMat.submat(new Rect(180, y, 435, 260));
                 tempRightBitmap = Bitmap.createBitmap(tempRightMat.width(), tempRightMat.height(), Bitmap.Config.ARGB_8888);
                 tempListBitmap.add(tempRightBitmap);
                 Utils.matToBitmap(tempRightMat, tempRightBitmap);
@@ -228,11 +228,11 @@ public class Methods extends AppCompatActivity {
     }
 
     private static String getSbd() {
-        return findAns(imgSbd, 10, 6, 18);
+        return findAns(imgSbd, 10, 6, 13);
     }
 
     private static String getMade() {
-        return findAns(imgMade, 10, 3, 8);
+        return findAns(imgMade, 10, 3, 7);
     }
 
     private static String getAnswer(String list_answer, int hediem) {
@@ -252,7 +252,7 @@ public class Methods extends AppCompatActivity {
             Core.bitwise_not(thresh, thresh);
 //            Imgproc.threshold(imgGray, thresh, 100, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
             String ans5 = "";
-            double radius = mat.width() / 25;
+            double radius = mat.width() / 24;
             for (int j = 0; j < 5; j++) {
                 if (++quantity > list_answer.length()) break;
                 ArrayList<Point> pstChoose = new ArrayList<>();
@@ -298,15 +298,15 @@ public class Methods extends AppCompatActivity {
         Bitmap finalBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(finalBitmap);
         canvas.drawBitmap(bitmap, 0, 0, null);
-        canvas.drawBitmap(imgSbd, bitmap.getWidth() * 3 / 4 + 25, 110, null);
+        canvas.drawBitmap(imgSbd, bitmap.getWidth() * 3 / 4 + 20, 110, null);
         canvas.drawBitmap(imgMade, bitmap.getWidth() * 3 / 4 + 260, 110, null);
-        int y = bitmap.getHeight() / 3 + 70;
+        int y = bitmap.getHeight() / 3 + 75;
         for (int i = 0; i < 5; i++) {
             Bitmap subBitmap = listImgAnswer.get(i);
             canvas.drawBitmap(subBitmap, 205, y, null);
             y += 260;
         }
-        y = bitmap.getHeight() / 3 + 70;
+        y = bitmap.getHeight() / 3 + 75;
         for (int i = 5; i < 10; i++) {
             Bitmap subBitmap = listImgAnswer.get(i);
             canvas.drawBitmap(subBitmap, bitmap.getWidth() - (bitmap.getWidth() - 710) + 180, y, null);

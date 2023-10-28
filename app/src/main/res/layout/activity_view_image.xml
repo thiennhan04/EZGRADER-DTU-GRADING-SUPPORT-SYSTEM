@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ViewImage">
+    tools:context=".ViewImage"
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/imageView"

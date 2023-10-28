@@ -17,6 +17,7 @@ public class ViewImage extends AppCompatActivity {
         methods = new Methods(this);
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
+//        ImageHelper.saveImage(bitmap);
         Log.i("", "onCreate: ========="+bitmap.getWidth()+" "+bitmap.getHeight());
         if (bitmap != null && view != null) {
             Bitmap result = methods.run(bitmap);
