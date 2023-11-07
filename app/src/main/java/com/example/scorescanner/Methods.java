@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.nio.charset.CoderResult;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -368,6 +369,8 @@ public class Methods extends AppCompatActivity {
             Log.d(TAG, "getDataFromDB: checkkkkkkkkkkkkkkkkk");
             // save result image to folder
             byte[] data = convertBitmapToByteArray(recoverBitmap(bitmap));
+
+
             Log.d(TAG, "getDataFromDB: convert bitmap to byte oke");
             save(data);
             Log.d(TAG, "getDataFromDB: save data to folder oke");
@@ -393,8 +396,12 @@ public class Methods extends AppCompatActivity {
 
     private byte[] convertBitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
         return stream.toByteArray();
+
+//        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
+//        bitmap.copyPixelsToBuffer(buffer);
+//        return buffer.array();
     }
 
     private void save(byte[] bytes) throws IOException {

@@ -14,13 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class madeoption2 extends AppCompatActivity {
     static String makithi;
     static String username;
-    Button dapantnbtn,chambaibtn,baidachambtn,thongkebtn;
+    Button dapantnbtn, chambaibtn, baidachambtn, thongkebtn;
     Button datlbtn;
     ImageButton imgremove;
-    public static SQLiteDatabase database=null;
+    public static SQLiteDatabase database = null;
     String DB_PATH_SUFFIX = "/databases/";
     DataBase db = null;
-    String DATABASE_NAME="ssdb2.db";
+    String DATABASE_NAME = "ssdb2.db";
 
     public static String getMakithi() {
         return makithi;
@@ -57,7 +57,7 @@ public class madeoption2 extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(madeoption2.this, OptionAddFileActivity.class);
                 intent.putExtra("makithi", makithi);
-                intent.putExtra("username",username);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
@@ -78,7 +78,7 @@ public class madeoption2 extends AppCompatActivity {
             public void onClick(View v) {
                 Intent dapantuluan = new Intent(madeoption2.this, list_danhsachtuluan.class);
                 dapantuluan.putExtra("makithi", makithi);
-                dapantuluan.putExtra("username",username);
+                dapantuluan.putExtra("username", username);
                 startActivity(dapantuluan);
             }
         });
@@ -124,19 +124,20 @@ public class madeoption2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean removeStatus = true;
-                int rowAffect1 = 0,rowAffect2 = 0,rowAffect3 = 0,rowAffect4 = 0;
+                int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
                 String msgDeleteComplete = "";
                 String msgDeleteFailed = "";
                 rowAffect1 = db.mydatabase.delete("cauhoi",
-                        "makithi = ? and username = ?",new String[]{makithi,username});
+                        "makithi = ? and username = ?", new String[]{makithi, username});
                 rowAffect2 = db.mydatabase.delete("diem",
-                        "makithi = ?",new String[]{makithi});
+                        "makithi = ?", new String[]{makithi});
                 rowAffect3 = db.mydatabase.delete("made",
-                        "makithi = ?",new String[]{makithi});
+                        "makithi = ?", new String[]{makithi});
                 rowAffect4 = db.mydatabase.delete("kithi",
-                        "makithi = ? and username = ?",new String[]{makithi, username});
-                if(rowAffect4 > 0) Toast.makeText(madeoption2.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
-                else{
+                        "makithi = ? and username = ?", new String[]{makithi, username});
+                if (rowAffect4 > 0)
+                    Toast.makeText(madeoption2.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                else {
                     Toast.makeText(madeoption2.this, "Xóa thắt bại!", Toast.LENGTH_SHORT).show();
                 }
 //                Toast.makeText(madeoption2.this,
@@ -150,8 +151,8 @@ public class madeoption2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(madeoption2.this, ThongKeActivity.class);
-                intent.putExtra("makithi",makithi);
-                intent.putExtra("username",username);
+                intent.putExtra("makithi", makithi);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
