@@ -31,17 +31,18 @@ import java.io.OutputStream;
 
 public class MadeOption extends AppCompatActivity {
     TextView txtmade;
-    Button dapanbtn,chambaibtn,baidachambtn,xuatdiembtn,thongkebtn;
-    ImageButton backbtn,imgremove;
+    Button dapanbtn, chambaibtn, baidachambtn, xuatdiembtn, thongkebtn;
+    ImageButton backbtn, imgremove;
 
     Uri imageUri;
     String DB_PATH_SUFFIX = "/databases/";
-    SQLiteDatabase database=null;
+    SQLiteDatabase database = null;
     DataBase db = null;
-    String DATABASE_NAME="ssdb2.db";
+    String DATABASE_NAME = "ssdb2.db";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try{
+        try {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_made_option);
@@ -59,27 +60,28 @@ public class MadeOption extends AppCompatActivity {
             db = new DataBase(this);
             String makithi = intent.getStringExtra("makithi");
 //            Toast.makeText(this, ""+ makithi, Toast.LENGTH_SHORT).show();
-            String username =  intent.getStringExtra("username");
-            txtmade.setText("Kì thi "+makithi);
+            String username = intent.getStringExtra("username");
+            txtmade.setText("Kì thi " + makithi);
 
             //nút xóa kì thi
             imgremove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     boolean removeStatus = true;
-                    int rowAffect1 = 0,rowAffect2 = 0,rowAffect3 = 0,rowAffect4 = 0;
+                    int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
                     String msgDeleteComplete = "";
                     String msgDeleteFailed = "";
                     rowAffect1 = db.mydatabase.delete("cauhoi",
-                            "makithi = ? and username = ?",new String[]{makithi,username});
+                            "makithi = ? and username = ?", new String[]{makithi, username});
                     rowAffect2 = db.mydatabase.delete("diem",
-                            "makithi = ?",new String[]{makithi});
+                            "makithi = ?", new String[]{makithi});
                     rowAffect3 = db.mydatabase.delete("made",
-                            "makithi = ?",new String[]{makithi});
+                            "makithi = ?", new String[]{makithi});
                     rowAffect4 = db.mydatabase.delete("kithi",
-                            "makithi = ? and username = ?",new String[]{makithi, username});
-                    if(rowAffect4 > 0) Toast.makeText(MadeOption.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
-                    else{
+                            "makithi = ? and username = ?", new String[]{makithi, username});
+                    if (rowAffect4 > 0)
+                        Toast.makeText(MadeOption.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                    else {
                         Toast.makeText(MadeOption.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                     }
 //                Toast.makeText(madeoption2.this,
@@ -97,13 +99,13 @@ public class MadeOption extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MadeOption.this, ThongKeActivity.class);
-                    intent.putExtra("makithi",makithi);
-                    intent.putExtra("username",username);
+                    intent.putExtra("makithi", makithi);
+                    intent.putExtra("username", username);
                     startActivity(intent);
                 }
             });
             dapanbtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
+                //                @Override
 //                public void onClick(View view) {
 //                    try {
 //                        Intent acti = new Intent(MadeOption.this, OptionAddFileActivity.class);
@@ -115,30 +117,30 @@ public class MadeOption extends AppCompatActivity {
 //                        Log.println(Log.DEBUG,"dapanbtn",ex.getMessage()+"");
 //                    }
 //                }
-@Override
-public void onClick(View v) {
-    Intent intent = new Intent(MadeOption.this, OptionAddFileActivity.class);
-    intent.putExtra("makithi", makithi);
-    intent.putExtra("username",username);
-    startActivity(intent);
-}
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MadeOption.this, OptionAddFileActivity.class);
+                    intent.putExtra("makithi", makithi);
+                    intent.putExtra("username", username);
+                    startActivity(intent);
+                }
             });
             baidachambtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
+                //                @Override
 //                public void onClick(View v) {
 //                Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
 //                baidacham.putExtra("makithi", makithi + "");
 //                startActivity(baidacham);
 //                }
-@Override
-public void onClick(View view) {
-    Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
-    baidacham.putExtra("makithi", makithi + "");
-    startActivity(baidacham);
-}
+                @Override
+                public void onClick(View view) {
+                    Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
+                    baidacham.putExtra("makithi", makithi + "");
+                    startActivity(baidacham);
+                }
             });
             chambaibtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
+                //                @Override
 //                public void onClick(View view) {
 //                    processCopy();
 //                    database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
@@ -186,18 +188,17 @@ public void onClick(View view) {
 ////                Toast.makeText(MadeOption.this, "cham bai", Toast.LENGTH_SHORT).show();
 //
 //                }
-@Override
-public void onClick(View view) {
-    Intent intent = new Intent(MadeOption.this, CameraRealTime.class);
-    intent.putExtra("makithi", makithi);
-    intent.putExtra("username", username);
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    startActivity(intent);
-}
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MadeOption.this, CameraRealTime.class);
+                    intent.putExtra("makithi", makithi);
+                    intent.putExtra("username", username);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
             });
-        }catch (Exception e)
-        {
-            Log.println(Log.ERROR,"====",e.getMessage());
+        } catch (Exception e) {
+            Log.println(Log.ERROR, "====", e.getMessage());
         }
     }
 
@@ -205,12 +206,11 @@ public void onClick(View view) {
     //hàm load database từ asset
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
-        if (!dbFile.exists())
-        {
-            try{CopyDataBaseFromAsset();
+        if (!dbFile.exists()) {
+            try {
+                CopyDataBaseFromAsset();
 //                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
@@ -218,8 +218,9 @@ public void onClick(View view) {
     }
 
     private String getDatabasePath() {
-        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
+        return getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
     }
+
     public void CopyDataBaseFromAsset() {
 
         try {
@@ -230,7 +231,7 @@ public void onClick(View view) {
 
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
             if (!f.exists())
-                    f.mkdir();
+                f.mkdir();
 
             OutputStream myOutput = new FileOutputStream(outFileName);
 
@@ -252,13 +253,13 @@ public void onClick(View view) {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 99){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == 99) {
+            if (resultCode == Activity.RESULT_OK) {
                 Bitmap image = (Bitmap) data.getExtras().get("data");
 
                 String imgname = String.valueOf(System.currentTimeMillis());//tên ảnh
                 File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-                File mypath = new File(directory.getAbsolutePath()+"/myimg.jpg");
+                File mypath = new File(directory.getAbsolutePath() + "/myimg.jpg");
 
 //                Toast.makeText(this, mypath+"", Toast.LENGTH_SHORT).show();
                 FileOutputStream fos = null;
