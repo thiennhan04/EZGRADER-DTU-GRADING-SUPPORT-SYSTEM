@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class madeoption2 extends AppCompatActivity {
     static String makithi;
     static String username;
-    Button dapantnbtn, chambaibtn, baidachambtn, thongkebtn;
+    Button dapantnbtn, chambaibtn, baidachambtn, thongkebtn, xuatfile;
     Button datlbtn;
     ImageButton imgremove;
     public static SQLiteDatabase database = null;
@@ -77,6 +77,17 @@ public class madeoption2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent dapantuluan = new Intent(madeoption2.this, list_danhsachtuluan.class);
+                dapantuluan.putExtra("makithi", makithi);
+                dapantuluan.putExtra("username", username);
+                startActivity(dapantuluan);
+            }
+        });
+
+        xuatfile = findViewById(R.id.export);
+        xuatfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent dapantuluan = new Intent(madeoption2.this, XuatFile.class);
                 dapantuluan.putExtra("makithi", makithi);
                 dapantuluan.putExtra("username", username);
                 startActivity(dapantuluan);

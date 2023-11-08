@@ -31,7 +31,7 @@ import java.io.OutputStream;
 
 public class MadeOption extends AppCompatActivity {
     TextView txtmade;
-    Button dapanbtn, chambaibtn, baidachambtn, xuatdiembtn, thongkebtn;
+    Button dapanbtn, chambaibtn, baidachambtn, thongkebtn, xuatfile;
     ImageButton backbtn, imgremove;
 
     Uri imageUri;
@@ -49,8 +49,8 @@ public class MadeOption extends AppCompatActivity {
             dapanbtn = findViewById(R.id.datlbtn);
             chambaibtn = findViewById(R.id.camerachambai);
             imgremove = findViewById(R.id.imgremove1);
-//            xuatdiembtn = findViewById(R.id.xuatdiembtn);
             thongkebtn = findViewById(R.id.thongkebtn1);
+            xuatfile = findViewById(R.id.export);
 
             backbtn = findViewById(R.id.back_btnds);
             baidachambtn = findViewById(R.id.baidachambtn1);
@@ -99,6 +99,15 @@ public class MadeOption extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MadeOption.this, ThongKeActivity.class);
+                    intent.putExtra("makithi", makithi);
+                    intent.putExtra("username", username);
+                    startActivity(intent);
+                }
+            });
+            xuatfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MadeOption.this, XuatFile.class);
                     intent.putExtra("makithi", makithi);
                     intent.putExtra("username", username);
                     startActivity(intent);
