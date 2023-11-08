@@ -106,9 +106,6 @@ public class OptionAddFileActivity extends AppCompatActivity {
             }
             workbook.close();
 
-            if (db.mydatabase == null) {
-                return false;
-            }
             Boolean status = true;
             if (!data.isEmpty()) {
                 for (String dt : data) {

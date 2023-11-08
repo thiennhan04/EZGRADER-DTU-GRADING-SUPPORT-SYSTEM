@@ -200,7 +200,7 @@ public class CameraRealTime extends CameraActivity {
                 }
             }
         }
-        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 2) {
+        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 30) {
             demTimeCheck = 0;
             Point[] dstPoints = new Point[4];
             dstPoints[0] = new Point(0, 0);
