@@ -121,9 +121,11 @@ public class OptionAddFileActivity extends AppCompatActivity {
                     getSoCau.close();
                     if (dapan.length() < socau) {
                         Toast.makeText(context, "Đáp án không đủ! Kiểm tra lại!", Toast.LENGTH_SHORT).show();
+                        status = false;
                         break;
                     } else if (dapan.length() > socau) {
                         Toast.makeText(context, "Thừa đáp án! Kiểm tra lại!", Toast.LENGTH_SHORT).show();
+                        status = false;
                         break;
                     }
                     Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ?",

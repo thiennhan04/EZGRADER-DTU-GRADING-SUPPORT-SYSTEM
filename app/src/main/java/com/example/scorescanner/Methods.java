@@ -34,6 +34,7 @@ import java.util.UUID;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Base64;
 
 import android.companion.WifiDeviceFilter;
@@ -65,8 +66,8 @@ import kotlin.text.UStringsKt;
 
 public class Methods extends AppCompatActivity {
     DataBase db = null;
-    String username = madeoption2.getUsername();
-    String makithi = madeoption2.getMakithi();
+    String username;
+    String makithi;
     private static Bitmap imgSbdMade;
     private static Bitmap imgAnswer;
     private static Bitmap imgSbd;
@@ -79,8 +80,10 @@ public class Methods extends AppCompatActivity {
     private static File file;
     private Context context;
 
-    public Methods(Context context) {
+    public Methods(Context context, String makithi, String username) {
         this.context = context;
+        this.makithi = makithi;
+        this.username = username;
     }
 
     private static void cutImage(Bitmap bitmap) {
@@ -335,13 +338,14 @@ public class Methods extends AppCompatActivity {
             return bitmap;
         }
         try {
+            Bitmap oldBm = bitmap;
             String made = getMade();
             String sbd = getSbd();
-            int hediem = 10;
+            int hediem = 0;
             String list_answer = "";
             if (made.contains("#")) {
                 score = "Không nhận diện được mã đề!";
-                Log.i(TAG, "getDataFromDB: "+score);
+                Log.i(TAG, "getDataFromDB: " + score);
 //                bitmap = imgMade;
                 return recoverBitmap(bitmap);
             }
@@ -357,36 +361,71 @@ public class Methods extends AppCompatActivity {
                 c.moveToNext();
             }
             c.close();
+            Cursor c2 = db.mydatabase.rawQuery("select hediem from kithi where makithi = ?",
+                    new String[]{makithi});
+            c2.moveToFirst();
+            while (!c2.isAfterLast()) {
+                hediem = c2.getInt(0);
+                break;
+            }
             String list_select_ans = getAnswer(list_answer, hediem);
             Log.d(TAG, "getDataFromDB: answer ==== " + list_select_ans);
 
             //////
-            File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + username + makithi);
-            String name = UUID.randomUUID().toString();
-            file = new File(directory.getAbsolutePath() + "/" + name + ".jpg");
-            String imguri = directory.getAbsolutePath() + "/" + name + ".jpg";
 
-            Log.d(TAG, "getDataFromDB: checkkkkkkkkkkkkkkkkk");
-            // save result image to folder
-            byte[] data = convertBitmapToByteArray(recoverBitmap(bitmap));
-
-
-            Log.d(TAG, "getDataFromDB: convert bitmap to byte oke");
-            save(data);
-            Log.d(TAG, "getDataFromDB: save data to folder oke");
             // save to db
-            ContentValues valuediem = new ContentValues();
-            valuediem.put("makithi", makithi);
-            valuediem.put("diemso", score);
-            valuediem.put("hinhanh", imguri);
-            Log.d(TAG, "getDataFromDB: img uri = " + imguri);
-            valuediem.put("masv", sbd);
-            String msg = "";
-            if (db.mydatabase.insert("diem", null, valuediem) == -1) {
-                msg = "Fail to insert record";
-            } else {
-                msg = "Insert record sucess";
+            String sql = "select masv, hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "'";
+            Cursor isExist = db.mydatabase.rawQuery(sql, null);
+            isExist.moveToFirst();
+
+            File directory = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM), "EzGrader/" + username + "/" +makithi);
+            if (!directory.exists()) {
+                directory.mkdirs();
             }
+            String imguri = directory.getAbsolutePath() + "/" + sbd + ".jpg";
+
+
+            Log.i(TAG, "getDataFromDB: "+isExist.getCount());
+            Log.i(TAG, "getDataFromDB: answer ==== " + sql);
+
+            String msg = "";
+
+            if (isExist.getCount() > 0) {
+                String newUri = isExist.getString(1);
+                if(newUri != null && !newUri.isEmpty()) {
+                    imguri = newUri;
+                    Log.i(TAG, "getDataFromDB: uri null= =="+newUri);
+                }
+                ContentValues valuediem = new ContentValues();
+                valuediem.put("makithi", makithi);
+                valuediem.put("diemso", score);
+                valuediem.put("masv", sbd);
+                valuediem.put("hinhanh", imguri);
+                Log.d(TAG, "getDataFromDB: Uriiiiii = " + imguri);
+                if (db.mydatabase.update("diem", valuediem, "makithi = " + makithi + " and masv = '" + sbd + "'", null) == -1) {
+                    msg = "Fail to insert record";
+                } else {
+                    msg = "Insert record sucess";
+                }
+            } else {
+                ContentValues valuediem = new ContentValues();
+                valuediem.put("makithi", makithi);
+                valuediem.put("diemso", score);
+                valuediem.put("masv", sbd);
+                valuediem.put("hinhanh", imguri);
+                if (db.mydatabase.insert("diem", null, valuediem) == -1) {
+                    msg = "Fail to insert record";
+                } else {
+                    msg = "Insert record sucess";
+                }
+            }
+
+            file = new File(imguri);
+            Log.d(TAG, "getDataFromDB: status = " + msg);
+
+            byte[] data = convertBitmapToByteArray(recoverBitmap(oldBm));
+            save(data);
             return recoverBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();

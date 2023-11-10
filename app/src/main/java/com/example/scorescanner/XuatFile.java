@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -20,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -52,6 +54,10 @@ public class XuatFile extends AppCompatActivity {
         Intent intent = getIntent();
         makithi = intent.getStringExtra("makithi");
 
+//        String sql = "select * from diem where makithi="+makithi;
+//        Cursor c = db.mydatabase.rawQuery(sql, null);
+//        Toast.makeText(XuatFile.this, c.getCount()+"", Toast.LENGTH_SHORT).show();
+
         back = findViewById(R.id.back_btnds);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +81,10 @@ public class XuatFile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkAdded()) {
-                    if (exportFile(uri))
+                    if (exportFile())
                         Toast.makeText(XuatFile.this, "Xuất file thành công", Toast.LENGTH_SHORT).show();
                     else
-                        Toast.makeText(XuatFile.this, "Bạn chưa chấm bài! Hãy chấm bài", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(XuatFile.this, "Xuất file không thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     alertExport();
                 }
@@ -164,7 +170,7 @@ public class XuatFile extends AppCompatActivity {
                         }
                     } else {
                         if (db.mydatabase.update("diem", values, "makithi = ? and masv = ?",
-                                new String[]{makithi,sbd}) == 0) {
+                                new String[]{makithi, sbd}) == 0) {
                             status = false;
                         }
                     }
@@ -178,37 +184,122 @@ public class XuatFile extends AppCompatActivity {
         }
     }
 
-    public boolean exportFile(Uri uri) {
+    public boolean exportFile() {
         try {
-
-            if (uri == null) {
-                return false;
-            }
             Boolean status = true;
-            Cursor cout = db.mydatabase.rawQuery("SELECT count(*) FROM diem WHERE makithi = ?",
-                    new String[]{makithi});
-            Cursor c = db.mydatabase.rawQuery("SELECT hinhanh FROM diem WHERE makithi = ? and hinhanh is null",
-                    new String[]{makithi});
-            if (c.getCount() == cout.getInt(0)) {
+
+            String coutSql = "SELECT count(*) FROM diem WHERE makithi = " + makithi;
+            String cSql = "SELECT count(*) FROM diem WHERE makithi = " + makithi + " and hinhanh is null";
+
+            Log.i("TAG", "exportFile: cout sql = " + coutSql);
+            Log.i("TAG", "exportFile: c sql = " + cSql);
+
+            Cursor cout = db.mydatabase.rawQuery(coutSql, null);
+            Cursor c = db.mydatabase.rawQuery(cSql, null);
+
+            c.moveToFirst();
+            cout.moveToFirst();
+
+            // Log giá trị từ Cursor để kiểm tra
+            Log.i("TAG", "exportFile: Count from c = " + c.getInt(0));
+            Log.i("TAG", "exportFile: Value from cout = " + cout.getInt(0));
+
+            if (c.getInt(0) == cout.getInt(0)) {
+                Toast.makeText(XuatFile.this, "Bạn chưa có chấm bài", Toast.LENGTH_SHORT).show();
                 status = false;
             } else {
-//                InputStream inputStream = context.getContentResolver().openInputStream(uri);
-//                XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-//
-//                XSSFSheet sheet = workbook.getSheetAt(0);
-//                FileOutputStream fileOut = new FileOutputStream(new File(uri.getPath()));
-//                workbook.write(fileOut);
-//                fileOut.close();
-//                workbook.close();
-//                alertExport();
+                Toast.makeText(XuatFile.this, "Hello", Toast.LENGTH_SHORT).show();
+                status = true;
+
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("Bang Diem");
+                Object[][] title = {
+                        {"SBD", "Họ và", "Tên", "Điểm"},
+                };
+
+                Row row = sheet.createRow(0);
+                int columnCount = 0;
+                for (Object field : title[0]) {
+                    Cell cell = row.createCell(columnCount++);
+                    if (field instanceof String) {
+                        cell.setCellValue((String) field);
+                    }
+                }
+
+                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = ?",
+                        new String[]{makithi});
+
+                ArrayList<Object[]> arr = new ArrayList<>();
+
+                getData.moveToFirst();
+                while (!getData.isAfterLast()) {
+                    String hovaten = getData.getString(1);
+                    String [] hoten;
+                    String ho = "";
+                    String ten = "";
+                    if (hovaten != null) {
+                        hoten = hovaten.split(" ");
+                        for (int i = 0; i < hoten.length - 1; i++) {
+                            ho+=hoten[i]+" ";
+                        }
+                        ho = ho.trim();
+                        ten = hoten[hoten.length - 1];
+                    }
+                    String diem = getData.getString(2);
+                    diem = diem.replace(',','.');
+                    if (getData.getString(3) == null) {
+                        diem = "chưa chấm";
+                    }
+                    arr.add(new Object[]{getData.getString(0), ho, ten, diem});
+                    Log.i("TAG", "exportFile: "+diem);
+                    getData.moveToNext();
+                }
+
+                for (Object[] a : arr) {
+                    for (Object b : a) {
+                        Log.i("TAG", "exportFile: bbbbb = " + b);
+                    }
+                }
+
+                int rowCount = 1; // Bắt đầu từ dòng thứ 2
+
+                for (Object[] rowData : arr) {
+                    Row rowdt = sheet.createRow(rowCount++);
+                    int columnCountdt = 0;
+                    for (Object field : rowData) {
+                        Cell cell = rowdt.createCell(columnCountdt++);
+                        if (field instanceof String) {
+                            cell.setCellValue((String) field);
+                        } else if (field instanceof Double) {
+                            cell.setCellValue((Double) field);
+                        }
+                    }
+                }
+
+                // Kiểm tra đường dẫn đến thư mục Documents
+                File documentsDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/EzGrader/");
+                if (!documentsDirectory.exists()) {
+                    documentsDirectory.mkdirs(); // Tạo thư mục nếu nó không tồn tại
+                }
+                String name = "/BANG-DIEM1" + makithi + ".xlsx";
+                try (FileOutputStream outputStream = new FileOutputStream(documentsDirectory.getPath() + name)) {
+                    workbook.write(outputStream);
+                }
                 Log.d("TAG", "exportFile: xuất file okeeee");
             }
+
+            // Đóng Cursor
+            c.close();
+            cout.close();
+
             return status;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Log.i("TAG", "exportFile: =================================");
             return false;
         }
     }
+
 
     public boolean checkAdded() {
         Cursor c = db.mydatabase.rawQuery("select * from diem where makithi=? and length(tensv) > 0", new String[]{makithi});
