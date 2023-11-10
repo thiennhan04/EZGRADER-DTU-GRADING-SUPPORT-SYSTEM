@@ -14,7 +14,9 @@ public class ViewImage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
-        methods = new Methods(this);
+        String username = getIntent().getStringExtra("username");
+        String makithi = getIntent().getStringExtra("makithi");
+        methods = new Methods(this, makithi, username);
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
         if (bitmap != null && view != null) {

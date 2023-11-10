@@ -32,7 +32,7 @@ public class Baidacham extends AppCompatActivity {
         String makithi = intent.getStringExtra("makithi");
         String username =  intent.getStringExtra("username");
         db = new DataBase(this);
-        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi, null);
+        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi + " and hinhanh is not null", null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)

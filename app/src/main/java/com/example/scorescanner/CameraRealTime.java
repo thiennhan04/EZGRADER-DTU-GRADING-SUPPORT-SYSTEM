@@ -114,7 +114,11 @@ public class CameraRealTime extends CameraActivity {
                     matrix.postRotate(rotationAngleDegrees);
                     rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                             bitmap.getHeight(), matrix, true);
+                    String username = getIntent().getStringExtra("username");
+                    String makithi = getIntent().getStringExtra("makithi");
                     Intent intent = new Intent(CameraRealTime.this, ViewImage.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("makithi", makithi);
                     startActivityForResult(intent, 100);
                 } catch (Exception ex) {
                     ex.printStackTrace();
