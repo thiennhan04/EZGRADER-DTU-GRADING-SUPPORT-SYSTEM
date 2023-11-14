@@ -85,10 +85,10 @@ dependencies {
 
     implementation 'com.karumi:dexter:4.2.0'
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
-
-    implementation 'com.google.firebase:firebase-core:15.0.2′'
-    implementation 'com.google.firebase:firebase-ml-vision-image-label-mode:20.0.1'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.0'
+    implementation platform('com.google.firebase:firebase-bom:32.5.0')
+//    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.mlkit:text-recognition:16.0.0'
+//    implementation 'com.google.firebase:firebase-ml-vision-image-label-model'
 
     def camerax_version = "1.1.0-alpha09"
     implementation "androidx.camera:camera-core:$camerax_version"
