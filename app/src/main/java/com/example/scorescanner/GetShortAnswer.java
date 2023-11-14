@@ -2,6 +2,7 @@ package com.example.scorescanner;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.util.Base64;
 
@@ -55,6 +56,10 @@ public class GetShortAnswer extends AppCompatActivity {
 
                 // Encode byte array thành chuỗi Base64
                 String imgBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                byte[] decodedBytes = Base64.decode(imgBase64, Base64.DEFAULT);
+                Bitmap image =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                DetectText detectText = new DetectText();
+                detectText.detectTxt(image);
 
             }
             listImg = tempListBitmap;

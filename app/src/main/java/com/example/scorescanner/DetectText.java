@@ -16,7 +16,8 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 public class DetectText {
-    private void detectTxt(Bitmap img) {
+    public void detectTxt(Bitmap img) {
+        final String[] alltext = {""};
         InputImage image = InputImage.fromBitmap(img,0);
 
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
@@ -35,9 +36,9 @@ public class DetectText {
                         for(Text.Element element:line.getElements()){
                             String elementText = element.getText();
                             result.append(elementText);
-
                         }
-
+                        alltext[0] = blocktext;
+                        System.out.println("text iss " + alltext);
                     }
 
                 }
