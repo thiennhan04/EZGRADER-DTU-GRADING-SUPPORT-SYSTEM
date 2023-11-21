@@ -1,82 +1,1 @@
-package com.example.scorescanner;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.util.Base64;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
-import com.google.mlkit.vision.text.TextRecognition;
-import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
-
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
-
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-public class GetShortAnswer extends AppCompatActivity {
-    private Context context;
-    public GetShortAnswer(Context context) {
-        this.context = context;
-    }
-    private static ArrayList<Bitmap> listImg;
-
-    private static void getImgShortAnswer(Bitmap bitmap) {
-        try {
-            Mat answerMat = new Mat();
-            Utils.bitmapToMat(bitmap, answerMat);
-            ArrayList<Bitmap> tempListBitmap = new ArrayList<>();
-            Mat tempMat = new Mat();
-            Bitmap tempBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-            int y = 0;
-            for (int i = 0; i < 5; i++) {
-                tempMat = answerMat.submat(new Rect(0, y, 1400, 345));
-                tempBitmap = Bitmap.createBitmap(tempMat.width(), tempMat.height(), Bitmap.Config.ARGB_8888);
-                tempListBitmap.add(tempBitmap);
-                Utils.matToBitmap(tempMat, tempBitmap);
-                y += 445;
-
-                //doc chữ trên từng ảnh
-                // Chuyển đổi Bitmap thành byte array
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                tempBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-
-                // Encode byte array thành chuỗi Base64
-                String imgBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                byte[] decodedBytes = Base64.decode(imgBase64, Base64.DEFAULT);
-                Bitmap image =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                DetectText detectText = new DetectText();
-                detectText.detectTxt(image);
-
-            }
-            listImg = tempListBitmap;
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Bitmap getShortAnwer(Bitmap bitmap) {
-        try {
-            getImgShortAnswer(bitmap);
-            return listImg.get(4);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return bitmap;
-        }
-    }
-
-}
+package com.example.scorescanner;import android.content.Context;import android.database.Cursor;import android.graphics.Bitmap;import android.graphics.BitmapFactory;import android.graphics.Point;import android.util.Base64;import android.util.Log;import android.widget.Toast;import androidx.appcompat.app.AppCompatActivity;import com.chaquo.python.PyObject;import com.chaquo.python.Python;import com.chaquo.python.android.AndroidPlatform;import com.google.android.gms.tasks.OnSuccessListener;import com.google.android.gms.tasks.Task;import com.google.mlkit.vision.common.InputImage;import com.google.mlkit.vision.text.Text;import com.google.mlkit.vision.text.TextRecognition;import com.google.mlkit.vision.text.TextRecognizer;import com.google.mlkit.vision.text.latin.TextRecognizerOptions;import org.opencv.android.Utils;import org.opencv.core.Mat;import org.opencv.core.Rect;import java.io.ByteArrayOutputStream;import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.InputStream;import java.io.OutputStream;import java.util.ArrayList;import java.util.concurrent.CompletableFuture;import java.util.concurrent.ExecutionException;public class GetShortAnswer extends AppCompatActivity {    private Context context;    private static ArrayList<Bitmap> listImg;    private String DB_PATH_SUFFIX = "/databases/";    private static DataBase db = null;    private String DATABASE_NAME="ssdb2.db";    static private Python py;    public GetShortAnswer(Context context) {        db = new DataBase(GetShortAnswer.this);//        this.py = Python.getInstance();        this.context = context;    }    private void getImgShortAnswer(Bitmap bitmap, String makithi, String user, String made) {        try {            if (!Python.isStarted()) {                Python.start(new AndroidPlatform(this.context));            }            Python py = Python.getInstance();            //khai báo db//            db = new DataBase(GetShortAnswer.this);            //xử lý cắt ảnh            Mat answerMat = new Mat();            Utils.bitmapToMat(bitmap, answerMat);            ArrayList<Bitmap> tempListBitmap = new ArrayList<>();            Mat tempMat = new Mat();            Bitmap tempBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);            int y = 0;            for (int i = 0; i < 5; i++) {                tempMat = answerMat.submat(new Rect(0, y, 1400, 345));                tempBitmap = Bitmap.createBitmap(tempMat.width(), tempMat.height(), Bitmap.Config.ARGB_8888);                tempListBitmap.add(tempBitmap);                Utils.matToBitmap(tempMat, tempBitmap);                y += 445;                //doc chữ trên từng ảnh                // Chuyển đổi Bitmap thành byte array                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();                tempBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);                byte[] byteArray = byteArrayOutputStream.toByteArray();                // Encode byte array thành chuỗi Base64                String imgBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);                byte[] decodedBytes = Base64.decode(imgBase64, Base64.DEFAULT);                Bitmap image =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);                DetectText detectText = new DetectText();                CompletableFuture<String> resultFuture = detectText.detectTxt(tempBitmap);                resultFuture.thenAccept(result -> {                    // xử lý kết quả result là text được nhận diện                    Log.d("Detected text: ",  result.toString());                    String question = "What do you go to school?";                    String correctAns = "I going to school by bike";                    String student_answer = "I going to School by bike";                    PyObject pyobj = py.getModule("generativeai");                    PyObject obj =pyobj.callAttr("grader",question, correctAns, student_answer);                    String grader = obj.toString();                    System.out.println("ket qua cham diem tu python: " + grader);                }).exceptionally(e -> {                    // Xử lý khi có lỗi                    e.printStackTrace();                    return null;                });                //truy van db để chấm điểm                //sql truy cấn câu hỏi có trong db của mã đề                //select ndcauhoi,dapan, tencauhoi from cauhoi where makithi = 1                // and made = '001' and kieucauhoi = 2 ORDER by tencauhoi//                Cursor c = db.mydatabase.rawQuery("select ndcauhoi, dapan,tencauhoi from cauhoi where makithi = " + makithi +" and made = '"+//                        made+"' and kieucauhoi = 2 and tencauhoi = '" + (int)(i+1) +"'", null);////                Boolean status  = true;//                if(c.getCount() == 0){//                    status = false;//                }//                else//                {//                    //neu đã tồn tại thì xử lý chấm điểm//                    while (c.isAfterLast() == false)//                    {//                        String ndcauhoi = c.getString(0);//                        String dapan = c.getString(1);//                        String tencauhoi = c.getString(2);//                        System.out.println("xu ly chma dim cau " + ndcauhoi + " " + tencauhoi + " " + dapan + " " + studentAns);//                        c.moveToNext();//                    }////                }            }            listImg = tempListBitmap;        }catch (Exception e) {            e.printStackTrace();        }    }        public Bitmap getShortAnwer(Bitmap bitmap, String makithi,String user, String made) {        try {            getImgShortAnswer(bitmap,  makithi, user,  made);            return listImg.get(4);        }        catch (Exception e) {            e.printStackTrace();            return bitmap;        }    }    private void processCopy() {        File dbFile = getDatabasePath(DATABASE_NAME);        if (!dbFile.exists())        {            try{                CopyDataBaseFromAsset();//                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();            }            catch (Exception e){                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();            }        }    }    private String getDatabasePath() {        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;    }    public void CopyDataBaseFromAsset() {        try {            InputStream myInput;            myInput = getAssets().open(DATABASE_NAME);            String outFileName = getDatabasePath();            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);//            if (!f.exists())            f.mkdir();            OutputStream myOutput = new FileOutputStream(outFileName);            int size = myInput.available();            byte[] buffer = new byte[size];            myInput.read(buffer);            myOutput.write(buffer);            myOutput.flush();            myOutput.close();            myInput.close();        } catch (IOException e) {            e.printStackTrace();        }    }}

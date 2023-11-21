@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-//    id 'com.chaquo.python'
+//    id 'com.chaquo.python' version '14.0.2' apply false
+    id 'com.chaquo.python'
 }
 
 android {
@@ -20,22 +21,23 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
-//        python {
-//            version "3.8"
-//            pip{
-//                install "opencv-contrib-python-headless"
-//                install "imutils"
-//                install "numpy"
-//                install "scipy"
-//                install "pybase64"
-//                install "pillow"
-//                install "requires.io"
-//            }
-//        }
+        python {
+            version "3.8"
+            pip{
+                install "opencv-contrib-python-headless"
+                install "imutils"
+                install "numpy"
+                install "scipy"
+                install "pybase64"
+                install "pillow"
+                install "requires.io"
+                install "google.generativeai"
+            }
+        }
 
         sourceSets {
             main {
-//                python.srcDir "src/main/python"
+                python.srcDir "src/main/python"
             }
         }
     }
@@ -77,7 +79,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+//    implementation 'com.chaquo.python:gradle:14.0.2'
     implementation 'androidx.camera:camera-view:1.2.1'
     implementation 'org.apache.poi:poi:5.2.0'
     implementation 'org.apache.poi:poi-ooxml:5.2.0'
@@ -88,6 +90,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.5.0')
 //    implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.mlkit:text-recognition:16.0.0'
+    // Add these dependencies to use Generative AI
+//    implementation("com.google.cloud:gapic-google-cloud-ai-generativelanguage-v1beta3-java:0.0.0-SNAPSHOT")
+//    implementation("io.grpc:grpc-okhttp:1.53.0")
+
 //    implementation 'com.google.firebase:firebase-ml-vision-image-label-model'
 
     def camerax_version = "1.1.0-alpha09"

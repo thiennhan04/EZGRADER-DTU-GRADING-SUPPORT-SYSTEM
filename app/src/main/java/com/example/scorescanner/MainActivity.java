@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
-//        dbFile.delete();
+        dbFile.delete();
         if (!dbFile.exists())
         {
             try{

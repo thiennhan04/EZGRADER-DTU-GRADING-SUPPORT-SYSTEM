@@ -34,12 +34,22 @@ public class list_danhsachtuluan extends AppCompatActivity {
     String username = "";
     String makithi = "";
     EditText edtmade,edttuluan1,edttuluan2,edttuluan3,edttuluan4,edttuluan5;
+    EditText edtcauhoi1,edtcauhoi2,edtcauhoi3,edtcauhoi4,edtcauhoi5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_danhsachtuluan);
         back_btnds = findViewById(R.id.back_btnds);
         edtmade = findViewById(R.id.edtmade);
+
+        //lấy text câu hỏi
+        edtcauhoi1 = findViewById(R.id.edtcauhoi1);
+        edtcauhoi2 = findViewById(R.id.edtcauhoi2);
+        edtcauhoi3 = findViewById(R.id.edtcauhoi3);
+        edtcauhoi4 = findViewById(R.id.edtcauhoi4);
+        edtcauhoi5 = findViewById(R.id.edtcauhoi5);
+
+        //lấy text tự luận
         edttuluan1 = findViewById(R.id.edttuluan1);
         edttuluan2 = findViewById(R.id.edttuluan2);
         edttuluan3 = findViewById(R.id.edttuluan3);
@@ -62,30 +72,42 @@ public class list_danhsachtuluan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String made = edtmade.getText().toString();
+
+                String cauhoi1 = edtcauhoi1.getText().toString();
+                String cauhoi2 = edtcauhoi2.getText().toString();
+                String cauhoi3 = edtcauhoi3.getText().toString();
+                String cauhoi4 = edtcauhoi4.getText().toString();
+                String cauhoi5 = edtcauhoi5.getText().toString();
+
                 String cau1 = edttuluan1.getText().toString();
                 String cau2 = edttuluan2.getText().toString();
                 String cau3 = edttuluan3.getText().toString();
                 String cau4 = edttuluan4.getText().toString();
                 String cau5 = edttuluan5.getText().toString();
 //
+
 //                //luu cau 1 vào db
-                addQuestionToDB(made, makithi,cau1,1,username);
-                addQuestionToDB(made, makithi,cau2,2,username);
-                addQuestionToDB(made, makithi,cau3,3,username);
-                addQuestionToDB(made, makithi,cau4,4,username);
-                addQuestionToDB(made, makithi,cau5,5,username);
+                addQuestionToDB(made, makithi,cauhoi1, cau1,1,username);
+                addQuestionToDB(made, makithi,cauhoi2, cau2,2,username);
+                addQuestionToDB(made, makithi,cauhoi3, cau3,3,username);
+                addQuestionToDB(made, makithi,cauhoi4, cau4,4,username);
+                addQuestionToDB(made, makithi,cauhoi5, cau5,5,username);
             }
         });
     }
-    private void addQuestionToDB(String made, String makithi,String dapan, int tencauhoi, String username){
+    private void addQuestionToDB(String made,String makithi, String noidungcauhoi,
+                                 String dapan, int tencauhoi, String username){
         ContentValues da_cau = new ContentValues();
         da_cau.put("made",made);
         da_cau.put("makithi",makithi);
         da_cau.put("dapan",dapan);
         da_cau.put("kieucauhoi",2);
         da_cau.put("tencauhoi",tencauhoi);
+        da_cau.put("ndcauhoi", noidungcauhoi);
         da_cau.put("username",username);
 
+
+//        System.out.println("them cau hoi " + made + " " + noidungcauhoi + " " + dapan + "  ");
         //check da ton tai
         Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi +" and made = '"+
                 made+"' and kieucauhoi = 2", null);
@@ -100,7 +122,9 @@ public class list_danhsachtuluan extends AppCompatActivity {
         }
         else
         {
-            int row = db.mydatabase.update("cauhoi",da_cau,"made = ? and makithi = ? and kieucauhoi = 2 and username = ?",new String[]{made,makithi, username});
+            int row = db.mydatabase.update("cauhoi",da_cau,
+                    "made = ? and makithi = ? and kieucauhoi = 2 and username = ?",
+                        new String[]{made,makithi, username});
             if(row==0)
             {
                 status = false;

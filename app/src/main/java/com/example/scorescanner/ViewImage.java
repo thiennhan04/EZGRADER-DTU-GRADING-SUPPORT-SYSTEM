@@ -19,8 +19,13 @@ public class ViewImage extends AppCompatActivity {
         methods = new Methods(this, makithi, username);
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
+        GetShortAnswer getShortAnswer = new GetShortAnswer(ViewImage.this);
+//        Bitmap bitmap =
         if (bitmap != null && view != null) {
-            Bitmap result = methods.run(bitmap);
+//            Bitmap result = methods.run(bitmap);
+
+//            đoạn này sẽ được bê đi qua class xem kết quả chấm tự luận
+            Bitmap result = getShortAnswer.getShortAnwer(bitmap, makithi, username,"001");
             view.setImageBitmap(result != null ? result : bitmap);
 
 //            new Handler().postDelayed(new Runnable() {
