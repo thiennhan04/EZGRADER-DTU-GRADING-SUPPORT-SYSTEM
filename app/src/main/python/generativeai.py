@@ -9,9 +9,9 @@ def grader(question, correct_answer, student_answer):
     # for model in model_list:
     #     print(model.name)
 
-    question = 'What do you go to school?' + '\n'
-    correct_answer = 'I going to school by bike' + '\n'
-    student_answer = 'Igoing to School by bike' + '\n'
+    # question = 'What do you go to school?' + '\n'
+    # correct_answer = 'I going to school by bike' + '\n'
+    # student_answer = 'I going to School by bike' + '\n'
 
     model_id = 'models/text-bison-001'
     prompt = ('From the question: ' + question +
@@ -28,4 +28,3 @@ def grader(question, correct_answer, student_answer):
     )
     # print(prompt)
     return completion.result
-# print(grader())

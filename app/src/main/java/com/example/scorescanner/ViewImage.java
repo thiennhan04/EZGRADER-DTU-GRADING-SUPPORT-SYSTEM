@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewImage extends AppCompatActivity {
     private Methods methods;
-
+    private static  DataBase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
+
+        db = new DataBase(ViewImage.this);
         String username = getIntent().getStringExtra("username");
         String makithi = getIntent().getStringExtra("makithi");
         methods = new Methods(this, makithi, username);
@@ -25,7 +27,7 @@ public class ViewImage extends AppCompatActivity {
 //            Bitmap result = methods.run(bitmap);
 
 //            đoạn này sẽ được bê đi qua class xem kết quả chấm tự luận
-            Bitmap result = getShortAnswer.getShortAnwer(bitmap, makithi, username,"001");
+            Bitmap result = getShortAnswer.getShortAnwer(db, bitmap, makithi, username,"001");
             view.setImageBitmap(result != null ? result : bitmap);
 
 //            new Handler().postDelayed(new Runnable() {
