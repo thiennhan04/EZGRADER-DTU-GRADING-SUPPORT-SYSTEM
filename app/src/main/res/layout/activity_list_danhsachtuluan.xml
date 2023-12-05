@@ -153,6 +153,7 @@
                     android:layout_height="55dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:padding="16dp"
                     android:ems="10"
                     android:gravity="start|top"
                     android:imeOptions="actionSend"

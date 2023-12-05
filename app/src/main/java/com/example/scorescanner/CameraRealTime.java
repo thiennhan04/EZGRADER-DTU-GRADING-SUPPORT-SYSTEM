@@ -12,6 +12,7 @@ import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
@@ -34,9 +35,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CameraRealTime extends CameraActivity {
-
+    private  int session = 0;
     private static String TAG = "real time";
-
+    String made = "#";
+    String sbd = "#";
     static {
         if (OpenCVLoader.initDebug())
             Log.i(TAG, "=== Opencv loaded ===");
@@ -52,6 +54,9 @@ public class CameraRealTime extends CameraActivity {
     private static Mat[] listMatHCNGray;
     private static Mat transformedImage;
     private static Bitmap rotatedBitmap;
+
+
+    private static int sessionGrader = 1;
     int demTimeCheck;
 
     public static Bitmap getRotatedBitmap() {
@@ -69,6 +74,10 @@ public class CameraRealTime extends CameraActivity {
         mCameraView.setCvCameraViewListener(callBack);
         if (OpenCVLoader.initDebug()) {
             mCameraView.enableView();
+            if(session == 0) Toast.makeText(this, "Phiên 1: Trắc nghiệm", Toast.LENGTH_SHORT).show();
+            else{
+                Toast.makeText(this, "Phiên 2: Tự luận", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -116,10 +125,25 @@ public class CameraRealTime extends CameraActivity {
                             bitmap.getHeight(), matrix, true);
                     String username = getIntent().getStringExtra("username");
                     String makithi = getIntent().getStringExtra("makithi");
-                    Intent intent = new Intent(CameraRealTime.this, ViewImage.class);
-                    intent.putExtra("username", username);
-                    intent.putExtra("makithi", makithi);
-                    startActivityForResult(intent, 100);
+                    Intent tnIntent = new Intent(CameraRealTime.this, ViewImage.class);
+                    Intent tlIntent = new Intent(CameraRealTime.this, showketquatl.class);
+                    tnIntent.putExtra("username", username);
+//                    System.out.println("-------------------------- " + makithi);
+                    tnIntent.putExtra("makithi", makithi);
+
+
+                    tlIntent.putExtra("username", username);
+                    tlIntent.putExtra("made",made);
+                    tlIntent.putExtra("makithi", makithi);
+                    tlIntent.putExtra("sbd",sbd);
+
+                    if(session == 0){
+                        startActivityForResult(tnIntent, 110);
+                    }
+                    else {
+
+                        startActivityForResult(tlIntent, 111);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -237,6 +261,27 @@ public class CameraRealTime extends CameraActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 110){
+            if(resultCode == 0){
+                Toast.makeText(this, "Chấm điểm thất bại, thực hiện lại phiên 1!", Toast.LENGTH_SHORT).show();
+            }else {
+                made = data.getStringExtra("made");
+                sbd = data.getStringExtra("sbd");
+                Toast.makeText(this, "Thành công! thực hiện phiên 2", Toast.LENGTH_SHORT).show();
+                session = 1;
+            }
+        }else if(requestCode == 111){
+            if(requestCode == 0){
+                Toast.makeText(this, "Chấm điểm thất bại, thực hiện lại phiên 2!", Toast.LENGTH_SHORT).show();
+            } else{
+               session = 0;
+                Toast.makeText(this, "Thành công phiên 2! kết thúc bài thi", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onPause() {

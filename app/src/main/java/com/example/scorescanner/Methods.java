@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -68,6 +69,8 @@ public class Methods extends AppCompatActivity {
     DataBase db = null;
     String username;
     String makithi;
+    public String made = "";
+    public String sbd = "";
     private static Bitmap imgSbdMade;
     private static Bitmap imgAnswer;
     private static Bitmap imgSbd;
@@ -228,11 +231,11 @@ public class Methods extends AppCompatActivity {
         return ansStr;
     }
 
-    private static String getSbd() {
+    public  String getSbd() {
         return findAns(imgSbd, 10, 6, 18);
     }
 
-    private static String getMade() {
+    public  String getMade() {
         return findAns(imgMade, 10, 3, 8);
     }
 
@@ -327,6 +330,7 @@ public class Methods extends AppCompatActivity {
 
 //create folder
 
+    @SuppressLint("Range")
     private Bitmap getDataFromDB(Bitmap bitmap) {
 //<<<<<<< HEAD
         db = new DataBase((AppCompatActivity) context);
@@ -341,6 +345,8 @@ public class Methods extends AppCompatActivity {
             Bitmap oldBm = bitmap;
             String made = getMade();
             String sbd = getSbd();
+            this.made = made;
+            this.sbd = sbd;
             int hediem = 0;
             String list_answer = "";
             if (made.contains("#")) {
@@ -453,7 +459,9 @@ public class Methods extends AppCompatActivity {
                 outputStream.close();
         }
     }
-
+    public String getScore(){
+        return score;
+    }
     public Bitmap run(Bitmap bitmap) {
         try {
             cutImage(bitmap);

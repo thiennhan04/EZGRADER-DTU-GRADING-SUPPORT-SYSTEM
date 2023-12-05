@@ -17,7 +17,7 @@ public class Baidacham extends AppCompatActivity {
     public static DataBase db = null;
     String makithi = "";
     String username = "";
-    ArrayList<Student> mylist;
+        ArrayList<Student> mylist;
     public static ImageAdapter  myimgadater;
 
     @Override

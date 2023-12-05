@@ -16,15 +16,14 @@ def grader(question, correct_answer, student_answer):
     model_id = 'models/text-bison-001'
     prompt = ('From the question: ' + question +
               'Correct answer: ' + correct_answer +
-              'Student answer: ' + student_answer + ('Students answer yes or no (only answer '
-                                                     'yes or no)'))
+              'Student answer: ' + student_answer + ('What percentage of students answered correctly?give me number of percentage'))
 
     completion = palm.generate_text(
         model=model_id,
         prompt=prompt,
-        temperature=0.99,
+        temperature=0.7,
         max_output_tokens=20,
-        candidate_count=2
+        candidate_count=5
     )
     # print(prompt)
     return completion.result
