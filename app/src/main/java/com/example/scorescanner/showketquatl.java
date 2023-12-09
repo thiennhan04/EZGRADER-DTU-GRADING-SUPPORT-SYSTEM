@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import org.apache.poi.ss.formula.functions.T;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -42,7 +44,7 @@ public class showketquatl extends AppCompatActivity {
     float valueEdtkq4 = 0.0f;
     float valueEdtkq5 = 0.0f;
     private static  DataBase db;
-
+    public static File file;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,21 +121,6 @@ public class showketquatl extends AppCompatActivity {
                 } catch (Exception e){
                     Toast.makeText(showketquatl.this, "Điểm số không hợp lệ", Toast.LENGTH_SHORT).show();
                 }
-                float easayScore = valueEdtkq1 + valueEdtkq2 + valueEdtkq3 + valueEdtkq4 + valueEdtkq5;
-                ContentValues easayResult = new ContentValues();
-                easayResult.put("makithi", makithi);
-                easayResult.put("diemso", easayScore);
-                easayResult.put("hinhanh", makithi);
-                easayResult.put("masv", sbd);
-                easayResult.put("loaicauhoi", 2);
-                System.out.println("-------lưu kết quả --- " + easayResult.toString());
-                if(db.mydatabase.insert("diem",null,easayResult)==-1)
-                {
-                    statusCode = 0;
-                    Toast.makeText(showketquatl.this, "Lưu kết quả thất bại", Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(showketquatl.this, "Lưu kết quả thành công", Toast.LENGTH_SHORT).show();
-                }
 
                 //cap màn hình làm minh chứng
                 scrollView.measure(View.MeasureSpec.makeMeasureSpec(scrollView.getWidth(),
@@ -146,21 +133,64 @@ public class showketquatl extends AppCompatActivity {
                 scrollView.draw(new Canvas(bitmap));
                 statusCode = 1;
                 setResult(statusCode);
-                File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                File file = new File(downloadsDirectory, "screeen1.png");
-                System.out.println("======="+file.getAbsolutePath());
-                try (FileOutputStream fos = new FileOutputStream(file)) {
+                File dcimDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                File ezGraderDirectory = new File(dcimDirectory, "EzGrader/" + username + "/" + makithi);
+                File file = new File(ezGraderDirectory, "screeen2.png");
+                // Kiểm tra và tạo thư mục nếu nó chưa tồn tại
+                if (!ezGraderDirectory.exists()) {
+                    ezGraderDirectory.mkdirs();
+                }
+                try (FileOutputStream fos = new FileOutputStream(file, false)) {
+                    // Sử dụng tham số thứ hai (false) để tạo tệp mới hoặc ghi đè lên nếu tệp đã tồn tại
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.flush();
                 } catch (IOException e) {
                     statusCode = 0;
                     e.printStackTrace();
                 }
+
+                String sql = "select masv, hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "'";
+                Cursor isExist = db.mydatabase.rawQuery(sql, null);
+                isExist.moveToFirst();
+
+//                File directory = new File(Environment.getExternalStoragePublicDirectory(
+//                        Environment.DIRECTORY_DCIM), "EzGrader/" + username + "/" +makithi);
+//                if (!directory.exists()) {
+//                    directory.mkdirs();
+//                }
+//                String imguri = directory.getAbsolutePath() + "/" + sbd + "_tl.jpg";
+//                file = new File(imguri);
+                //lưu kết quả tự luận vào db
+                float easayScore = valueEdtkq1 + valueEdtkq2 + valueEdtkq3 + valueEdtkq4 + valueEdtkq5;
+                ContentValues easayResult = new ContentValues();
+                easayResult.put("makithi", makithi);
+                easayResult.put("diemso", easayScore);
+                easayResult.put("hinhanh", file.getAbsolutePath());
+                easayResult.put("masv", sbd);
+                easayResult.put("loaicauhoi", 2);
+                System.out.println("-------lưu kết quả --- " + easayResult.toString());
+                if(db.mydatabase.insert("diem",null,easayResult)==-1)
+                {
+                    statusCode = 0;
+                    Toast.makeText(showketquatl.this, "Lưu kết quả thất bại", Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(showketquatl.this, "Lưu kết quả thành công", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
+    private void save(byte[] bytes) throws IOException {
 
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
+            outputStream.write(bytes);
+        } finally {
+            if (outputStream != null)
+                outputStream.close();
+        }
+    }
     private static class GraderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
         private WeakReference<showketquatl> activityRef;
         private GetShortAnswer getShortAnswer;
@@ -179,13 +209,12 @@ public class showketquatl extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            return getShortAnswer.getShortAnwer(db, bitmap, makithi, username, "001");
+            return getShortAnswer.getShortAnwer(db, bitmap, makithi, username, "101");
         }
 
         @SuppressLint("WrongThread")
         @Override
         protected void onPostExecute(Bitmap result) {
-
 
                 showketquatl activity = activityRef.get();
                 if (activity != null) {

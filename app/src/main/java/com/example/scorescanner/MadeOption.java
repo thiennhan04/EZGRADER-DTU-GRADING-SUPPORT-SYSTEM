@@ -2,13 +2,9 @@ package com.example.scorescanner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -55,7 +51,7 @@ public class MadeOption extends AppCompatActivity {
             backbtn = findViewById(R.id.back_btnds);
             baidachambtn = findViewById(R.id.baidachambtn1);
 
-            txtmade = findViewById(R.id.txtmade);
+            txtmade = findViewById(R.id.txtvieweassay);
             Intent intent = getIntent();
             db = new DataBase(this);
             String makithi = intent.getStringExtra("makithi");

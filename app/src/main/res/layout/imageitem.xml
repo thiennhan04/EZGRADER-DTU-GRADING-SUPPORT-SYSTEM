@@ -25,8 +25,14 @@
 
     <Button
         android:id="@+id/btnxoaimg"
-        android:layout_width="107dp"
-        android:layout_height="37dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
         android:text="Xoá" />
+
+    <Button
+        android:id="@+id/viewtlbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xem minh chứng tự luận" />
 </LinearLayout>

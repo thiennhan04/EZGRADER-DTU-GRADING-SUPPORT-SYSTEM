@@ -30,6 +30,7 @@ public class DataBase extends AppCompatActivity {
         try {
             activity = acti;
             File dbFile = activity.getDatabasePath(DATABASE_NAME);
+//            dbFile.delete();
             if (!dbFile.exists()) {
                 try {
                     CopyDataBaseFromAsset();

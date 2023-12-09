@@ -44,7 +44,7 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_option_add);
         backbtn = findViewById(R.id.backbtn3);
-        txtmade = findViewById(R.id.txtmade);
+        txtmade = findViewById(R.id.txtvieweassay);
 
 
 //        viewAns = findViewById(R.id.addhandbtn11);

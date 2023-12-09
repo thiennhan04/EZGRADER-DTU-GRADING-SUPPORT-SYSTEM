@@ -39,7 +39,7 @@ public class dapan_activity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_dapan);
             backbtn = findViewById(R.id.back_btnds);
-            tenKithi = findViewById(R.id.txtmade);
+            tenKithi = findViewById(R.id.txtvieweassay);
             saveAns = findViewById(R.id.save_btn);
             db = new DataBase(this);
             inputMade = findViewById(R.id.made_txt);

@@ -15,8 +15,8 @@ import java.util.Base64;
 public class Baidacham extends AppCompatActivity {
     GridView grvimg;
     public static DataBase db = null;
-    String makithi = "";
-    String username = "";
+    public String makithi = "";
+    public String username = "";
         ArrayList<Student> mylist;
     public static ImageAdapter  myimgadater;
 
@@ -25,14 +25,26 @@ public class Baidacham extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baidacham);
         grvimg = findViewById(R.id.grvimg);
+        db = new DataBase(this);
         ArrayList<String> testimg = new ArrayList<>();
         Intent intent = getIntent();
-        mylist = new ArrayList<>();//tạo mới mảng rỗng
-        myimgadater = new ImageAdapter(this,R.layout.imageitem,mylist);
+        boolean isTl = false;
+        mylist = new ArrayList<>();//tạo mới mảng
         String makithi = intent.getStringExtra("makithi");
+        myimgadater = new ImageAdapter(this,R.layout.imageitem,mylist, isTl, makithi);
+//        Cursor ckithi = db.mydatabase.rawQuery("select * from kithi where makithi = " + makithi, null);
+//        ckithi.moveToFirst();
+//        while(ckithi.isAfterLast() == false){
+//            if(ckithi.getString(6) == "1") {
+//                isTl = true;
+//                break;
+//            }
+//        }
+        this.makithi = makithi;
+        this.username = username;
         String username =  intent.getStringExtra("username");
         db = new DataBase(this);
-        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi + " and hinhanh is not null", null);
+        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi + " and hinhanh is not null and loaicauhoi = 1", null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)

@@ -452,7 +452,13 @@ public class Methods extends AppCompatActivity {
     private void save(byte[] bytes) throws IOException {
         OutputStream outputStream = null;
         try {
+            if(file.exists())
+                outputStream = new FileOutputStream(file, false);
+//            outputStream = new FileOutputStream(file);
+        else {
+            // Nếu tệp không tồn tại, tạo mới và ghi vào
             outputStream = new FileOutputStream(file);
+        }
             outputStream.write(bytes);
         } finally {
             if (outputStream != null)

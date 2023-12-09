@@ -128,18 +128,19 @@ public class OptionAddFileActivity extends AppCompatActivity {
                         status = false;
                         break;
                     }
-                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ?",
+                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ? And kieucauhoi = 1",
                             new String[]{makithi, made});
                     ContentValues values = new ContentValues();
                     values.put("dapan", dapan);
                     if (c.getCount() == 0) {
                         values.put("made", made);
                         values.put("makithi", makithi);
+                        values.put("kieucauhoi",1);
                         if (db.mydatabase.insert("cauhoi", null, values) == -1) {
                             status = false;
                         }
                     } else {
-                        int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ?",
+                        int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ? and kieucauhoi = 1",
                                 new String[]{made, makithi});
                         if (row == 0) {
                             status = false;
