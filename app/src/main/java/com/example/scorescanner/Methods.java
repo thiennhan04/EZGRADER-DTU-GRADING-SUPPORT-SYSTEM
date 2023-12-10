@@ -334,7 +334,7 @@ public class Methods extends AppCompatActivity {
 //        db = new DataBase(this);
 //>>>>>>> 9b012978fb23c49e9359cb11015b7792e303624f
         if (db == null) {
-            Log.d(TAG, "getDataFromDB: db is null");
+//            Log.d(TAG, "getDataFromDB: db is null");
             return bitmap;
         }
         try {
@@ -345,7 +345,7 @@ public class Methods extends AppCompatActivity {
             String list_answer = "";
             if (made.contains("#")) {
                 score = "Không nhận diện được mã đề!";
-                Log.i(TAG, "getDataFromDB: " + score);
+//                Log.i(TAG, "getDataFromDB: " + score);
 //                bitmap = imgMade;
                 return recoverBitmap(bitmap);
             }
@@ -369,7 +369,7 @@ public class Methods extends AppCompatActivity {
                 break;
             }
             String list_select_ans = getAnswer(list_answer, hediem);
-            Log.d(TAG, "getDataFromDB: answer ==== " + list_select_ans);
+//            Log.d(TAG, "getDataFromDB: answer ==== " + list_select_ans);
 
             //////
 
@@ -386,8 +386,8 @@ public class Methods extends AppCompatActivity {
             String imguri = directory.getAbsolutePath() + "/" + sbd + ".jpg";
 
 
-            Log.i(TAG, "getDataFromDB: "+isExist.getCount());
-            Log.i(TAG, "getDataFromDB: answer ==== " + sql);
+//            Log.i(TAG, "getDataFromDB: "+isExist.getCount());
+//            Log.i(TAG, "getDataFromDB: answer ==== " + sql);
 
             String msg = "";
 
@@ -395,19 +395,20 @@ public class Methods extends AppCompatActivity {
                 String newUri = isExist.getString(1);
                 if(newUri != null && !newUri.isEmpty()) {
                     imguri = newUri;
-                    Log.i(TAG, "getDataFromDB: uri null= =="+newUri);
+//                    Log.i(TAG, "getDataFromDB: uri null= =="+newUri);
                 }
                 ContentValues valuediem = new ContentValues();
                 valuediem.put("makithi", makithi);
                 valuediem.put("diemso", score);
                 valuediem.put("masv", sbd);
                 valuediem.put("hinhanh", imguri);
-                Log.d(TAG, "getDataFromDB: Uriiiiii = " + imguri);
+//                Log.d(TAG, "getDataFromDB: Uriiiiii = " + imguri);
                 if (db.mydatabase.update("diem", valuediem, "makithi = " + makithi + " and masv = '" + sbd + "'", null) == -1) {
-                    msg = "Fail to insert record";
-                } else {
-                    msg = "Insert record sucess";
+//                    msg = "Fail to insert record";
                 }
+//                else {
+//                    msg = "Insert record sucess";
+//                }
             } else {
                 ContentValues valuediem = new ContentValues();
                 valuediem.put("makithi", makithi);
@@ -415,14 +416,15 @@ public class Methods extends AppCompatActivity {
                 valuediem.put("masv", sbd);
                 valuediem.put("hinhanh", imguri);
                 if (db.mydatabase.insert("diem", null, valuediem) == -1) {
-                    msg = "Fail to insert record";
-                } else {
-                    msg = "Insert record sucess";
+//                    msg = "Fail to insert record";
                 }
+//                else {
+//                    msg = "Insert record sucess";
+//                }
             }
 
             file = new File(imguri);
-            Log.d(TAG, "getDataFromDB: status = " + msg);
+//            Log.d(TAG, "getDataFromDB: status = " + msg);
 
             byte[] data = convertBitmapToByteArray(recoverBitmap(oldBm));
             save(data);
