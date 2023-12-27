@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddAnswerHand">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B7F1F8">
+
+        <ImageButton
+            android:id="@+id/savebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/save" />
+
+        <ImageButton
+            android:id="@+id/back_btnds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="316dp"
+            android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/returnicon2" />
+
+        <TextView
+            android:id="@+id/txtmade"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="152dp"
+            android:layout_marginBottom="24dp"
+            android:text="Thêm đáp án"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/back_btnds" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/made_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mã Đề" />
+
+            <Button
+                android:id="@+id/dapan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Đáp án" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <GridView
+                android:id="@+id/lstview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:translationZ="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="-96dp"
+                android:gravity="center"
+                android:numColumns="4"
+                android:horizontalSpacing="8dp"
+                android:verticalSpacing="8dp" />
+<!--            <ListView-->
+<!--                android:id="@+id/lstview"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:translationZ="5dp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:layout_editor_absoluteX="-96dp">-->
+
+<!--            </ListView>-->
+
+            <GridView
+                android:id="@+id/lstview2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:translationZ="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="-96dp"
+                android:gravity="center"
+                android:numColumns="4"
+                android:horizontalSpacing="8dp"
+                android:verticalSpacing="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

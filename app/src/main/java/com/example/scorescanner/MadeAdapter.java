@@ -32,8 +32,6 @@ public class MadeAdapter extends ArrayAdapter<String> {
         LayoutInflater myInflactor = context.getLayoutInflater();
         convertView = myInflactor.inflate(Idlayout,null);
         String made = mylist.get(position);
-        // Ứng với mỗi thuộc tính, ta thực hiện 2 việc
-        // -Gán id
         ImageView imgexam = convertView.findViewById(R.id.imageView);
         imgexam.setImageResource(R.drawable.exam);
         TextView txtexam = convertView.findViewById(R.id.txtexam);

@@ -1,0 +1,22 @@
+<!-- res/drawable/custom_radio_button.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape android:shape="oval">
+            <solid android:color="#FFF" />
+            <size android:width="24dp" android:height="24dp" />
+            <stroke android:color="#AAAAAA" android:width="2dp" />
+        </shape>
+    </item>
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <solid android:color="#FF7F50" /> <!-- Màu của hình tròn khi được chọn -->
+            <size android:width="24dp" android:height="24dp" /> <!-- Kích thước của hình tròn -->
+        </shape>
+    </item>
+    <item android:state_checked="false">
+        <shape android:shape="oval">
+            <solid android:color="#CCCCCC" /> <!-- Màu của hình tròn khi không được chọn -->
+            <size android:width="24dp" android:height="24dp" /> <!-- Kích thước của hình tròn -->
+        </shape>
+    </item>
+</selector>

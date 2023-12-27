@@ -1,5 +1,6 @@
 package com.example.scorescanner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -33,10 +34,13 @@ public class OptionAddFileActivity extends AppCompatActivity {
     private static DataBase db = null;
     private String makithi;
 
+    private String username;
+
     public static DataBase getDb() {
         return db;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,7 @@ public class OptionAddFileActivity extends AppCompatActivity {
         db = new DataBase(this);
         Intent intent = getIntent();
         makithi = intent.getStringExtra("makithi");
+        username = intent.getStringExtra("username");
         findViewById(R.id.backbtn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +62,16 @@ public class OptionAddFileActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(intent, requestCode);
+            }
+        });
+
+        findViewById(R.id.addHand).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OptionAddFileActivity.this, AddAnswerHand.class);
+                intent.putExtra("username", username);
+                intent.putExtra("makithi", makithi);
+                startActivity(intent);
             }
         });
     }

@@ -969,6 +969,8 @@ public class Methods extends AppCompatActivity {
             }
             String imguri = directory.getAbsolutePath() + "/" + sbd + ".jpg";
 
+            Log.i(TAG, "getDataFromDB: diemmmmmmmmm = " + score);
+
             if (isExist.getCount() > 0) {
                 String newUri = isExist.getString(1);
                 if(newUri != null && !newUri.isEmpty()) {
@@ -980,7 +982,7 @@ public class Methods extends AppCompatActivity {
                 valuediem.put("diemso", diem);
                 valuediem.put("masv", sbd);
                 valuediem.put("hinhanh", imguri);
-                db.mydatabase.update("diem",valuediem,"makithi = " + makithi + " and masv = " + sbd,null);
+                db.mydatabase.update("diem",valuediem,"makithi = " + makithi + " and masv = '" + sbd + "'",null);
             } else {
                 double diem = Double.parseDouble(score.replace(',','.'));
                 ContentValues valuediem = new ContentValues();

@@ -11,11 +11,11 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": -1309785525
+    "memoizedHashCode": -1160439937
   },
   {
     "level_": 0,
-    "message_": "rebuilding JSON D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\android_gradle_build.json due to:",
+    "message_": "JSON \u0027D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\android_gradle_build.json\u0027 was up-to-date",
     "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
     "tag_": "debug|x86",
     "diagnosticCode_": 0,
@@ -25,133 +25,7 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": 1750251727
-  },
-  {
-    "level_": 0,
-    "message_": "- expected json D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\android_gradle_build.json file is not present, will remove stale json folder",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -1458515487
-  },
-  {
-    "level_": 0,
-    "message_": "- missing previous command file D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\metadata_generation_command.txt, will remove stale json folder",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -97497601
-  },
-  {
-    "level_": 0,
-    "message_": "- command changed from previous, will remove stale json folder",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -204023280
-  },
-  {
-    "level_": 0,
-    "message_": "created folder \u0027D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\u0027",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -833907723
-  },
-  {
-    "level_": 0,
-    "message_": "executing cmake Executable : D:\\ProgramFiles\\sdk\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d26\n-DANDROID_PLATFORM\u003dandroid-26\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dD:\\ProgramFiles\\sdk\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\build\\intermediates\\cxx\\Debug\\o256j2ka\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\build\\intermediates\\cxx\\Debug\\o256j2ka\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dDebug\n-BD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -976671885
-  },
-  {
-    "level_": 0,
-    "message_": "Executable : D:\\ProgramFiles\\sdk\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d26\n-DANDROID_PLATFORM\u003dandroid-26\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dD:\\ProgramFiles\\sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dD:\\ProgramFiles\\sdk\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\build\\intermediates\\cxx\\Debug\\o256j2ka\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\build\\intermediates\\cxx\\Debug\\o256j2ka\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dDebug\n-BD:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 963070100
-  },
-  {
-    "level_": 0,
-    "message_": "Exiting generation of D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\compile_commands.json.bin normally",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": 1128083723
-  },
-  {
-    "level_": 0,
-    "message_": "done executing cmake",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -516369531
-  },
-  {
-    "level_": 0,
-    "message_": "write command file D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\.cxx\\Debug\\o256j2ka\\x86\\metadata_generation_command.txt",
-    "file_": "D:\\DTU\\NCKH\\scanner_ - Copy\\openCV460\\libcxx_helper\\CMakeLists.txt",
-    "tag_": "debug|x86",
-    "diagnosticCode_": 0,
-    "memoizedIsInitialized": 1,
-    "unknownFields": {
-      "fields": {},
-      "fieldsDescending": {}
-    },
-    "memoizedSize": -1,
-    "memoizedHashCode": -1539485437
+    "memoizedHashCode": 1369333626
   },
   {
     "level_": 0,
@@ -165,6 +39,6 @@
       "fieldsDescending": {}
     },
     "memoizedSize": -1,
-    "memoizedHashCode": 1421703553
+    "memoizedHashCode": 1571049141
   }
 ]

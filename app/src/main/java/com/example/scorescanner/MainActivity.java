@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database=null;
     String DATABASE_NAME="ssdb2.db";
-    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,27 @@ public class MainActivity extends AppCompatActivity {
         edtusername = findViewById(R.id.edtusername);
         edtpassword = findViewById(R.id.edtpassword);
         signbtn = findViewById(R.id.signbtn);
+
+        edtusername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().contains(" ")) {
+                    String filteredText = charSequence.toString().replace(" ", "");
+                    edtusername.setText(filteredText);
+                    edtusername.setSelection(filteredText.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         signbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,18 +71,17 @@ public class MainActivity extends AppCompatActivity {
 //                 }
                 database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
 //                Toast.makeText(MainActivity.this, getDatabasePath()+"", Toast.LENGTH_SHORT).show();
-                String sql = "select * from kithi where username = '" + username + "'";
+//                String sql = "select * from kithi where username = '" + username + "'";
                 Cursor c = database.rawQuery("select * from user where username = '"
                         + username + "' and password = '" + pass + "'", null);
                 c.moveToFirst();
-                String data ="";
-                if(c != null){
+                if(c.getCount() != 0){
                     //đăng nhập thành công
                     Intent home = new Intent(MainActivity.this, HomeActivity.class);
                     home.putExtra("username", username);
                     startActivity(home);
                 }else{
-                    Toast.makeText(MainActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                 }
                 c.close();
             }

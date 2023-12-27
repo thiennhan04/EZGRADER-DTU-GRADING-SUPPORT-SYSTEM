@@ -35,7 +35,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
         savebtn2 = findViewById(R.id.savebtn2);
         //loai phieu
         list = new ArrayList<>();
-        list.add("20");list.add("40");list.add("50");list.add("60");list.add("120");
+        list.add("50");
 
         list2 = new ArrayList<>();
         list2.add("TN");
