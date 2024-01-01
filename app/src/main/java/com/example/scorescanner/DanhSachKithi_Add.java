@@ -35,7 +35,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
         savebtn2 = findViewById(R.id.savebtn2);
         //loai phieu
         list = new ArrayList<>();
-        list.add("20");list.add("40");list.add("50");list.add("60");list.add("120");
+        list.add("50");
 
         list2 = new ArrayList<>();
         list2.add("TN");
@@ -76,20 +76,23 @@ public class DanhSachKithi_Add extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                loaiphieu = list2.get(0).toString();
+                kieukithi = list2.get(0).toString();
             }
         });
         savebtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenkithi = txttenkithi.getText()+"";
-                String socau = txttenkithi2.getText()+"";
-                String hediem = txttenkithi3.getText()+"";
+                int socau = Integer.parseInt(txttenkithi2.getText()+"");
+                double hediem = Double.parseDouble(txttenkithi3.getText()+"");
                 myintent.putExtra("tenkithi",tenkithi);
                 myintent.putExtra("socau",socau);
                 myintent.putExtra("hediem",hediem);
                 myintent.putExtra("loaiphieu",loaiphieu);
                 myintent.putExtra("username",username);
+                int kieu = 2;
+                if(kieukithi.equals("TN")) kieu = 1;
+                myintent.putExtra("kieukithi",kieu);
 
                 setResult(33,myintent);
                 finish();

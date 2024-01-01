@@ -49,6 +49,10 @@ public class dapan_adapter extends ArrayAdapter<dapan_item> {
             array.add(convertView.findViewById(R.id.btnC));
             array.add(convertView.findViewById(R.id.btnD));
 
+            for (RadioButton a : array) {
+                a.setChecked(false);
+            }
+
 
 //            for (int i = 0; i < array.size(); i++) {
 //                RadioButton btn = array.get(i);

@@ -3,7 +3,12 @@ package com.example.scorescanner;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +37,7 @@ public class ImageAdapter extends ArrayAdapter<Student> {
         this.context = context1;
         Idlayout = idlayout;
         this.mylist = mylist;
-        this.isTl = true;
+        this.isTl = isTl;
         db = new DataBase((AppCompatActivity) this.context);
         this.makithi = makithi;
     }
@@ -49,6 +54,7 @@ public class ImageAdapter extends ArrayAdapter<Student> {
             c.moveToNext();
         }
         c.close();
+        Log.i("TAG", "getView: === "+tlurl);
         LayoutInflater myInflactor = context.getLayoutInflater();
         convertView = myInflactor.inflate(Idlayout,null);
         String imgpath = mylist.get(position).getImgpath();
@@ -59,13 +65,20 @@ public class ImageAdapter extends ArrayAdapter<Student> {
             // Ẩn nút viewtlbtn
             viewtlbtn.setVisibility(View.GONE);
         }
-        // Ứng với mỗi thuộc tính, ta thực hiệno 2 việc
+        // Ứng với mỗi thuộc tính, ta thực hiện 2 việc
 
         // -Gán id
         ImageView imagebailam = convertView.findViewById(R.id.imagebailam);
         TextView txtid = convertView.findViewById(R.id.txtid);
         txtid.setText(mylist.get(position).getSbd());
         //convert imgname to bitmap
+//        byte [] encodeByte = Base64.decode(imgName,Base64.DEFAULT);
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+//        imagebailam.setImageBitmap(bitmap);
+
+//        file = new File(directory.getAbsolutePath()+"/"+ name +".jpg");
+//        File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + "tnhan1");
+//        Uri imgUri=Uri.parse(directory.getAbsolutePath() + "/1.jpg");
         Uri imgUri=Uri.parse(imgpath);
         imagebailam.setImageURI(imgUri);
         String finalTlurl = tlurl;

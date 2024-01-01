@@ -152,9 +152,10 @@ public class danhsachkithi extends AppCompatActivity {
 //            Toast.makeText(this, "vao ham result", Toast.LENGTH_SHORT).show();
 //            Toast.makeText(this, "User name " + username, Toast.LENGTH_SHORT).show();
             String tenkithi = data.getStringExtra("tenkithi");
-            int socau = data.getIntExtra("socau",20);
-            int hediem = data.getIntExtra("hediem",10);
+            int socau = data.getIntExtra("socau",50);
+            double hediem = data.getDoubleExtra("hediem",10);
             String loaiphieu = data.getStringExtra("loaiphieu");
+            int kieukithi = data.getIntExtra("kieukithi",1);
 //            Toast.makeText(this, "" + tenkithi + " " + socau, Toast.LENGTH_SHORT).show();
 
             //them ki thi moi vao database
@@ -164,11 +165,10 @@ public class danhsachkithi extends AppCompatActivity {
             valuekithi.put("socau",socau);
             valuekithi.put("hediem",hediem);
             valuekithi.put("loaiphieu",loaiphieu);
+            valuekithi.put("kieukithi",kieukithi);
             String msg  = "";
-//            Exam exam = new Exam(madethi, tenkithi, username);
             if(database.insert("kithi",null,valuekithi)==-1){
                 msg = "Fail to insert kithi";
-
             }else{
                 msg = "Insert kithi thanh cong ";
                 loadkithi(username2);
@@ -222,7 +222,7 @@ public class danhsachkithi extends AppCompatActivity {
             String outFileName = getDatabasePath();
 
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-//            if (!f.exists())
+            if (!f.exists())
                 f.mkdir();
 
             OutputStream myOutput = new FileOutputStream(outFileName);

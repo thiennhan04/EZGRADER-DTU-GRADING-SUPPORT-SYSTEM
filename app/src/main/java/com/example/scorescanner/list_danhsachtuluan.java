@@ -85,7 +85,6 @@ public class list_danhsachtuluan extends AppCompatActivity {
                 String cau4 = edttuluan4.getText().toString();
                 String cau5 = edttuluan5.getText().toString();
 //
-
 //                //luu cau 1 vào db
                 addQuestionToDB(made, makithi,cauhoi1, cau1,1,username);
                 addQuestionToDB(made, makithi,cauhoi2, cau2,2,username);

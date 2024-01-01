@@ -2,9 +2,13 @@ package com.example.scorescanner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -198,6 +202,7 @@ public class MadeOption extends AppCompatActivity {
                     Intent intent = new Intent(MadeOption.this, CameraRealTime.class);
                     intent.putExtra("makithi", makithi);
                     intent.putExtra("username", username);
+                    intent.putExtra("kieukithi", 1);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }

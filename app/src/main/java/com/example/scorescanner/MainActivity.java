@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +38,27 @@ public class MainActivity extends AppCompatActivity {
         edtpassword = findViewById(R.id.edtpassword);
         signbtn = findViewById(R.id.signbtn);
 
+        edtusername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().contains(" ")) {
+                    String filteredText = charSequence.toString().replace(" ", "");
+                    edtusername.setText(filteredText);
+                    edtusername.setSelection(filteredText.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         signbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         + username + "' and password = '" + pass + "'", null);
                 c.moveToFirst();
                 String data ="";
-                if(c != null){
+                if(c.getCount() != 0){
                     //đăng nhập thành công
                     Intent home = new Intent(MainActivity.this, HomeActivity.class);
                     home.putExtra("username", username);
@@ -68,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);
-        dbFile.delete();
+//        dbFile.delete();
         if (!dbFile.exists())
         {
             try{

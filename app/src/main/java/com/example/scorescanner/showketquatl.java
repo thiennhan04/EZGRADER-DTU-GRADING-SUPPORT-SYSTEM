@@ -99,7 +99,7 @@ public class showketquatl extends AppCompatActivity {
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
         GetShortAnswer getShortAnswer = new GetShortAnswer(showketquatl.this);
 
-        new GraderAsyncTask(showketquatl.this, getShortAnswer, bitmap, makithi, username).execute();
+        new GraderAsyncTask(showketquatl.this, getShortAnswer, bitmap, makithi, username,made).execute();
 
         btnluukq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +181,6 @@ public class showketquatl extends AppCompatActivity {
 
     }
     private void save(byte[] bytes) throws IOException {
-
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(file);
@@ -197,14 +196,16 @@ public class showketquatl extends AppCompatActivity {
         private Bitmap bitmap;
         private String makithi;
         private String username;
+        private String made;
 
 
-        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username) {
+        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username,String made) {
             this.activityRef = new WeakReference<>(activity);
             this.getShortAnswer = getShortAnswer;
             this.bitmap = bitmap;
             this.makithi = makithi;
             this.username = username;
+            this.made = made;
         }
 
         @Override
@@ -215,7 +216,7 @@ public class showketquatl extends AppCompatActivity {
         @SuppressLint("WrongThread")
         @Override
         protected void onPostExecute(Bitmap result) {
-
+            try {
                 showketquatl activity = activityRef.get();
                 if (activity != null) {
                     try {
@@ -232,72 +233,72 @@ public class showketquatl extends AppCompatActivity {
 //                System.out.println("---------list result--------"+getShortAnswer.getListResult());
 
                     // Cập nhật text scan được từ học sinh
-                    try{
+                    try {
                         activity.txtans1.setText(getShortAnswer.getListStudentAns().get(0));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtans1.setText("Không thể xử lý!");
                     }
 
-                    try{
+                    try {
                         activity.txtans2.setText(getShortAnswer.getListStudentAns().get(1));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtans2.setText("Không thể xử lý!");
                     }
 
-                    try{
+                    try {
                         activity.txtans3.setText(getShortAnswer.getListStudentAns().get(2));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtans3.setText("Không thể xử lý!");
                     }
 
-                    try{
+                    try {
                         activity.txtans4.setText(getShortAnswer.getListStudentAns().get(3));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtans4.setText("Không thể xử lý!");
                     }
-                    try{
+                    try {
                         activity.txtans5.setText(getShortAnswer.getListStudentAns().get(4));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtans5.setText("Không thể xử lý!");
                     }
 
 
                     //Cập nhật kết quả chấm tự động
                     try {
-                        activity.edtkq1.setText( getShortAnswer.getListResult().get(0));
-                    } catch (Exception  e){
+                        activity.edtkq1.setText(getShortAnswer.getListResult().get(0));
+                    } catch (Exception e) {
                         activity.edtkq1.setText("0");
                     }
                     try {
-                        activity.edtkq2.setText( getShortAnswer.getListResult().get(1));
-                    } catch (Exception  e){
+                        activity.edtkq2.setText(getShortAnswer.getListResult().get(1));
+                    } catch (Exception e) {
                         activity.edtkq1.setText("0");
                     }
                     try {
-                        activity.edtkq3.setText( getShortAnswer.getListResult().get(2));
-                    } catch (Exception  e){
+                        activity.edtkq3.setText(getShortAnswer.getListResult().get(2));
+                    } catch (Exception e) {
                         activity.edtkq1.setText("0");
                     }
                     try {
-                        activity.edtkq4.setText( getShortAnswer.getListResult().get(3));
-                    } catch (Exception  e){
+                        activity.edtkq4.setText(getShortAnswer.getListResult().get(3));
+                    } catch (Exception e) {
                         activity.edtkq1.setText("0");
                     }
 
                     try {
-                        activity.edtkq5.setText( getShortAnswer.getListResult().get(4));
-                    }catch (Exception e){
-                        activity.edtkq5.setText( "0");
+                        activity.edtkq5.setText(getShortAnswer.getListResult().get(4));
+                    } catch (Exception e) {
+                        activity.edtkq5.setText("0");
                     }
 
                     //cập nhật kết quả từ đatabase
-                    activity.txtdapan1.setText("Đáp án:"+getShortAnswer.getListCorrectAns().get(0));
-                    activity.txtdapan2.setText("Đáp án:"+getShortAnswer.getListCorrectAns().get(1));
-                    activity.txtdapan3.setText("Đáp án:"+getShortAnswer.getListCorrectAns().get(2));
-                    activity.txtdapan4.setText("Đáp án:"+getShortAnswer.getListCorrectAns().get(3));
-                    try{
+                    activity.txtdapan1.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(0));
+                    activity.txtdapan2.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(1));
+                    activity.txtdapan3.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(2));
+                    activity.txtdapan4.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(3));
+                    try {
                         activity.txtdapan5.setText(getShortAnswer.getListCorrectAns().get(4));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         activity.txtdapan5.setText("Không thể xử lý!");
 
                     }
@@ -310,16 +311,18 @@ public class showketquatl extends AppCompatActivity {
                     activity.imgv5.setImageBitmap(bitmapList.get(4));
 
 
-
                     System.out.println("---------chữ được lấy ra-2--" + getShortAnswer.getListStudentAns().get(1));
                     System.out.println("---------chữ được lấy ra--3-" + getShortAnswer.getListStudentAns().get(2));
                     System.out.println("---------chữ được lấy ra--4-" + getShortAnswer.getListStudentAns().get(3));
-                    try{
+                    try {
                         System.out.println("---------chữ được lấy ra--5-" + getShortAnswer.getListStudentAns().get(4));
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
+            }catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

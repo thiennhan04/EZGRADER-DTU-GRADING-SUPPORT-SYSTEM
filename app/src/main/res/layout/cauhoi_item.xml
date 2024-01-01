@@ -33,7 +33,6 @@
             android:button="@null"
             android:gravity="center"
             android:text="A"
-            android:checked = "true"
             android:textSize="26dp" />
 
         <RadioButton

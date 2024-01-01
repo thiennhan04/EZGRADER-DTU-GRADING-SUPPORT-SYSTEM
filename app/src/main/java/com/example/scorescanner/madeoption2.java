@@ -123,6 +123,7 @@ public class madeoption2 extends AppCompatActivity {
                 Intent intent = new Intent(madeoption2.this, CameraRealTime.class);
                 intent.putExtra("makithi", makithi);
                 intent.putExtra("username", username);
+                intent.putExtra("kieukithi", 2);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }

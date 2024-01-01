@@ -46,27 +46,31 @@ public class dapan_activity extends AppCompatActivity {
             lvCauHoi = findViewById(R.id.lvDA);
 
             Intent intent = getIntent();
-            String makithi = intent.getStringExtra("kithi");
+            String makithi = intent.getStringExtra("makithi");
+            Log.i("TAG", "onCreate: ma ki thi = " + makithi);
             mylist = new ArrayList<>();
             myArrayAdapter = new dapan_adapter(this, R.layout.cauhoi_item, mylist);
             //truy vấn số câu hỏi
-            Cursor c1 = db.mydatabase.rawQuery("select * from kithi where makithi = " + makithi, null);
-            String strsocau = "";
+            Cursor c1 = db.mydatabase.rawQuery("select socau from kithi where makithi = " + makithi, null);
+            int socau = 0;
             c1.moveToFirst();
             while (c1.isAfterLast() == false)
             {
-                strsocau = c1.getString(3);
+                socau = c1.getInt(0);
                 c1.moveToNext();
             }
 
+            Log.i("TAG", "onCreate: so cauuu == " + socau);
+
             c1.close();
-            int socau = Integer.parseInt(strsocau);
 //            Toast.makeText(this, "Makithi = " + makithi + " So cau: " + strsocau, Toast.LENGTH_SHORT).show();
             // đọc database gì đó để add vào mylist
             for (int i = 1; i <= socau; i++) {
                 dapan_item item = new dapan_item(i, "#");
                 mylist.add(item);
             }
+            Log.i("TAG", "onCreate: may array = " + myArrayAdapter.getCount());
+
             int child=lvCauHoi.getChildCount();
 
             lvCauHoi.setAdapter(myArrayAdapter);
@@ -85,9 +89,31 @@ public class dapan_activity extends AppCompatActivity {
             saveAns.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String res = "";
-                    int child=lvCauHoi.getChildCount();
-                    String strmade = inputMade.getText().toString();
+                    String strmade = inputMade.getText().toString().trim();
+
+                    try {
+                        if (strmade.equals("")) {
+                            Toast.makeText(dapan_activity.this, "Chưa nhập mã đề!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (Integer.parseInt(strmade) < 0 || Integer.parseInt(strmade) > 999) {
+                            Toast.makeText(dapan_activity.this, "Nhập sai định dạng mã đề!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                     catch (Exception e) {
+                        Toast.makeText(dapan_activity.this, "Mã đề phải là số!", Toast.LENGTH_SHORT).show();
+                        return;
+                     }
+
+                    StringBuilder res = new StringBuilder();
+
+                    int child=myArrayAdapter.getCount();
+                    Boolean status  = true;
+
+                    Log.i("TAG", "onClick: Lenght = " + child);
+
                     for(int i=0;i<child;i++){
                         View rgg=lvCauHoi.getChildAt(i);
 
@@ -95,38 +121,45 @@ public class dapan_activity extends AppCompatActivity {
 
                         int selectedId=radioGroup.getCheckedRadioButtonId();
 
+                        if (selectedId == -1) {
+                            Toast.makeText(dapan_activity.this, "Chưa tích đủ đáp án!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         radioButton = (RadioButton) rgg.findViewById(selectedId);
                         String selectvalue = radioButton.getText().toString();
-                        res += selectvalue;
+                        res.append(selectvalue);
+                        Log.i("TAG", "onClick: anser = " + res);
+                    }
 
-                        //lưu dữ liệu vào db
-                        Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi +" and made = '"+
-                                strmade+"'", null);
-                        ContentValues values = new ContentValues();
-                        values.put("dapan",res);
-                        Boolean status  = true;
-                        if(c.getCount()==0)
+                    Log.i("TAG", "onClick: Resssssssssssss =" + res);
+
+                    Cursor c = db.mydatabase.rawQuery("select made from cauhoi where makithi = " + makithi +" and made = '"+
+                            strmade+"'", null);
+                    ContentValues values = new ContentValues();
+                    values.put("dapan", res.toString());
+                    if(c.getCount()==0)
+                    {
+                        values.put("made",strmade);
+                        values.put("makithi",makithi);
+                        if(db.mydatabase.insert("cauhoi",null,values)==-1)
                         {
-                            values.put("made",strmade);
-                            values.put("makithi",makithi);
-                            if(db.mydatabase.insert("cauhoi",null,values)==-1)
-                            {
-                                status = false;
-                            }
+                            status = false;
                         }
-                        else
+                    }
+                    else
+                    {
+                        int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+                        if(row==0)
                         {
-                            int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
-                            if(row==0)
-                            {
-                                status = false;
-                            }
+                            status = false;
                         }
-                        if(status)
-                            Toast.makeText(dapan_activity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        else{
-                            Toast.makeText(dapan_activity.this, "Thêm Thất bại", Toast.LENGTH_SHORT).show();
-                        }
+                    }
+
+                    if(status)
+                        Toast.makeText(dapan_activity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(dapan_activity.this, "Thêm Thất bại", Toast.LENGTH_SHORT).show();
                     }
 //                    Toast.makeText(dapan_activity.this, ""+ res, Toast.LENGTH_SHORT).show();
                     dapan_activity.this.finish();
