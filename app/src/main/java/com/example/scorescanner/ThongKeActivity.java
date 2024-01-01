@@ -46,7 +46,9 @@ public class ThongKeActivity extends AppCompatActivity {
     ImageButton back;
     Button changeType;
     int status = 0;
-    String makithi, username;
+//    String makithi, username;
+    int makithi;
+    String username;
     DataBase db;
     TextView tong,txttb;
 
@@ -55,7 +57,8 @@ public class ThongKeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_ke);
         Intent intent = getIntent();
-        makithi = intent.getStringExtra("makithi");
+//        makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi", -1);
         username =  intent.getStringExtra("username");
         db = new DataBase(this);
 

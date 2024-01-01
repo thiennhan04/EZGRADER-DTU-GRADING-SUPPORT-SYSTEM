@@ -15,17 +15,21 @@ public class MainActivityListAns extends AppCompatActivity {
         setContentView(R.layout.activity_main_list_ans);
         TextView view = findViewById(R.id.textView1);
         Intent intent = getIntent();
-        String makithi = intent.getStringExtra("kithi");
+//        String makithi = intent.getStringExtra("kithi");
+        int makithi = intent.getIntExtra("kithi", -1);
         DataBase db = new DataBase(this);
-        Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi, null);
+//        Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi, null);
+        Cursor c = db.mydatabase.rawQuery("select made, dapan from cauhoi where makithi = " + makithi, null);
         c.moveToFirst();
-        String data ="";
-        while (c.isAfterLast() == false)
+        StringBuilder data = new StringBuilder();
+        while (!c.isAfterLast())
+//            while (c.isAfterLast() == false)
         {
-            data += c.getString(0)+"  "+c.getString(2)+ "\n";
+//            data += c.getString(0)+"  "+c.getString(2)+ "\n";
+            data.append(c.getString(0)).append(" ").append(c.getString(1)).append("\n");
             c.moveToNext();
         }
-        view.setText(data);
+        view.setText(data.toString());
 
     }
 }

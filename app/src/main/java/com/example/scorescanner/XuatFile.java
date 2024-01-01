@@ -47,7 +47,8 @@ public class XuatFile extends AppCompatActivity {
     Context context;
     Uri uri;
     DataBase db;
-    String makithi;
+//    String makithi;
+    int makithi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,8 @@ public class XuatFile extends AppCompatActivity {
 
         db = new DataBase(this);
         Intent intent = getIntent();
-        makithi = intent.getStringExtra("makithi");
+//        makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi", -1);
 
 //        String sql = "select * from diem where makithi="+makithi;
 //        Cursor c = db.mydatabase.rawQuery(sql, null);
@@ -162,8 +164,10 @@ public class XuatFile extends AppCompatActivity {
                     }
                     String name = line[1];
 
-                    Cursor c = db.mydatabase.rawQuery("SELECT * FROM diem WHERE makithi = ? and masv = ?",
-                            new String[]{makithi, sbd});
+//                    Cursor c = db.mydatabase.rawQuery("SELECT * FROM diem WHERE makithi = ? and masv = ?",
+//                            new String[]{makithi, sbd});
+                    Cursor c = db.mydatabase.rawQuery("SELECT * FROM diem WHERE makithi = " + makithi +" and masv = '" + sbd + "'",
+                            null);
                     ContentValues values = new ContentValues();
                     values.put("masv", sbd);
                     values.put("tensv", name);
@@ -173,8 +177,10 @@ public class XuatFile extends AppCompatActivity {
                             status = false;
                         }
                     } else {
-                        if (db.mydatabase.update("diem", values, "makithi = ? and masv = ?",
-                                new String[]{makithi, sbd}) == 0) {
+//                        if (db.mydatabase.update("diem", values, "makithi = ? and masv = ?",
+//                                new String[]{makithi, sbd}) == 0) {
+                        if (db.mydatabase.update("diem", values, "makithi = " + makithi + " and masv = '" + sbd + "'",
+                                null) == 0) {
                             status = false;
                         }
                     }
@@ -235,8 +241,11 @@ public class XuatFile extends AppCompatActivity {
                     titleCell.setCellStyle(titleStyle);
                 }
 
-                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = ?",
-                        new String[]{makithi});
+//                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = ?",
+//                        new String[]{makithi});
+
+                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = " + makithi,
+                        null);
 
                 ArrayList<Object[]> arr = new ArrayList<>();
 
@@ -317,7 +326,8 @@ public class XuatFile extends AppCompatActivity {
 
 
     public boolean checkAdded() {
-        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi=? and length(tensv) > 0", new String[]{makithi});
+//        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi=? and length(tensv) > 0", new String[]{makithi});
+        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi= " + makithi + " and length(tensv) > 0", null);
         if (c.getCount() > 0)
             return true;
         else
@@ -384,8 +394,11 @@ public class XuatFile extends AppCompatActivity {
                     titleCell.setCellStyle(titleStyle);
                 }
 
-                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = ?",
-                        new String[]{makithi});
+//                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = ?",
+//                        new String[]{makithi});
+
+                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = " + makithi,
+                        null);
 
                 ArrayList<Object[]> arr = new ArrayList<>();
 

@@ -131,7 +131,7 @@ public class CameraRealTime extends CameraActivity {
                     rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                             bitmap.getHeight(), matrix, true);
                     String username = getIntent().getStringExtra("username");
-                    String makithi = getIntent().getStringExtra("makithi");
+                    int makithi = getIntent().getIntExtra("makithi",-1);
                     Intent tnIntent = new Intent(CameraRealTime.this, ViewImage.class);
                     Intent tlIntent = new Intent(CameraRealTime.this, showketquatl.class);
                     tnIntent.putExtra("username", username);

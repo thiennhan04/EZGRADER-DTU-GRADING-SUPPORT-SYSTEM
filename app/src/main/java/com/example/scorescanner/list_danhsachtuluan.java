@@ -32,7 +32,8 @@ public class list_danhsachtuluan extends AppCompatActivity {
     DataBase db = null;
     String DATABASE_NAME="ssdb2.db";
     String username = "";
-    String makithi = "";
+//    String makithi = "";
+    int makithi;
     EditText edtmade,edttuluan1,edttuluan2,edttuluan3,edttuluan4,edttuluan5;
     EditText edtcauhoi1,edtcauhoi2,edtcauhoi3,edtcauhoi4,edtcauhoi5;
     @Override
@@ -60,7 +61,7 @@ public class list_danhsachtuluan extends AppCompatActivity {
         db = new DataBase(this);
         //text của đáp án các câu hỏi
         username = intent.getStringExtra("username");
-        makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi", -1);
         database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
         back_btnds.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,8 +95,10 @@ public class list_danhsachtuluan extends AppCompatActivity {
             }
         });
     }
-    private void addQuestionToDB(String made,String makithi, String noidungcauhoi,
-                                 String dapan, int tencauhoi, String username){
+//    private void addQuestionToDB(String made,String makithi, String noidungcauhoi,
+//                                 String dapan, int tencauhoi, String username){
+    private void addQuestionToDB(String made,int makithi, String noidungcauhoi,
+                             String dapan, int tencauhoi, String username){
         ContentValues da_cau = new ContentValues();
         da_cau.put("made",made);
         da_cau.put("makithi",makithi);
@@ -121,9 +124,12 @@ public class list_danhsachtuluan extends AppCompatActivity {
         }
         else
         {
+//            int row = db.mydatabase.update("cauhoi",da_cau,
+//                    "made = ? and makithi = ? and kieucauhoi = 2 and username = ?",
+//                        new String[]{made,makithi, username});
             int row = db.mydatabase.update("cauhoi",da_cau,
-                    "made = ? and makithi = ? and kieucauhoi = 2 and username = ?",
-                        new String[]{made,makithi, username});
+                    "made = '" + made + "' and makithi = " + makithi + " and kieucauhoi = 2 and username = '" + username + "'",
+                    null);
             if(row==0)
             {
                 status = false;

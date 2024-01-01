@@ -32,7 +32,8 @@ public class OptionAddFileActivity extends AppCompatActivity {
     private static final int requestCode = 1;
     private static final String TAG = "Option Add File";
     private static DataBase db = null;
-    private String makithi;
+//    private String makithi;
+    private int makithi;
 
     private String username;
 
@@ -47,7 +48,8 @@ public class OptionAddFileActivity extends AppCompatActivity {
         setContentView(R.layout.tab_02_option_add_file);
         db = new DataBase(this);
         Intent intent = getIntent();
-        makithi = intent.getStringExtra("makithi");
+//        makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi", -1);
         username = intent.getStringExtra("username");
         findViewById(R.id.backbtn3).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +70,7 @@ public class OptionAddFileActivity extends AppCompatActivity {
         findViewById(R.id.addHand).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OptionAddFileActivity.this, dapan_activity.class);
+                Intent intent = new Intent(OptionAddFileActivity.this, ViewListAnswer.class);
                 intent.putExtra("username", username);
                 intent.putExtra("makithi", makithi);
                 startActivity(intent);
@@ -127,11 +129,14 @@ public class OptionAddFileActivity extends AppCompatActivity {
                 for (String dt : data) {
                     String made = dt.substring(0, 3);
                     String dapan = dt.substring(3);
-                    Cursor getSoCau = db.mydatabase.rawQuery("Select socau from kithi where makithi = ?", new String[]{makithi});
+//                    Cursor getSoCau = db.mydatabase.rawQuery("Select socau from kithi where makithi = ?", new String[]{makithi});
+                    Cursor getSoCau = db.mydatabase.rawQuery("Select socau from kithi where makithi = " + makithi, null);
                     getSoCau.moveToFirst();
                     int socau = 0;
-                    while (getSoCau.isAfterLast() == false) {
-                        socau = getSoCau.getInt(getSoCau.getColumnIndex("socau"));
+//                    while (getSoCau.isAfterLast() == false) {
+                    while (!getSoCau.isAfterLast()) {
+//                        socau = getSoCau.getInt(getSoCau.getColumnIndex("socau"));
+                        socau = getSoCau.getInt(0);
                         getSoCau.moveToNext();
                     }
                     getSoCau.close();
@@ -148,8 +153,10 @@ public class OptionAddFileActivity extends AppCompatActivity {
                         Log.i(TAG, "readFileExcel: dap an = " + dapan);
                         break;
                     }
-                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ? And kieucauhoi = 1",
-                            new String[]{makithi, made});
+//                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = ? AND made = ? And kieucauhoi = 1",
+//                            new String[]{makithi, made});
+                    Cursor c = db.mydatabase.rawQuery("SELECT made FROM cauhoi WHERE makithi = " + makithi + " AND made = '" + made + "' AND kieucauhoi = 1",
+                            null);
                     ContentValues values = new ContentValues();
                     values.put("dapan", dapan);
                     if (c.getCount() == 0) {
@@ -160,8 +167,10 @@ public class OptionAddFileActivity extends AppCompatActivity {
                             status = false;
                         }
                     } else {
-                        int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ? and kieucauhoi = 1",
-                                new String[]{made, makithi});
+//                        int row = db.mydatabase.update("cauhoi", values, "made = ? and makithi = ? and kieucauhoi = 1",
+//                                new String[]{made, makithi});
+                        int row = db.mydatabase.update("cauhoi", values, "made = '" + made + "' and makithi = " + makithi + " and kieucauhoi = 1",
+                                null);
                         if (row == 0) {
                             status = false;
                         }

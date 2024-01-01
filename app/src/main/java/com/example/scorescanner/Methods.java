@@ -69,7 +69,8 @@ import kotlin.text.UStringsKt;
 public class Methods extends AppCompatActivity {
     DataBase db = null;
     String username;
-    String makithi;
+//    String makithi;
+    int makithi;
     public static Bitmap main;
     public String made = "";
     public String sbd = "";
@@ -94,7 +95,8 @@ public class Methods extends AppCompatActivity {
     public static int socaudung;
     public static int tongsocau;
 
-    public Methods(Context context, String makithi, String username) {
+//    public Methods(Context context, String makithi, String username) {
+    public Methods(Context context, int makithi, String username) {
         this.context = context;
         this.makithi = makithi;
         this.username = username;
@@ -947,8 +949,10 @@ public class Methods extends AppCompatActivity {
                 return recoverBitmap(bitmap);
             }
             Log.i(TAG, "getDataFromDB: ===== "+made);
-            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
-                    new String[]{makithi, made});
+//            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
+//                    new String[]{makithi, made});
+            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi + " and made = '" + made + "'",
+                    null);
             if (!c.moveToFirst()) {
                 score = "Mã đề không tồn tại!";
                 return recoverBitmap(bitmap);
@@ -959,8 +963,10 @@ public class Methods extends AppCompatActivity {
                 c.moveToNext();
             }
             c.close();
-            Cursor c2 = db.mydatabase.rawQuery("select hediem from kithi where makithi = ?",
-                    new String[]{makithi});
+//            Cursor c2 = db.mydatabase.rawQuery("select hediem from kithi where makithi = ?",
+//                    new String[]{makithi});
+            Cursor c2 = db.mydatabase.rawQuery("select hediem from kithi where makithi = " + makithi,
+                    null);
             c2.moveToFirst();
             while (!c2.isAfterLast()) {
                 hediem = c2.getDouble(0);

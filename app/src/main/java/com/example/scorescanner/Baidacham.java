@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import java.util.Base64;
 public class Baidacham extends AppCompatActivity {
     GridView grvimg;
     public static DataBase db = null;
-    public String makithi = "";
+//    public String makithi = "";
+    public int makithi;
     public String username = "";
     ArrayList<Student> mylist;
     public static ImageAdapter  myimgadater;
@@ -29,7 +31,8 @@ public class Baidacham extends AppCompatActivity {
         setContentView(R.layout.activity_baidacham);
         grvimg = findViewById(R.id.grvimg);
         Intent intent = getIntent();
-        String makithi = intent.getStringExtra("makithi");
+//        String makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi", -1);
         db = new DataBase(this);
         boolean isTl = false;
         Cursor isTuluan = db.mydatabase.rawQuery("Select kieukithi from kithi where makithi="+makithi,null);

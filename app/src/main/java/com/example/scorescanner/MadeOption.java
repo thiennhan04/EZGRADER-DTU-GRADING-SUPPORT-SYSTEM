@@ -34,16 +34,15 @@ public class MadeOption extends AppCompatActivity {
     Button dapanbtn, chambaibtn, baidachambtn, thongkebtn, xuatfile;
     ImageButton backbtn, imgremove;
 
-    Uri imageUri;
+//    Uri imageUri;
     String DB_PATH_SUFFIX = "/databases/";
-    SQLiteDatabase database = null;
+//    SQLiteDatabase database = null;
     DataBase db = null;
     String DATABASE_NAME = "ssdb2.db";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_made_option);
             dapanbtn = findViewById(R.id.datlbtn);
@@ -58,7 +57,8 @@ public class MadeOption extends AppCompatActivity {
             txtmade = findViewById(R.id.txtvieweassay);
             Intent intent = getIntent();
             db = new DataBase(this);
-            String makithi = intent.getStringExtra("makithi");
+//            String makithi = intent.getStringExtra("makithi");
+            int makithi = intent.getIntExtra("makithi", -1);
 //            Toast.makeText(this, ""+ makithi, Toast.LENGTH_SHORT).show();
             String username = intent.getStringExtra("username");
             txtmade.setText("Kì thi " + makithi);
@@ -67,18 +67,21 @@ public class MadeOption extends AppCompatActivity {
             imgremove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean removeStatus = true;
-                    int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
-                    String msgDeleteComplete = "";
-                    String msgDeleteFailed = "";
-                    rowAffect1 = db.mydatabase.delete("cauhoi",
-                            "makithi = ? and username = ?", new String[]{makithi, username});
-                    rowAffect2 = db.mydatabase.delete("diem",
-                            "makithi = ?", new String[]{makithi});
-                    rowAffect3 = db.mydatabase.delete("made",
-                            "makithi = ?", new String[]{makithi});
+//                    boolean removeStatus = true;
+//                    int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
+//                    String msgDeleteComplete = "";
+//                    String msgDeleteFailed = "";
+//                    rowAffect1 = db.mydatabase.delete("cauhoi",
+//                            "makithi = ? and username = ?", new String[]{makithi, username});
+//                    rowAffect2 = db.mydatabase.delete("diem",
+//                            "makithi = ?", new String[]{makithi});
+//                    rowAffect3 = db.mydatabase.delete("made",
+//                            "makithi = ?", new String[]{makithi});
+                    int rowAffect4 = 0;
+//                    rowAffect4 = db.mydatabase.delete("kithi",
+//                            "makithi = ? and username = ?", new String[]{makithi, username});
                     rowAffect4 = db.mydatabase.delete("kithi",
-                            "makithi = ? and username = ?", new String[]{makithi, username});
+                            "makithi = " + makithi + " and username = '" + username + "'", null);
                     if (rowAffect4 > 0)
                         Toast.makeText(MadeOption.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
                     else {
@@ -144,7 +147,7 @@ public class MadeOption extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
-                    baidacham.putExtra("makithi", makithi + "");
+                    baidacham.putExtra("makithi", makithi);
                     startActivity(baidacham);
                 }
             });

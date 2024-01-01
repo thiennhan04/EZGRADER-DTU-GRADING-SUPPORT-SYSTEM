@@ -56,6 +56,8 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="56dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -93,14 +95,14 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="160dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -146,6 +148,8 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="264dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -190,6 +194,8 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="364dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -234,6 +240,8 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="465dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"

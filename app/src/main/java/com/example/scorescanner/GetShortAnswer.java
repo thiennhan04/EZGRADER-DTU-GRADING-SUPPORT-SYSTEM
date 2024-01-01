@@ -63,7 +63,8 @@ public class GetShortAnswer extends AppCompatActivity {
         this.listResult = new ArrayList<>(Collections.nCopies(5, ""));
         this.count = 0;
     }
-    private void getImgShortAnswer(DataBase db, Bitmap bitmap, String makithi, String user, String made) {
+//    private void getImgShortAnswer(DataBase db, Bitmap bitmap, String makithi, String user, String made) {
+    private void getImgShortAnswer(DataBase db, Bitmap bitmap, int makithi, String user, String made) {
         try {
             if (!Python.isStarted()) {
                 Python.start(new AndroidPlatform(this.context));
@@ -165,7 +166,8 @@ public class GetShortAnswer extends AppCompatActivity {
         }
     }
 
-    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, String makithi,String user, String made) {
+//    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, String makithi,String user, String made) {
+    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, int makithi,String user, String made) {
         try {
             getImgShortAnswer(db, bitmap,  makithi, user,  made);
             return listImg.get(4);

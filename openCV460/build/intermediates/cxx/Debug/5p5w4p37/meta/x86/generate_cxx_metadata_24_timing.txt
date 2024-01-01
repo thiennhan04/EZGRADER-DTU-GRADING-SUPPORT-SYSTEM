@@ -16,3 +16,29 @@ generate_cxx_metadata
   generate-extra-metadata-files 16ms
 generate_cxx_metadata completed in 63ms
 
+<<<<<<< HEAD
+=======
+# C/C++ build system timings
+generate_cxx_metadata
+  [gap of 22ms]
+  create-invalidation-state 16ms
+  [gap of 15ms]
+  write-metadata-json-to-file 16ms
+generate_cxx_metadata completed in 69ms
+
+# C/C++ build system timings
+generate_cxx_metadata
+  [gap of 34ms]
+  create-invalidation-state 18ms
+  [gap of 15ms]
+  write-metadata-json-to-file 13ms
+generate_cxx_metadata completed in 82ms
+
+# C/C++ build system timings
+generate_cxx_metadata
+  [gap of 25ms]
+  create-invalidation-state 10ms
+  [gap of 16ms]
+generate_cxx_metadata completed in 51ms
+
+>>>>>>> 814ac7e9edb7b66f3e3f75570e0816a9fb504816

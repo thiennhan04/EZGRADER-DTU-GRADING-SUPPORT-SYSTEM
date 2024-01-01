@@ -31,8 +31,10 @@ public class ImageAdapter extends ArrayAdapter<Student> {
     ArrayList<Student> mylist;
     boolean isTl;
     private static  DataBase db;
-    private String makithi;
-    public ImageAdapter(Activity context1, int idlayout, ArrayList<Student> mylist, boolean isTl, String makithi) {
+//    private String makithi;
+    private int makithi;
+//    public ImageAdapter(Activity context1, int idlayout, ArrayList<Student> mylist, boolean isTl, String makithi) {
+    public ImageAdapter(Activity context1, int idlayout, ArrayList<Student> mylist, boolean isTl, int makithi) {
         super(context1,idlayout,mylist);
         this.context = context1;
         Idlayout = idlayout;
@@ -46,11 +48,14 @@ public class ImageAdapter extends ArrayAdapter<Student> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String tlurl = null;
-        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi + " " +
-                "and  loaicauhoi = 2 and masv = '" + mylist.get(position).getSbd() + "'", null);
+//        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi = " + makithi + " " +
+//                "and  loaicauhoi = 2 and masv = '" + mylist.get(position).getSbd() + "'", null);
+        Cursor c = db.mydatabase.rawQuery("select hinhanh from diem where makithi = " + makithi +
+                " and  loaicauhoi = 2 and masv = '" + mylist.get(position).getSbd() + "'", null);
         c.moveToFirst();
         while(c.isAfterLast() == false){
-            tlurl =  c.getString(2);
+//            tlurl =  c.getString(2);
+            tlurl =  c.getString(0);
             c.moveToNext();
         }
         c.close();

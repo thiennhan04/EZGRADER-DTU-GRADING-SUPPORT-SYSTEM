@@ -46,7 +46,8 @@ public class dapan_activity extends AppCompatActivity {
             lvCauHoi = findViewById(R.id.lvDA);
 
             Intent intent = getIntent();
-            String makithi = intent.getStringExtra("makithi");
+//            String makithi = intent.getStringExtra("makithi");
+            int makithi = intent.getIntExtra("makithi", -1);
             Log.i("TAG", "onCreate: ma ki thi = " + makithi);
             mylist = new ArrayList<>();
             myArrayAdapter = new dapan_adapter(this, R.layout.cauhoi_item, mylist);
@@ -54,7 +55,8 @@ public class dapan_activity extends AppCompatActivity {
             Cursor c1 = db.mydatabase.rawQuery("select socau from kithi where makithi = " + makithi, null);
             int socau = 0;
             c1.moveToFirst();
-            while (c1.isAfterLast() == false)
+//            while (c1.isAfterLast() == false)
+            while (!c1.isAfterLast())
             {
                 socau = c1.getInt(0);
                 c1.moveToNext();
@@ -71,7 +73,7 @@ public class dapan_activity extends AppCompatActivity {
             }
             Log.i("TAG", "onCreate: may array = " + myArrayAdapter.getCount());
 
-            int child=lvCauHoi.getChildCount();
+//            int child=lvCauHoi.getChildCount();
 
             lvCauHoi.setAdapter(myArrayAdapter);
             lvCauHoi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,7 +112,8 @@ public class dapan_activity extends AppCompatActivity {
                     StringBuilder res = new StringBuilder();
 
                     int child=myArrayAdapter.getCount();
-                    Boolean status  = true;
+//                    Boolean status  = true;
+                    boolean status  = true;
 
                     Log.i("TAG", "onClick: Lenght = " + child);
 
@@ -149,7 +152,8 @@ public class dapan_activity extends AppCompatActivity {
                     }
                     else
                     {
-                        int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+//                        int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+                        int row = db.mydatabase.update("cauhoi",values,"made = '" + strmade + "' and makithi = " + makithi,null);
                         if(row==0)
                         {
                             status = false;

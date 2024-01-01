@@ -13,17 +13,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class madeoption2 extends AppCompatActivity {
-    static String makithi;
+//    static String makithi;
+    static int makithi;
     static String username;
     Button dapantnbtn, chambaibtn, baidachambtn, thongkebtn, xuatfile;
     Button datlbtn;
     ImageButton imgremove;
     public static SQLiteDatabase database = null;
-    String DB_PATH_SUFFIX = "/databases/";
+//    String DB_PATH_SUFFIX = "/databases/";
     DataBase db = null;
-    String DATABASE_NAME = "ssdb2.db";
+//    String DATABASE_NAME = "ssdb2.db";
 
-    public static String getMakithi() {
+//    public static String getMakithi() {
+//        return makithi;
+//    }
+    public static int getMakithi() {
         return makithi;
     }
 
@@ -37,7 +41,7 @@ public class madeoption2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_madeoption2);
         Intent intent = getIntent();
-        makithi = intent.getStringExtra("makithi");
+        makithi = intent.getIntExtra("makithi",-1);
         username = intent.getStringExtra("username");
 
         TextView kithitxt = findViewById(R.id.textView);
@@ -102,7 +106,8 @@ public class madeoption2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent baidacham = new Intent(madeoption2.this, Baidacham.class);
-                baidacham.putExtra("makithi", makithi + "");
+                baidacham.putExtra("makithi", makithi);
+                baidacham.putExtra("username", username);
                 startActivity(baidacham);
             }
         });
@@ -139,18 +144,21 @@ public class madeoption2 extends AppCompatActivity {
         imgremove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean removeStatus = true;
-                int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
-                String msgDeleteComplete = "";
-                String msgDeleteFailed = "";
-                rowAffect1 = db.mydatabase.delete("cauhoi",
-                        "makithi = ? and username = ?", new String[]{makithi, username});
-                rowAffect2 = db.mydatabase.delete("diem",
-                        "makithi = ?", new String[]{makithi});
-                rowAffect3 = db.mydatabase.delete("made",
-                        "makithi = ?", new String[]{makithi});
+//                boolean removeStatus = true;
+//                int rowAffect1 = 0, rowAffect2 = 0, rowAffect3 = 0, rowAffect4 = 0;
+//                String msgDeleteComplete = "";
+//                String msgDeleteFailed = "";
+//                rowAffect1 = db.mydatabase.delete("cauhoi",
+//                        "makithi = ? and username = ?", new String[]{makithi, username});
+//                rowAffect2 = db.mydatabase.delete("diem",
+//                        "makithi = ?", new String[]{makithi});
+//                rowAffect3 = db.mydatabase.delete("made",
+//                        "makithi = ?", new String[]{makithi});
+                int rowAffect4 = 0;
+//                rowAffect4 = db.mydatabase.delete("kithi",
+//                        "makithi = ? and username = ?", new String[]{makithi, username});
                 rowAffect4 = db.mydatabase.delete("kithi",
-                        "makithi = ? and username = ?", new String[]{makithi, username});
+                        "makithi = " + makithi + " and username = '" + username + "'", null);
                 if (rowAffect4 > 0)
                     Toast.makeText(madeoption2.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
                 else {

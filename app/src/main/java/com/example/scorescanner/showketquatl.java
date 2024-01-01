@@ -52,7 +52,8 @@ public class showketquatl extends AppCompatActivity {
 
         db = new DataBase(showketquatl.this);
         String username = getIntent().getStringExtra("username");
-        String makithi = getIntent().getStringExtra("makithi");
+//        String makithi = getIntent().getStringExtra("makithi");
+        int makithi = getIntent().getIntExtra("makithi", -1);
 //        String masv = getIntent().getStringExtra("masv");
         String sbd = getIntent().getStringExtra("sbd"); //giả lập mã sinh viên khi chưa ghép với trắc nghiệm
         String made = getIntent().getStringExtra("made");
@@ -194,12 +195,14 @@ public class showketquatl extends AppCompatActivity {
         private WeakReference<showketquatl> activityRef;
         private GetShortAnswer getShortAnswer;
         private Bitmap bitmap;
-        private String makithi;
+//        private String makithi;
+        private int makithi;
         private String username;
         private String made;
 
 
-        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username,String made) {
+//        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username,String made) {
+    public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, int makithi, String username,String made) {
             this.activityRef = new WeakReference<>(activity);
             this.getShortAnswer = getShortAnswer;
             this.bitmap = bitmap;

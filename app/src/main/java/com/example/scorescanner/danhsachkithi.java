@@ -76,7 +76,8 @@ public class danhsachkithi extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
 //                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-                String makithi = mylist.get(i).getMakithi() + "";
+//                String makithi = mylist.get(i).getMakithi() + "";
+                int makithi = mylist.get(i).getMakithi();
 //                made.putExtra("makithi", makithi);
 //                made.putExtra("username", username);
 
@@ -127,7 +128,8 @@ public class danhsachkithi extends AppCompatActivity {
         database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
         mylist = new ArrayList<>();//tạo mới mảng rỗng
         myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+//        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+        Cursor c = database.rawQuery("select makithi, tenkithi, kieukithi from kithi where username = '" + username + "'", null);
         c.moveToFirst();
         mylist.clear();
         String data ="";
@@ -135,7 +137,7 @@ public class danhsachkithi extends AppCompatActivity {
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            int kieukithi = Integer.parseInt(c.getString(6));
+            int kieukithi = Integer.parseInt(c.getString(2));
             Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();
@@ -177,14 +179,15 @@ public class danhsachkithi extends AppCompatActivity {
     }
     private void loadkithi(String username2) {
         mylist.clear();
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username2 + "'", null);
+//        Cursor c = database.rawQuery("select * from kithi where username = '" + username2 + "'", null);
+        Cursor c = database.rawQuery("select makithi, tenkithi, kieukithi from kithi where username = '" + username2 + "'", null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            int kieukithi = Integer.parseInt(c.getString(6));
+            int kieukithi = Integer.parseInt(c.getString(2));
             Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();

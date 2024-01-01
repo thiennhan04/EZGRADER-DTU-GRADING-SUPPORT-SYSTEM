@@ -32,7 +32,8 @@ public class ViewImage extends AppCompatActivity {
 
         db = new DataBase(ViewImage.this);
         String username = getIntent().getStringExtra("username");
-        String makithi = getIntent().getStringExtra("makithi");
+//        String makithi = getIntent().getStringExtra("makithi");
+        int makithi = getIntent().getIntExtra("makithi", -1);
         methods = new Methods(this, makithi, username);
 
 
