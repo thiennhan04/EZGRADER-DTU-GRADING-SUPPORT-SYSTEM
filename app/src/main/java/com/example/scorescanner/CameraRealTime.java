@@ -81,9 +81,9 @@ public class CameraRealTime extends CameraActivity {
         mCameraView.setCvCameraViewListener(callBack);
         if (OpenCVLoader.initDebug()) {
             mCameraView.enableView();
-            if(session == 0) Toast.makeText(this, "Phiên 1: Trắc nghiệm", Toast.LENGTH_SHORT).show();
+            if(session == 0) Toast.makeText(this, "Trắc nghiệm", Toast.LENGTH_SHORT).show();
             else{
-                Toast.makeText(this, "Phiên 2: Tổng kết", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tổng kết", Toast.LENGTH_SHORT).show();
             }
         }
     }

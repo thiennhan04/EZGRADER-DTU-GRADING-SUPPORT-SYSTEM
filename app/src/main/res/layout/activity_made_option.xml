@@ -56,16 +56,13 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="56dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
-
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-
             app:layout_constraintEnd_toEndOf="parent"
-
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -80,7 +77,6 @@
 
             <Button
                 android:id="@+id/datlbtn"
-
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,13 +101,13 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="160dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -150,13 +146,13 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="264dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -194,13 +190,13 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="364dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -238,13 +234,13 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="465dp"
-            android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView

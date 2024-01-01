@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +84,24 @@ public class DanhSachKithi_Add extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String tenkithi = txttenkithi.getText()+"";
-                int socau = Integer.parseInt(txttenkithi2.getText()+"");
-                double hediem = Double.parseDouble(txttenkithi3.getText()+"");
+                int socau = -1;
+                try {
+                    socau = Integer.parseInt((txttenkithi2.getText()+"").trim());
+                    if(socau<0 || 50<socau) throw new Exception("Lỗi");
+                }
+                catch (Exception ex){
+                    Toast.makeText(DanhSachKithi_Add.this, "Số câu không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                double hediem = 0.1;
+                try {
+                    hediem = Double.parseDouble(txttenkithi3.getText() + "");
+                    if(hediem <= 0) throw new Exception("Lỗi");
+                }
+                catch (Exception ex) {
+                    Toast.makeText(DanhSachKithi_Add.this, "Hệ điểm không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myintent.putExtra("tenkithi",tenkithi);
                 myintent.putExtra("socau",socau);
                 myintent.putExtra("hediem",hediem);
