@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,9 @@ public class madeoption2 extends AppCompatActivity {
         Intent intent = getIntent();
         makithi = intent.getStringExtra("makithi");
         username = intent.getStringExtra("username");
+
+        TextView kithitxt = findViewById(R.id.textView);
+        kithitxt.setText("Kì thi "+makithi);
 
         db = new DataBase(this);
 
