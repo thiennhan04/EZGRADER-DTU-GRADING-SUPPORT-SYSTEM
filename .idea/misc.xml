@@ -1,0 +1,129 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/drawable/rectanglecamera.xml" value="0.2595" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/drawable/rounded_bg.xml" value="0.241" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_baidacham.xml" value="0.1765625" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_camera_cham_bai.xml" value="0.4" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_danh_sach_kithi_add.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.11302083333333333" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.2" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.22826086956521738" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_surface_camera.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_test_load_anh.xml" value="0.23097826086956522" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_test_python.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_testload_image.xml" value="0.1765625" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_testlv.xml" value="0.2246376811594203" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/activity_testradio.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/imageitem.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.25317028985507245" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/rectangle.xml" value="0.22826086956521738" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/restangle.xml" value="0.264" />
+        <entry key="..\:/CDIO/ScoreScanner/app/src/main/res/layout/testlv.xml" value="0.19972826086956522" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_camera_real_time.xml" value="0.18541666666666667" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_danh_sach_kithi_add.xml" value="0.16666666666666666" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.17447916666666666" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.20652173913043478" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.16666666666666666" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.33" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_madeoption2.xml" value="0.20652173913043478" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.20697463768115942" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.17426545086119555" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/activity_view_image.xml" value="0.18541666666666667" />
+        <entry key="..\:/DTU/NCKH/ScoreScanner/app/src/main/res/layout/tab_02_option_add_file.xml" value="0.20652173913043478" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_baidacham.xml" value="0.5" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_made_option.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_made_option_add.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_madeoption2.xml" value="0.12239583333333333" />
+        <entry key="..\:/NCKH/app/src/main/res/layout/activity_thong_ke.xml" value="0.25" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/drawable/radiobuttonicon.xml" value="0.2985" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.5" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_dapan.xml" value="0.33" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.2536231884057971" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.29438405797101447" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/cauhoi_item.xml" value="0.5" />
+        <entry key="..\:/ScoreScanner-hieu/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.2536231884057971" />
+        <entry key="..\:/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.2536231884057971" />
+        <entry key="..\:/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.2536231884057971" />
+        <entry key="..\:/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.33" />
+        <entry key="..\:/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.19427083333333334" />
+        <entry key="..\:/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.67" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.236" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/drawable/ic_launcher_background.xml" value="0.236" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.25" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_made.xml" value="0.264" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.2359375" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/drawable/edt_rounded_bg.xml" value="0.2265" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/drawable/red_rounded_bg.xml" value="0.2265" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/drawable/round_back_while_stroke_1000.xml" value="0.2265" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/drawable/rounded_bg.xml" value="0.2265" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/drawable/textview_background.xml" value="0.2265" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_baidacham.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_contact.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_danh_sach_kithi_add.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_danhgia.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.3191176470588235" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_dapan.xml" value="0.23731884057971014" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_guide.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_list_danhsachtuluan.xml" value="0.264" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.264" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_madeoption2.xml" value="0.2" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_support_option.xml" value="0.2056159420289855" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_test_load_anh.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_test_python.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testload_image.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testlv.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_testradio.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/activity_view_image.xml" value="0.2056159420289855" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/cauhoi_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/imageitem.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/rounded_background.xml" value="0.22826086956521738" />
+        <entry key="..\:/nckh/ScoreScanner/app/src/main/res/layout/tuluan_item.xml" value="0.2" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/btn_support_page.xml" value="0.168" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/round_back_blue_10.xml" value="0.139" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/drawable/round_back_white_1000.xml" value="0.1795" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_camera_cham_bai.xml" value="0.23854166666666668" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_contact.xml" value="0.264" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_danh_sach_kithi_add.xml" value="0.19701086956521738" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_danhgia.xml" value="0.4" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_danhsachkithi.xml" value="0.19701086956521738" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_dapan.xml" value="0.18385416666666668" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_guide.xml" value="0.264" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_made_option.xml" value="0.264" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_made_option_add.xml" value="0.19701086956521738" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_main_list_ans.xml" value="0.18385416666666668" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/activity_support_option.xml" value="0.4" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/cauhoi_item.xml" value="0.153125" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/imageitem.xml" value="0.18072916666666666" />
+        <entry key="..\:/packup cdio/ScoreScanner/ScoreScanner/app/src/main/res/layout/kithi_item.xml" value="0.15885416666666666" />
+      </map>
+    </option>
+  </component>
+<<<<<<< HEAD
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17_PREVIEW" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+=======
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+>>>>>>> 055aa678df87db445e327df762b60eb61ccbc12c
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="SuppressKotlinCodeStyleNotification">
+    <option name="disableForAll" value="true" />
+  </component>
+</project>

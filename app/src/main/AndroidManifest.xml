@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="EZ Grader DTU"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ScoreScanner"
+        tools:targetApi="31">
+        <activity
+            android:name=".ViewListAnswer"
+            android:exported="false" />
+        <activity
+            android:name=".ViewDetailEassay"
+            android:exported="false" />
+        <activity
+            android:name=".showketquatl"
+            android:exported="false" />
+        <activity
+            android:name=".XuatFile"
+            android:exported="false" />
+        <activity
+            android:name=".ThongKeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".list_danhsachtuluan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewImage"
+            android:exported="false" />
+        <activity
+            android:name=".OptionAddFileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CameraRealTime"
+            android:exported="false" />
+        <activity
+            android:name=".madeoption2"
+            android:exported="false" />
+        <activity
+            android:name=".Contact"
+            android:exported="false" />
+        <activity
+            android:name=".Danhgia"
+            android:exported="false" />
+        <activity
+            android:name=".Guide"
+            android:exported="false" />
+        <activity
+            android:name=".SupportOption"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".testLoadAnh" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".TestloadImage" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".Baidacham"
+            android:exported="false" />
+        <activity
+            android:name=".DanhSachKithi_Add"
+            android:exported="false" />
+        <activity
+            android:name=".dapan_activity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivityListAns"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".TestPython" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".CameraChamBai" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".MadeOptionAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MadeOption"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".testlv" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".MadeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".danhsachkithi"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
