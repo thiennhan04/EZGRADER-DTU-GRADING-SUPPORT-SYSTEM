@@ -53,3 +53,40 @@ create_cxx_tasks
   create-initial-cxx-model completed in 162ms
 create_cxx_tasks completed in 169ms
 
+# C/C++ build system timings
+create_cxx_tasks
+  create-initial-cxx-model
+    create-module-model 15ms
+    [gap of 43ms]
+    create-module-model 10ms
+    [gap of 36ms]
+  create-initial-cxx-model completed in 104ms
+create_cxx_tasks completed in 106ms
+
+# C/C++ build system timings
+create_cxx_tasks
+  create-initial-cxx-model
+    [gap of 53ms]
+    create-module-model 11ms
+    [gap of 29ms]
+    create-X86_64-model 11ms
+  create-initial-cxx-model completed in 105ms
+create_cxx_tasks completed in 108ms
+
+# C/C++ build system timings
+create_cxx_tasks
+  create-initial-cxx-model 62ms
+create_cxx_tasks completed in 65ms
+
+# C/C++ build system timings
+create_cxx_tasks
+  create-initial-cxx-model
+    create-module-model 12ms
+    [gap of 25ms]
+    create-X86-model 10ms
+    create-module-model 13ms
+    create-variant-model 10ms
+    [gap of 28ms]
+  create-initial-cxx-model completed in 107ms
+create_cxx_tasks completed in 110ms
+

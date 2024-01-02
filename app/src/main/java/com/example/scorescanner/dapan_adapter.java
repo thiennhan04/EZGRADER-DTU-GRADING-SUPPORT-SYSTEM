@@ -1,5 +1,6 @@
 package com.example.scorescanner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,66 +23,71 @@ import java.util.ArrayList;
 
 public class dapan_adapter extends ArrayAdapter<dapan_item> {
     Activity context;
-    int idlayout;
+    int Idlayout;
     private ArrayList<dapan_item> mylist;
 
     public dapan_adapter(Activity context, int idlayout, ArrayList<dapan_item> mylist)
     {
         super(context, idlayout, mylist);
         this.context = context;
-        this.idlayout = idlayout;
+        Idlayout = idlayout;
         this.mylist = mylist;
     }
 
+    @SuppressLint({"ViewHolder"})
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater myInflactor = context.getLayoutInflater();
-        convertView = myInflactor.inflate(idlayout, null);
-        try
-        {
-            dapan_item item = mylist.get(position);
-            TextView number = convertView.findViewById(R.id.num);
-            ArrayList<RadioButton> array = new ArrayList<>();
-//            RadioButton radioButton = convertView.findViewById(R.id.btnA);
-            array.add(convertView.findViewById(R.id.btnA));
-            array.add(convertView.findViewById(R.id.btnB));
-            array.add(convertView.findViewById(R.id.btnC));
-            array.add(convertView.findViewById(R.id.btnD));
+        convertView = myInflactor.inflate(Idlayout,null);
+        dapan_item dapan_item = mylist.get(position);
+        Log.i("TAG", "getView: === "+position+" "+dapan_item.checked);
 
-            for (RadioButton a : array) {
-                a.setChecked(false);
+        RadioButton ansA = convertView.findViewById(R.id.ansA);
+        ansA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dapan_item.checked = R.id.ansA;
+                ansA.setChecked(true);
             }
+        });
+        RadioButton ansB = convertView.findViewById(R.id.ansB);
+        ansB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dapan_item.checked = R.id.ansB;
+                ansB.setChecked(true);
+            }
+        });
+        RadioButton ansC = convertView.findViewById(R.id.ansC);
+        ansC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dapan_item.checked = R.id.ansC;
+                ansC.setChecked(true);
+            }
+        });
+        RadioButton ansD = convertView.findViewById(R.id.ansD);
+        ansD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dapan_item.checked = R.id.ansD;
+                ansD.setChecked(true);
+            }
+        });
 
+        RadioGroup radioGroup = convertView.findViewById(R.id.rdgroup);
 
-//            for (int i = 0; i < array.size(); i++) {
-//                RadioButton btn = array.get(i);
-//                if (btn.getText().equals(item.getDapan())) {
-//                    btn.setChecked(true);
-//                    item.setDapan(btn.getText()+"");
-//                } else {
-//                    btn.setChecked(false);
-//                }
-//            }
+        dapan_item.checked = radioGroup.getCheckedRadioButtonId();
 
-            number.setText("["+item.getNum()+"]");
-
+        if (dapan_item.checked != -1) {
+            RadioButton ans = convertView.findViewById(dapan_item.checked);
+            ans.setChecked(true);
         }
-        catch (Exception ex)
-        {
-//            Log.println(Log.DEBUG,"=====adap=====",ex.getMessage()+"=========");
-        }
+
+        TextView number = convertView.findViewById(R.id.number);
+        number.setText(String.valueOf(dapan_item.getNum()));
+
         return convertView;
     }
-
-//    public String getData()
-//    {
-//        String data="";
-//        for (int i = 0; i < mylist.size(); i++) {
-//            dapan_item item = mylist.get(i);
-//            data=data+item.getDapan();
-//        }
-//        Log.println(Log.DEBUG,"==========","" + data);
-//        return data;
-//    }
 }

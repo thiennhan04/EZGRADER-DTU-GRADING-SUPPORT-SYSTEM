@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,12 +58,21 @@ public class ViewListAnswer extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ViewListAnswer.this, AddAnswerHand.class);
                 intent.putExtra("username", username);
+                intent.putExtra("makithi", makithi);
                 startActivity(intent);
+            }
+        });
+        
+        list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, "onItemClick: iiiii " + i);
             }
         });
     }
 
-    private void loadData() {Cursor c = db.mydatabase.rawQuery("SELECT made from cauhoi WHERE makithi = " + makithi, null);
+    private void loadData() {
+        Cursor c = db.mydatabase.rawQuery("SELECT made from cauhoi WHERE makithi = " + makithi, null);
         if (c.getCount() == 0) {
             result.setVisibility(View.VISIBLE);
             list_item.setVisibility(View.INVISIBLE);

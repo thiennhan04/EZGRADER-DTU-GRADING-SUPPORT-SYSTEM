@@ -68,8 +68,8 @@ public class dapan_activity extends AppCompatActivity {
 //            Toast.makeText(this, "Makithi = " + makithi + " So cau: " + strsocau, Toast.LENGTH_SHORT).show();
             // đọc database gì đó để add vào mylist
             for (int i = 1; i <= socau; i++) {
-                dapan_item item = new dapan_item(i, "#");
-                mylist.add(item);
+//                dapan_item item = new dapan_item(i, "#");
+//                mylist.add(item);
             }
             Log.i("TAG", "onCreate: may array = " + myArrayAdapter.getCount());
 

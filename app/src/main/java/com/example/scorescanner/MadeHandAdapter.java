@@ -25,7 +25,6 @@ public class MadeHandAdapter extends ArrayAdapter<String> {
     ArrayList<String> mylist;
     int[] select = new int[4];
 
-
     public MadeHandAdapter(Activity context1, int idlayout, ArrayList<String> mylist)  {
         super(context1, idlayout,mylist);
         this.context = context1;
