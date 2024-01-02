@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ public class showketquatl extends AppCompatActivity {
 //        String masv = getIntent().getStringExtra("masv");
         String sbd = getIntent().getStringExtra("sbd"); //giả lập mã sinh viên khi chưa ghép với trắc nghiệm
         String made = getIntent().getStringExtra("made");
+        Log.i("TAG", "onCreate: ==== "+username+" "+makithi+" "+sbd+" "+made);
         scrollView = findViewById(R.id.scrollview);
         btnluukq = findViewById(R.id.btnluukq);
         db = new DataBase(this);
@@ -202,7 +204,7 @@ public class showketquatl extends AppCompatActivity {
 
 
 //        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username,String made) {
-    public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, int makithi, String username,String made) {
+        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, int makithi, String username,String made) {
             this.activityRef = new WeakReference<>(activity);
             this.getShortAnswer = getShortAnswer;
             this.bitmap = bitmap;
@@ -270,28 +272,27 @@ public class showketquatl extends AppCompatActivity {
                     try {
                         activity.edtkq1.setText(getShortAnswer.getListResult().get(0));
                     } catch (Exception e) {
-                        activity.edtkq1.setText("0");
+                        activity.edtkq1.setText("...");
                     }
                     try {
                         activity.edtkq2.setText(getShortAnswer.getListResult().get(1));
                     } catch (Exception e) {
-                        activity.edtkq1.setText("0");
+                        activity.edtkq1.setText("...");
                     }
                     try {
                         activity.edtkq3.setText(getShortAnswer.getListResult().get(2));
                     } catch (Exception e) {
-                        activity.edtkq1.setText("0");
+                        activity.edtkq1.setText("...");
                     }
                     try {
                         activity.edtkq4.setText(getShortAnswer.getListResult().get(3));
                     } catch (Exception e) {
-                        activity.edtkq1.setText("0");
+                        activity.edtkq1.setText("...");
                     }
-
                     try {
                         activity.edtkq5.setText(getShortAnswer.getListResult().get(4));
                     } catch (Exception e) {
-                        activity.edtkq5.setText("0");
+                        activity.edtkq5.setText("...");
                     }
 
                     //cập nhật kết quả từ đatabase

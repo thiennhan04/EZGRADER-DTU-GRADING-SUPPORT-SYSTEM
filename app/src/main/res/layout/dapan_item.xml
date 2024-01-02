@@ -11,20 +11,20 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/id0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
+            android:textSize="18sp"
+            android:checked="false"
             android:background="@drawable/custom_radio_button"
             android:button="@null"
-            android:gravity="center"
-            android:text="1" />
+            android:gravity="center" />
+
 
         <RadioButton
-            android:id="@+id/id1"
+            android:id="@+id/ansA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -36,7 +36,7 @@
             android:text="A" />
 
         <RadioButton
-            android:id="@+id/id2"
+            android:id="@+id/ansB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -48,7 +48,7 @@
             android:text="B" />
 
         <RadioButton
-            android:id="@+id/id3"
+            android:id="@+id/ansC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -60,7 +60,7 @@
             android:text="C" />
 
         <RadioButton
-            android:id="@+id/id4"
+            android:id="@+id/ansD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

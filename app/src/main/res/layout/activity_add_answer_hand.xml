@@ -47,56 +47,30 @@
             app:layout_constraintStart_toEndOf="@+id/back_btnds" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/made_btn"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edtMade"
+                android:layout_width="120sp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mã Đề" />
-
-            <Button
-                android:id="@+id/dapan_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Đáp án" />
+                android:hint="Nhập mã đề"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <GridView
-                android:id="@+id/lstview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:horizontalSpacing="8dp"
-                android:numColumns="4"
-                android:orientation="horizontal"
-                android:translationZ="5dp"
-                android:verticalSpacing="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="-96dp" />
-
-            <ListView
-                android:id="@+id/lstDa"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+        <ListView
+            android:id="@+id/lstDa"
+            android:layout_width="390sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 

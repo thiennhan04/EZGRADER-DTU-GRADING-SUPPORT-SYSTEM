@@ -89,6 +89,7 @@
             android:hint="Email or Username"
             android:inputType="textPersonName"
             android:padding="8dp"
+            android:text="tnhan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,6 +104,7 @@
             android:background="@drawable/edt_rounded_bg"
             android:ems="10"
             android:hint="Password"
+            android:text="123"
             android:inputType="textPassword"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
