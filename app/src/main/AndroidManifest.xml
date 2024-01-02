@@ -18,10 +18,14 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="EZ Grader DTU"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoreScanner"
         tools:targetApi="31">
+        <activity
+            android:name=".RepairAnswerHand"
+            android:exported="false" />
         <activity
             android:name=".ViewListAnswer"
             android:exported="false" />
@@ -66,12 +70,7 @@
             android:exported="false" />
         <activity
             android:name=".SupportOption"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".testLoadAnh" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".TestloadImage" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".Baidacham"
             android:exported="false" />
@@ -94,9 +93,7 @@
             android:exported="false" />
         <activity
             android:name=".MadeOption"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".testlv" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".MadeActivity"
             android:exported="false" />

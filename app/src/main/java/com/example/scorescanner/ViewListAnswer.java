@@ -1,5 +1,6 @@
 package com.example.scorescanner;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -62,13 +63,12 @@ public class ViewListAnswer extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
-        list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(TAG, "onItemClick: iiiii " + i);
-            }
-        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 
     private void loadData() {
@@ -82,7 +82,7 @@ public class ViewListAnswer extends AppCompatActivity {
             list_item.setVisibility(View.VISIBLE);
 
             mylist = new ArrayList<>();
-            viewAdapter = new MadeViewAdapter(this, R.layout.list_made, mylist);
+            viewAdapter = new MadeViewAdapter(this, R.layout.list_made, mylist, db, makithi);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {

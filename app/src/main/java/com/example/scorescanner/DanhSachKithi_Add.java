@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
     private List<String> list, list2;
     Spinner spinner, spinkieukithi;
     EditText txttenkithi,txttenkithi2,txttenkithi3;
-    ImageButton savebtn2;
+    ImageButton savebtn2, back_btn;
     String loaiphieu = "";
     String kieukithi = "";
     Intent myintent;
@@ -33,6 +34,15 @@ public class DanhSachKithi_Add extends AppCompatActivity {
         txttenkithi3 = findViewById(R.id.txttenkithi3);
         spinkieukithi = findViewById(R.id.spinkieukithi);
         savebtn2 = findViewById(R.id.savebtn2);
+        back_btn = findViewById(R.id.back_btnds);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         //loai phieu
         list = new ArrayList<>();
         list.add("50");
@@ -83,8 +93,24 @@ public class DanhSachKithi_Add extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String tenkithi = txttenkithi.getText()+"";
-                int socau = Integer.parseInt(txttenkithi2.getText()+"");
-                double hediem = Double.parseDouble(txttenkithi3.getText()+"");
+                int socau = -1;
+                try {
+                    socau = Integer.parseInt((txttenkithi2.getText()+"").trim());
+                    if(socau<0 || 50<socau) throw new Exception("Lỗi");
+                }
+                catch (Exception ex){
+                    Toast.makeText(DanhSachKithi_Add.this, "Số câu không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                double hediem = 0.1;
+                try {
+                    hediem = Double.parseDouble(txttenkithi3.getText() + "");
+                    if(hediem <= 0) throw new Exception("Lỗi");
+                }
+                catch (Exception ex) {
+                    Toast.makeText(DanhSachKithi_Add.this, "Hệ điểm không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myintent.putExtra("tenkithi",tenkithi);
                 myintent.putExtra("socau",socau);
                 myintent.putExtra("hediem",hediem);

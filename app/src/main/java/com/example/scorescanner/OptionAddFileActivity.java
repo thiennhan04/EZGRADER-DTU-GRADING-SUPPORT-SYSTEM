@@ -70,7 +70,6 @@ public class OptionAddFileActivity extends AppCompatActivity {
         findViewById(R.id.addHand).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(OptionAddFileActivity.this, dapan_activity.class);
                 Intent intent = new Intent(OptionAddFileActivity.this, ViewListAnswer.class);
                 intent.putExtra("username", username);
                 intent.putExtra("makithi", makithi);

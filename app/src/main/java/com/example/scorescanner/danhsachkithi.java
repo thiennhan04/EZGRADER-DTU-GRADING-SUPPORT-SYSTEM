@@ -81,8 +81,7 @@ public class danhsachkithi extends AppCompatActivity {
 //                made.putExtra("makithi", makithi);
 //                made.putExtra("username", username);
 
-//                if (mylist.get(i).getKieukithi() == 1){
-                if (makithi == 1){
+                if (mylist.get(i).getKieukithi() == 1){
                     Intent madeoption1 = new Intent(danhsachkithi.this, MadeOption.class);
                     madeoption1.putExtra("makithi", makithi);
                     madeoption1.putExtra("username", username);

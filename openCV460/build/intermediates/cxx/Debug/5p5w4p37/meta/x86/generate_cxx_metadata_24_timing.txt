@@ -16,6 +16,8 @@ generate_cxx_metadata
   generate-extra-metadata-files 16ms
 generate_cxx_metadata completed in 63ms
 
+<<<<<<< HEAD
+=======
 # C/C++ build system timings
 generate_cxx_metadata
   [gap of 22ms]
@@ -39,6 +41,7 @@ generate_cxx_metadata
   [gap of 16ms]
 generate_cxx_metadata completed in 51ms
 
+<<<<<<< HEAD
 # C/C++ build system timings
 generate_cxx_metadata
   [gap of 31ms]
@@ -46,3 +49,6 @@ generate_cxx_metadata
   [gap of 15ms]
 generate_cxx_metadata completed in 85ms
 
+=======
+>>>>>>> 814ac7e9edb7b66f3e3f75570e0816a9fb504816
+>>>>>>> af9dcdd6c7b4798b646025fe25f02585bce0c71c

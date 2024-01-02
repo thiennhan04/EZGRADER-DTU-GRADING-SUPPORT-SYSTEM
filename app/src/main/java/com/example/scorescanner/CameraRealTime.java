@@ -81,9 +81,9 @@ public class CameraRealTime extends CameraActivity {
         mCameraView.setCvCameraViewListener(callBack);
         if (OpenCVLoader.initDebug()) {
             mCameraView.enableView();
-            if(session == 0) Toast.makeText(this, "Phiên 1: Trắc nghiệm", Toast.LENGTH_SHORT).show();
+            if(session == 0) Toast.makeText(this, "Trắc nghiệm", Toast.LENGTH_SHORT).show();
             else{
-                Toast.makeText(this, "Phiên 2: Tổng kết", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tổng kết", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -131,7 +131,7 @@ public class CameraRealTime extends CameraActivity {
                     rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                             bitmap.getHeight(), matrix, true);
                     String username = getIntent().getStringExtra("username");
-                    String makithi = getIntent().getStringExtra("makithi");
+                    int makithi = getIntent().getIntExtra("makithi",-1);
                     Intent tnIntent = new Intent(CameraRealTime.this, ViewImage.class);
                     Intent tlIntent = new Intent(CameraRealTime.this, showketquatl.class);
                     tnIntent.putExtra("username", username);
@@ -233,7 +233,7 @@ public class CameraRealTime extends CameraActivity {
                 }
             }
         }
-        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 30) {
+        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 4) {
             demTimeCheck = 0;
             Point[] dstPoints = new Point[4];
             dstPoints[0] = new Point(0, 0);

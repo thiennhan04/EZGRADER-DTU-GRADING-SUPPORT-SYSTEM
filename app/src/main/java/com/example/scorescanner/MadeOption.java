@@ -43,7 +43,6 @@ public class MadeOption extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_made_option);
             dapanbtn = findViewById(R.id.datlbtn);
@@ -148,7 +147,7 @@ public class MadeOption extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent baidacham = new Intent(MadeOption.this, Baidacham.class);
-                    baidacham.putExtra("makithi", makithi + "");
+                    baidacham.putExtra("makithi", makithi);
                     startActivity(baidacham);
                 }
             });

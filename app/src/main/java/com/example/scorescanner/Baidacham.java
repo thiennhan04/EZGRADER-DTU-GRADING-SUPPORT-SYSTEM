@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -71,6 +75,14 @@ public class Baidacham extends AppCompatActivity {
         catch(Exception ex) {
             ex.printStackTrace();
         }
+
+        ImageButton backbtn = findViewById(R.id.back_btnds);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }

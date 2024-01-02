@@ -989,7 +989,6 @@ public class Methods extends AppCompatActivity {
             }
             String imguri = directory.getAbsolutePath() + "/" + sbd + ".jpg";
 
-
             Log.i(TAG, "getDataFromDB: "+isExist.getCount());
             Log.i(TAG, "getDataFromDB: answer ==== " + sql);
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +41,11 @@ public class madeoption2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_madeoption2);
         Intent intent = getIntent();
-//        makithi = intent.getStringExtra("makithi");
-        makithi = intent.getIntExtra("makithi", -1);
+        makithi = intent.getIntExtra("makithi",-1);
         username = intent.getStringExtra("username");
+
+        TextView kithitxt = findViewById(R.id.textView);
+        kithitxt.setText("Kì thi "+makithi);
 
         db = new DataBase(this);
 
@@ -103,7 +106,8 @@ public class madeoption2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent baidacham = new Intent(madeoption2.this, Baidacham.class);
-                baidacham.putExtra("makithi", makithi + "");
+                baidacham.putExtra("makithi", makithi);
+                baidacham.putExtra("username", username);
                 startActivity(baidacham);
             }
         });

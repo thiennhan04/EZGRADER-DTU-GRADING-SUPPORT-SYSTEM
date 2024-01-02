@@ -24,15 +24,43 @@ import java.util.ArrayList;
 public class dapan_adapter extends ArrayAdapter<dapan_item> {
     Activity context;
     int Idlayout;
-    private ArrayList<dapan_item> mylist;
+    private static ArrayList<dapan_item> mylist;
 
     public dapan_adapter(Activity context, int idlayout, ArrayList<dapan_item> mylist)
     {
         super(context, idlayout, mylist);
         this.context = context;
         Idlayout = idlayout;
-        this.mylist = mylist;
+        dapan_adapter.mylist = mylist;
     }
+
+    public static ArrayList<String> getSelectedRadioButtons() {
+        ArrayList<String> selectedRadioButtons = new ArrayList<>();
+
+        for (int i = 0; i < mylist.size(); i++) {
+            dapan_item item = mylist.get(i);
+            selectedRadioButtons.add(item.checked == -1 ? "#" : getRadioButtonPosition(item.checked));
+        }
+
+        return selectedRadioButtons;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private static String getRadioButtonPosition(int checkedId) {
+        switch (checkedId) {
+            case R.id.ansA:
+                return "A";
+            case R.id.ansB:
+                return "B";
+            case R.id.ansC:
+                return "C";
+            case R.id.ansD:
+                return "D";
+            default:
+                return "#";
+        }
+    }
+
 
     @SuppressLint({"ViewHolder"})
     @NonNull

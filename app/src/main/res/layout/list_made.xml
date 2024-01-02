@@ -15,7 +15,7 @@
         android:paddingVertical="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="50dp"/>
 
     <TextView
         android:id="@+id/tvMaDeValue"
@@ -25,7 +25,27 @@
         android:textColor="#000"
         android:layout_toEndOf="@id/tvMaDe"
         android:layout_marginStart="8dp"
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true" />
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/repair_btn"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FF00"
+        android:text="🔧"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="50sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/tvMaDeValue"/>
+
+    <Button
+        android:id="@+id/remove_btn"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF0000"
+        android:text="X"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/repair_btn"/>
 
 </RelativeLayout>
