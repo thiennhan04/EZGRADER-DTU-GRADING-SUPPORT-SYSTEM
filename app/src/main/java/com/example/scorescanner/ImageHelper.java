@@ -13,7 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 public class ImageHelper {
-    private static String getRandomString() {
+    public static String getRandomString() {
         Date now = new Date();
         String tmp = now.getHours()+"-"+now.getMinutes()+"_"+(now.getDate()+1)+"-"+(now.getMonth()+1)+"-"+(now.getYear()+1900)+"-" + now.getTime();
         return tmp;

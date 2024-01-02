@@ -96,7 +96,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
                 double hediem = 0.1;
                 try {
                     hediem = Double.parseDouble(txttenkithi3.getText() + "");
-                    if(hediem <= 0) throw new Exception("Lỗi");
+                    if(hediem <= 0 || hediem>=10) throw new Exception("Lỗi");
                 }
                 catch (Exception ex) {
                     Toast.makeText(DanhSachKithi_Add.this, "Hệ điểm không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();

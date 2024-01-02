@@ -948,18 +948,19 @@ public class Methods extends AppCompatActivity {
 //                bitmap = imgMade;
                 return recoverBitmap(bitmap);
             }
-            Log.i(TAG, "getDataFromDB: ===== "+made);
+//            Log.i(TAG, "getDataFromDB: ===== "+made);
 //            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = ? and made = ?",
 //                    new String[]{makithi, made});
-            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi + " and made = '" + made + "'",
+            Cursor c = db.mydatabase.rawQuery("select * from cauhoi where makithi = " + makithi + " and made = '" + made + "' and kieucauhoi = 1",
                     null);
-            if (!c.moveToFirst()) {
+            if (c.getCount() == 0) {
                 score = "Mã đề không tồn tại!";
                 return recoverBitmap(bitmap);
             }
             c.moveToFirst();
             while (!c.isAfterLast()) {
                 list_answer = c.getString(c.getColumnIndex("dapan"));
+                Log.i(TAG, "getDataFromDB: ========= "+list_answer);
                 c.moveToNext();
             }
             c.close();
@@ -978,7 +979,7 @@ public class Methods extends AppCompatActivity {
             //////
 
             // save to db
-            String sql = "select masv, hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "' and hinhanh not null";
+            String sql = "select masv, hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "' and hinhanh not null and loaicauhoi = 1";
             Cursor isExist = db.mydatabase.rawQuery(sql, null);
             isExist.moveToFirst();
 
@@ -1006,7 +1007,7 @@ public class Methods extends AppCompatActivity {
                 valuediem.put("masv", sbd);
                 valuediem.put("hinhanh", imguri);
                 Log.d(TAG, "getDataFromDB: Uriiiiii = " + imguri);
-                if (db.mydatabase.update("diem", valuediem, "makithi = " + makithi + " and masv = '" + sbd + "'", null) == -1) {
+                if (db.mydatabase.update("diem", valuediem, "makithi = " + makithi + " and masv = '" + sbd + "' and loaicauhoi = 1", null) == -1) {
                     msg = "Fail to insert record";
                 } else {
                     msg = "Insert record sucess";
@@ -1018,6 +1019,7 @@ public class Methods extends AppCompatActivity {
                 valuediem.put("diemso", diem);
                 valuediem.put("masv", sbd);
                 valuediem.put("hinhanh", imguri);
+                valuediem.put("loaicauhoi",1);
                 if (db.mydatabase.insert("diem", null, valuediem) == -1) {
                     msg = "Fail to insert record";
                 } else {
