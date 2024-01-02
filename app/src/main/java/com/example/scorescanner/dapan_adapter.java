@@ -39,51 +39,19 @@ public class dapan_adapter extends ArrayAdapter<dapan_item> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater myInflactor = context.getLayoutInflater();
-        convertView = myInflactor.inflate(Idlayout,null);
+        if(convertView == null)
+            convertView = myInflactor.inflate(Idlayout,null);
         dapan_item dapan_item = mylist.get(position);
-        Log.i("TAG", "getView: === "+position+" "+dapan_item.checked);
-
-        RadioButton ansA = convertView.findViewById(R.id.ansA);
-        ansA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dapan_item.checked = R.id.ansA;
-                ansA.setChecked(true);
-            }
-        });
-        RadioButton ansB = convertView.findViewById(R.id.ansB);
-        ansB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dapan_item.checked = R.id.ansB;
-                ansB.setChecked(true);
-            }
-        });
-        RadioButton ansC = convertView.findViewById(R.id.ansC);
-        ansC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dapan_item.checked = R.id.ansC;
-                ansC.setChecked(true);
-            }
-        });
-        RadioButton ansD = convertView.findViewById(R.id.ansD);
-        ansD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dapan_item.checked = R.id.ansD;
-                ansD.setChecked(true);
-            }
-        });
-
         RadioGroup radioGroup = convertView.findViewById(R.id.rdgroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                dapan_item.checked = checkedId;
+                mylist.set(position,dapan_item);
+            }
+        });
 
-        dapan_item.checked = radioGroup.getCheckedRadioButtonId();
-
-        if (dapan_item.checked != -1) {
-            RadioButton ans = convertView.findViewById(dapan_item.checked);
-            ans.setChecked(true);
-        }
+        radioGroup.check(dapan_item.checked);
 
         TextView number = convertView.findViewById(R.id.number);
         number.setText(String.valueOf(dapan_item.getNum()));
