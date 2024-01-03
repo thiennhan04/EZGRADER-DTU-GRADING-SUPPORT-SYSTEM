@@ -52,3 +52,19 @@ generate_cxx_metadata completed in 85ms
 =======
 >>>>>>> 814ac7e9edb7b66f3e3f75570e0816a9fb504816
 >>>>>>> af9dcdd6c7b4798b646025fe25f02585bce0c71c
+# C/C++ build system timings
+generate_cxx_metadata
+  [gap of 63ms]
+  create-invalidation-state 15ms
+  [gap of 16ms]
+  write-metadata-json-to-file 15ms
+generate_cxx_metadata completed in 109ms
+
+# C/C++ build system timings
+generate_cxx_metadata
+  [gap of 31ms]
+  create-invalidation-state 16ms
+  [gap of 15ms]
+  write-metadata-json-to-file 16ms
+generate_cxx_metadata completed in 78ms
+
