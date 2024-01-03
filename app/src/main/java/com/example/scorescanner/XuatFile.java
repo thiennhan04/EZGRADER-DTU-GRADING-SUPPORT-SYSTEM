@@ -34,8 +34,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 public class XuatFile extends AppCompatActivity {
@@ -57,12 +60,7 @@ public class XuatFile extends AppCompatActivity {
 
         db = new DataBase(this);
         Intent intent = getIntent();
-//        makithi = intent.getStringExtra("makithi");
         makithi = intent.getIntExtra("makithi", -1);
-
-//        String sql = "select * from diem where makithi="+makithi;
-//        Cursor c = db.mydatabase.rawQuery(sql, null);
-//        Toast.makeText(XuatFile.this, c.getCount()+"", Toast.LENGTH_SHORT).show();
 
         back = findViewById(R.id.back_btnds);
         back.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +145,6 @@ public class XuatFile extends AppCompatActivity {
                 if (cell2 != null && cell2.toString().length() > 0 && cell3 != null && cell3.toString().length() > 0) {
                     info = (i - 7) + "|" + cell2 + " " + cell3;
                     data.add(info);
-//                    Log.d("TAG", "readFile: infooo = " + info);
                 }
             }
 
@@ -164,8 +161,6 @@ public class XuatFile extends AppCompatActivity {
                     }
                     String name = line[1];
 
-//                    Cursor c = db.mydatabase.rawQuery("SELECT * FROM diem WHERE makithi = ? and masv = ?",
-//                            new String[]{makithi, sbd});
                     Cursor c = db.mydatabase.rawQuery("SELECT * FROM diem WHERE makithi = " + makithi +" and masv = '" + sbd + "'",
                             null);
                     ContentValues values = new ContentValues();
@@ -177,8 +172,6 @@ public class XuatFile extends AppCompatActivity {
                             status = false;
                         }
                     } else {
-//                        if (db.mydatabase.update("diem", values, "makithi = ? and masv = ?",
-//                                new String[]{makithi, sbd}) == 0) {
                         if (db.mydatabase.update("diem", values, "makithi = " + makithi + " and masv = '" + sbd + "'",
                                 null) == 0) {
                             status = false;
@@ -201,24 +194,16 @@ public class XuatFile extends AppCompatActivity {
             String coutSql = "SELECT count(*) FROM diem WHERE makithi = " + makithi;
             String cSql = "SELECT count(*) FROM diem WHERE makithi = " + makithi + " and hinhanh is null";
 
-//            Log.i("TAG", "exportFile: cout sql = " + coutSql);
-//            Log.i("TAG", "exportFile: c sql = " + cSql);
-
             Cursor cout = db.mydatabase.rawQuery(coutSql, null);
             Cursor c = db.mydatabase.rawQuery(cSql, null);
 
             c.moveToFirst();
             cout.moveToFirst();
 
-            // Log giá trị từ Cursor để kiểm tra
-//            Log.i("TAG", "exportFile: Count from c = " + c.getInt(0));
-//            Log.i("TAG", "exportFile: Value from cout = " + cout.getInt(0));
-
             if (c.getInt(0) == cout.getInt(0)) {
                 Toast.makeText(XuatFile.this, "Bạn chưa có chấm bài", Toast.LENGTH_SHORT).show();
                 status = false;
             } else {
-//                Toast.makeText(XuatFile.this, "Hello", Toast.LENGTH_SHORT).show();
                 status = true;
 
                 XSSFWorkbook workbook = new XSSFWorkbook();
@@ -241,10 +226,7 @@ public class XuatFile extends AppCompatActivity {
                     titleCell.setCellStyle(titleStyle);
                 }
 
-//                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = ?",
-//                        new String[]{makithi});
-
-                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = " + makithi,
+                Cursor getData = db.mydatabase.rawQuery("select masv, tensv, diemso, hinhanh from diem where makithi = " + makithi + " and hinhanh is not null and loaicauhoi = 1",
                         null);
 
                 ArrayList<Object[]> arr = new ArrayList<>();
@@ -263,23 +245,25 @@ public class XuatFile extends AppCompatActivity {
                         ho = ho.trim();
                         ten = hoten[hoten.length - 1];
                     }
-                    String diem = getData.getString(2);
-                    diem = diem.replace(',', '.');
-                    if (getData.getString(3) == null) {
-                        diem = "Chưa chấm";
+                    double diem = getData.getDouble(1);
+                    Cursor getData2 = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = " + makithi + " and hinhanh is not null and loaicauhoi = 2 and masv = '" + getData.getString(0) + "'",
+                            null);
+                    getData2.moveToFirst();
+                    double diemTl = 0;
+                    while (!getData2.isAfterLast()) {
+                        diemTl = getData2.getDouble(1);
+                        getData2.moveToNext();
                     }
-                    arr.add(new Object[]{getData.getString(0), ho, ten, diem});
-//                    Log.i("TAG", "exportFile: "+diem);
+                    DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
+                    decimalFormat.applyPattern("#.##");
+
+                    double tongDiem = diem + diemTl;
+                    String formattedTongDiem = decimalFormat.format(tongDiem);
+                    arr.add(new Object[]{getData.getString(0), ho, ten, formattedTongDiem});
                     getData.moveToNext();
                 }
 
-//                for (Object[] a : arr) {
-//                    for (Object b : a) {
-////                        Log.i("TAG", "exportFile: bbbbb = " + b);
-//                    }
-//                }
-
-                int rowCount = 1; // Bắt đầu từ dòng thứ 2
+                int rowCount = 1;
 
                 for (Object[] rowData : arr) {
                     Row rowdt = sheet.createRow(rowCount++);
@@ -294,39 +278,33 @@ public class XuatFile extends AppCompatActivity {
                     }
                 }
 
-                int[] columnWidths = {2000, 4500, 1700, 2600}; // Đặt giá trị chiều rộng mong muốn
+                int[] columnWidths = {2000, 4500, 1700, 2600};
                 for (int i = 0; i < columnWidths.length; i++) {
                     sheet.setColumnWidth(i, columnWidths[i]);
                 }
 
-
-                // Kiểm tra đường dẫn đến thư mục Documents
                 File documentsDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/EzGrader/");
                 if (!documentsDirectory.exists()) {
-                    documentsDirectory.mkdirs(); // Tạo thư mục nếu nó không tồn tại
+                    documentsDirectory.mkdirs();
                 }
                 String name = "/BANG-DIEM1" + makithi + ".xlsx";
                 try (FileOutputStream outputStream = new FileOutputStream(documentsDirectory.getPath() + name)) {
                     workbook.write(outputStream);
                 }
-//                Log.d("TAG", "exportFile: xuất file okeeee");
             }
 
-            // Đóng Cursor
             c.close();
             cout.close();
 
             return status;
         } catch (Exception ex) {
             ex.printStackTrace();
-//            Log.i("TAG", "exportFile: =================================");
             return false;
         }
     }
 
 
     public boolean checkAdded() {
-//        Cursor c = db.mydatabase.rawQuery("select * from diem where makithi=? and length(tensv) > 0", new String[]{makithi});
         Cursor c = db.mydatabase.rawQuery("select * from diem where makithi= " + makithi + " and length(tensv) > 0", null);
         if (c.getCount() > 0)
             return true;
@@ -394,22 +372,28 @@ public class XuatFile extends AppCompatActivity {
                     titleCell.setCellStyle(titleStyle);
                 }
 
-//                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = ?",
-//                        new String[]{makithi});
-
-                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = " + makithi,
+                Cursor getData = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = " + makithi + " and hinhanh is not null and loaicauhoi = 1",
                         null);
 
                 ArrayList<Object[]> arr = new ArrayList<>();
 
                 getData.moveToFirst();
                 while (!getData.isAfterLast()) {
-                    String diem = getData.getString(1);
-                    diem = diem.replace(',', '.');
-                    if (getData.getString(1) == null) {
-                        diem = "Chưa chấm";
+                    double diem = getData.getDouble(1);
+                    Cursor getData2 = db.mydatabase.rawQuery("select masv, diemso from diem where makithi = " + makithi + " and hinhanh is not null and loaicauhoi = 2 and masv = '" + getData.getString(0) + "'",
+                            null);
+                    getData2.moveToFirst();
+                    double diemTl = 0;
+                    while (!getData2.isAfterLast()) {
+                        diemTl = getData2.getDouble(1);
+                        getData2.moveToNext();
                     }
-                    arr.add(new Object[]{getData.getString(0), diem});
+                    DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
+                    decimalFormat.applyPattern("#.##");
+
+                    double tongDiem = diem + diemTl;
+                    String formattedTongDiem = decimalFormat.format(tongDiem);
+                    arr.add(new Object[]{getData.getString(0), formattedTongDiem});
                     getData.moveToNext();
                 }
 
@@ -436,7 +420,7 @@ public class XuatFile extends AppCompatActivity {
                 if (!documentsDirectory.exists()) {
                     documentsDirectory.mkdirs();
                 }
-                String name = "/BANG-DIEM1" + makithi + " (Không Danh Sách)"+ ".xlsx";
+                String name = "/BANG-DIEM1_" + makithi + "_(Không Danh Sách)"+ ".xlsx";
                 try (FileOutputStream outputStream = new FileOutputStream(documentsDirectory.getPath() + name)) {
                     workbook.write(outputStream);
                 }

@@ -100,13 +100,17 @@ public class ImageAdapter extends ArrayAdapter<Student> {
             public void onClick(View v) {
                 mylist.remove(position);
                 int n = 0;
-                n  = Baidacham.db.mydatabase.delete("diem","hinhanh =?",new String[]{imgpath});
+                n  = Baidacham.db.mydatabase.delete("diem","hinhanh =? or hinhanh=?",new String[]{imgpath,finalTlurl});
                 if(n > 0){
                     File file = new File(imgpath);
-                    file.delete();
-                    Toast.makeText(context, "Xoa thanh công", Toast.LENGTH_SHORT).show();
+                    if(file.exists())
+                        file.delete();
+                    File file1 = new File(finalTlurl);
+                    if(file1.exists())
+                        file1.delete();
+                    Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(context, "Xoa that bai", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                 }
                 Baidacham.myimgadater.notifyDataSetChanged();
             }

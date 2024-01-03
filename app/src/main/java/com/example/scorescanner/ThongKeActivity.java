@@ -57,7 +57,6 @@ public class ThongKeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_ke);
         Intent intent = getIntent();
-//        makithi = intent.getStringExtra("makithi");
         makithi = intent.getIntExtra("makithi", -1);
         username =  intent.getStringExtra("username");
         db = new DataBase(this);
@@ -184,28 +183,40 @@ public class ThongKeActivity extends AppCompatActivity {
 
     private List<BarEntry> getData() {
         List<BarEntry> result = new ArrayList<>();
-        Cursor c = db.mydatabase.rawQuery("select diemso from diem where makithi = "+makithi +" and hinhanh is not null", null);
-        if(c.getCount()==0){
-            Toast.makeText(this, "Có gì mà thống kê", Toast.LENGTH_SHORT).show();
+        Cursor allexam = db.mydatabase.rawQuery("select diemso,masv from diem where makithi = "+makithi +" and hinhanh is not null and loaicauhoi = 1", null);
+        if(allexam.getCount()==0){
+            Toast.makeText(this, "Hãy chấm bài trước!", Toast.LENGTH_SHORT).show();
             finish();
             return null;
         }
+        allexam.moveToFirst();
         int[] diem = new int[11];
-        c.moveToFirst();
         double sum = 0;
-        while (!c.isAfterLast()) {
-            double diemdouble = c.getDouble(0);
-            sum += diemdouble;
-            int diemgoc = (int)diemdouble;
+        while(!allexam.isAfterLast()) {
+            String masv = allexam.getString(1);
+            Cursor c = db.mydatabase.rawQuery("select diemso,masv from diem where makithi = "+makithi+" and masv = '"+masv+"' and loaicauhoi = 2",null);
+            double sumtl = 0;
+            if(c.getCount()>0){
+                c.moveToFirst();
+                while (!c.isAfterLast()) {
+                    double diemdouble = c.getDouble(0);
+                    sumtl += diemdouble;
+                    c.moveToNext();
+                }
+            }
+            sum += allexam.getDouble(0)+sumtl;
+            Log.i("TAG", "getData: === "+allexam.getDouble(0)+" "+sumtl);
+            int diemgoc = (int)(allexam.getDouble(0)+sumtl);
             diem[diemgoc]++;
-            c.moveToNext();
+            allexam.moveToNext();
         }
+        Log.i("TAG", "getData: === "+sum);
         for(int i=0; i<=10; i++){
             result.add(new BarEntry(i+1,diem[i]));
         }
 
-        tong.setText("Tổng số bài: "+c.getCount());
-        txttb.setText("Điểm trung bình: "+(decimalFormat.format(sum/c.getCount())));
+        tong.setText("Tổng số bài: "+allexam.getCount());
+        txttb.setText("Điểm trung bình: "+(decimalFormat.format(sum/allexam.getCount())));
 
         return result;
     }
@@ -244,22 +255,33 @@ public class ThongKeActivity extends AppCompatActivity {
 
     public Object[] getPieData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
-        Cursor c = db.mydatabase.rawQuery("select diemso from diem where makithi = "+makithi+" and hinhanh is not null", null);
-        if(c.getCount()==0){
-            Toast.makeText(this, "Có gì mà thống kê", Toast.LENGTH_SHORT).show();
+        Cursor allexam = db.mydatabase.rawQuery("select diemso,masv from diem where makithi = "+makithi +" and hinhanh is not null and loaicauhoi = 1", null);
+        if(allexam.getCount()==0){
+            Toast.makeText(this, "Hãy chấm bài trước!", Toast.LENGTH_SHORT).show();
             finish();
             return null;
         }
+        allexam.moveToFirst();
         int[] diem = new int[11];
-        c.moveToFirst();
         double sum = 0;
-        while (!c.isAfterLast()) {
-            double diemdouble = c.getDouble(0);
-            sum += diemdouble;
-            int diemgoc = (int)diemdouble;
+        while(!allexam.isAfterLast()) {
+            String masv = allexam.getString(1);
+            Cursor c = db.mydatabase.rawQuery("select diemso from diem where makithi = "+makithi+" and masv = '"+masv+"' and hinhanh is not null and loaicauhoi=2", null);
+            double sumtl = 0;
+            if(c.getCount()>0){
+                c.moveToFirst();
+                while (!c.isAfterLast()) {
+                    double diemdouble = c.getDouble(0);
+                    sumtl += diemdouble;
+                    c.moveToNext();
+                }
+            }
+            sum += allexam.getDouble(0)+sumtl;
+            int diemgoc = (int)(allexam.getDouble(0)+sumtl);
             diem[diemgoc]++;
-            c.moveToNext();
+            allexam.moveToNext();
         }
+
         List<Integer> tmpColors = new ArrayList<>();
         for(int i=0; i<=10; i++){
             if(diem[i]>0){
@@ -269,8 +291,8 @@ public class ThongKeActivity extends AppCompatActivity {
             Log.i("TAG", "getPieData: === "+i+" "+diem[i]);
         }
 
-        tong.setText("Tổng số bài: "+c.getCount());
-        txttb.setText("Điểm trung bình: "+(decimalFormat.format(sum/c.getCount())));
+        tong.setText("Tổng số bài: "+allexam.getCount());
+        txttb.setText("Điểm trung bình: "+(decimalFormat.format(sum/allexam.getCount())));
 
         Object[] res = new Object[2];
         res[0] = entries;

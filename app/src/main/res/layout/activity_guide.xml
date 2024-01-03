@@ -57,20 +57,61 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="10dp">
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:layout_marginTop="144dp"
-            android:gravity="top"
-            android:minLines="15"
-            android:padding="12dp"
-            android:text="B1:Tải và in phiếu làm bài ở mục tải phiếu trả lời\n\nB2:Truy cập danh sách chấm -> Tạo Kì thi -> Tạo mã đề\n\nB3:Nhập đáp án cho mã đề\n\nB4:Chọn mục chấm bài. Ở giao diện chấm bài,
-    hãy để cho 4 chấm đen ở góc phiếu vào khớp tương ứng với 4 ô vuông tên camera\n\nB5:Chụp ảnh để chấm bài.\n\n
-    *Bạn có thể xem bài đã chấm ở mục bài đã chấm.\n
-    *Xem thống kê để biết tỉ lệ điểm đạt được của thí sinh ở cả kì thi"
-            android:textColor="#3399FF"
-            android:textSize="20sp"
-            android:textStyle="bold"></TextView>
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginTop="144dp"
+                android:gravity="top"
+                android:minLines="15"
+                android:padding="12dp"
+                android:text="1. Bút làm bài trắc nghiệm khách quan:
+\n– Dùng bút bi, hoặc bút mực để ghi thông tin: viết đầy đủ các thông tin về họ tên, ngày tháng năm sinh, lớp, số báo danh, mã đề, môn kiểm tra, ngày kiểm tra,…
+\n– Dùng bút chì mã 2B, hoặc 3B để tô các ô trả lời trắc nghiệm: tô số báo danh, mã đề, các phương án trả lời trắc nghiệm.
+\n2. Cách tô số báo danh, mã đề
+\n– Số báo danh có 6 chữ số, mã đề có 3 chữ số. Phải ghi và tô đủ số báo danh, mã đề.
+\n– Học sinh dùng bút mực hoặc bút bi viết SBD,  mã đề vào từng ô vuông vùng ghi số báo danh, mã đề thi (như hình vẽ)
+\n– Tô số báo danh, mã đề theo đúng số vào ô tròn của hàng và cột tương ứng.
+\n* Vùng tô số báo danh và mã đề có 10 hàng gồm: hàng 0, hàng 1, hàng 2, hàng 3, …, hàng 7, hàng 8, hàng 9.
+\n* Vùng số báo danh có 6 cột; mã đề có 3 cột.
+\n* Từng chữ số của số báo danh và mã đề ghi ở cột nào thì xác định sẽ tô ở cột đó, giá trị số là bao nhiêu thì tô tại ô của hàng tương ứng với số. Ví dụ bên dưới là tô SBD và mã đề đúng.
+\n– Một số lỗi tô SBD và Mã đề:
+\n* Tô sai SBD hoặc mã đề
+\n* Tô sai hàng
+\n* Tô sai cột
+\n* Không tô SBD, Mã đề hoặc tô quá nhạt
+\n* Không tô SBD, Mã đề hoặc tô quá nhạt
+\n* Không tô SBD, Mã đề
+\n* Không tô Mã đề
+\n* Không tô SBD
+\n* Tô nhạt vì dùng bút chì cứng
+\n* Tô và tẩy SBD không kỹ, làm máy hiểu là tô sai SBD
+\n* Tô và tẩy Mã đề không kỹ, làm máy hiểu là tô sai Mã đề
+\n* Tô sai cột Mã đề
+\n* Chỉ tô một phần SBD
+\n*3. Cách tô phần đáp án
+\n– Sau khi tìm được đáp án đúng của câu thì tô đậm vào ô tương ứng với các phương án A,  B,  C hoặc D.
+\n– Câu nào không tô đáp án sẽ không được tính điểm.
+\nMột số lỗi khác khi tô đáp án:
+\n* Gạch chéo đáp án sai => Máy sẽ hiểu là 1 câu tô 2 đáp án
+\n* Tô không đều, tô nhạt => máy sẽ không nhận được đáp án
+\n* Tô quá nhạt vì dùng bút chì kim => máy sẽ không nhận được đáp án
+\n4. Một vài lưu ý khi làm bài trắc nghiệm
+\n– Nên trả lời hết các câu hỏi (tô đáp án cho tất cả các câu).
+\n– Dùng bút chì mã từ 2B trở lên, nên dùng bút chì nét to để tiết kiệm thời gian tô. Không dùng bút chì kim để tô (vì bút chì này không tô đậm được).
+\n– Tô đậm để máy đọc tốt đáp án, không tô mờ.
+\n– Tô đậm đáp án, nếu sai phải tẩy sạch (nếu không tẩy có thể vẫn bị coi là đã tô đáp án đó) và tô lại đáp án khác.
+\n– Không để mực dính hay vạch lên ô đáp án khác để tránh bị nhầm là câu trả lời.
+\n– Các góc định vị của phiếu trả lời: tuyệt đối không tô/  viết/ làm bẩn/ làm mờ. Nếu góc định vị bị tô, làm bẩn,… phần mềm sẽ không chấm bài được và bài sẽ bị 0 (không) điểm.
+\n– Giữ phiếu trả lời trắc nghiệm phẳng, không gấp, không cuộn phiếu.
+\nChúc các em học và ôn tập hiệu quả, làm bài đạt kết quả cao."
+                android:textColor="#3399FF"
+                android:textSize="20sp"
+                android:textStyle="bold"></TextView>
+        </ScrollView>
+
     </LinearLayout>
 </LinearLayout>

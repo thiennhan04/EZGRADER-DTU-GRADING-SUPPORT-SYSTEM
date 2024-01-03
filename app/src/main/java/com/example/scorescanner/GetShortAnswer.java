@@ -76,8 +76,9 @@ public class GetShortAnswer extends AppCompatActivity {
             ArrayList<Bitmap> tempListBitmap = new ArrayList<>();
             Mat tempMat = new Mat();
             Bitmap tempBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+            List<CompletableFuture<String>> futures = new ArrayList<>();
             int y = 0;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i <= 4; i++) {
                 int currentQues = i;
                 tempMat = answerMat.submat(new Rect(0, y, 1400, 345));
                 tempBitmap = Bitmap.createBitmap(tempMat.width(), tempMat.height(), Bitmap.Config.ARGB_8888);
@@ -97,68 +98,75 @@ public class GetShortAnswer extends AppCompatActivity {
                 Bitmap image =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 DetectText detectText = new DetectText();
                 CompletableFuture<String> resultFuture = detectText.detectTxt(tempBitmap);
+                futures.add(resultFuture);
 
                 //mỗi lần chụp ảnh thì sẽ nhận được 1 result text khác nhau
+//                resultFuture.thenAccept(result -> {
+//                    // xử lý kết quả result là text được nhận diện
+////                    Log.d("Detected text: ",  result.toString());
+//
+//                }).exceptionally(e -> {
+//                    e.printStackTrace();
+//                    return null;
+//                });
+            }
+            CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+            allOf.join();
+            PyObject pyobj = py.getModule("generativeai");
+            for (int currentQues=0; currentQues<=4; currentQues++) {
+                // Lấy kết quả từ từng CompletableFuture
+                CompletableFuture<String> future = futures.get(currentQues);
+                String result = future.join();
+                // Xử lý kết quả ở đây
+                String question = "What do you go to school?";
+                String correctAns = "I going to school by bike";
+                String student_answer = result.toString();
 
-                PyObject pyobj = py.getModule("generativeai");
-                resultFuture.thenAccept(result -> {
-                    // xử lý kết quả result là text được nhận diện
-//                    Log.d("Detected text: ",  result.toString());
-                    String question = "What do you go to school?";
-                    String correctAns = "I going to school by bike";
-                    String student_answer = result.toString();
+                //truy van db để chấm điểm
+                //sql truy cấn câu hỏi có trong db của mã đề
+                //select ndcauhoi,dapan, tencauhoi from cauhoi where makithi = 1
+                // and made = '001' and kieucauhoi = 2 ORDER by tencauhoi
+                Cursor c = db.mydatabase.rawQuery("select ndcauhoi,dapan,tencauhoi from cauhoi where makithi = "
+                        + makithi + " and made = '" + made + "' and kieucauhoi = 2 and tencauhoi = "
+                        + (int) (currentQues + 1) + "", null);
+                c.moveToFirst();
+                Boolean status = true;
+                if (c.getCount() == 0) {
+                    status = false;
+                    question = "Không có data";
+                    correctAns = "Không có data";
+                } else {
+                    //neu đã tồn tại thì xử lý chấm điểm
+                    while (c.isAfterLast() == false) {
 
-                    //truy van db để chấm điểm
-                    //sql truy cấn câu hỏi có trong db của mã đề
-                    //select ndcauhoi,dapan, tencauhoi from cauhoi where makithi = 1
-                    // and made = '001' and kieucauhoi = 2 ORDER by tencauhoi
-                    Cursor c = db.mydatabase.rawQuery("select ndcauhoi, dapan,tencauhoi from cauhoi where makithi = "
-                            + makithi +" and made = '"+ made+"' and kieucauhoi = 2 and tencauhoi = "
-                            + (int)(currentQues+1) +"", null);
-                    c.moveToFirst();
-                    Boolean status  = true;
-                    if(c.getCount() == 0){
-                        status = false;
-                    }
-                    else
-                    {
-                        //neu đã tồn tại thì xử lý chấm điểm
-                        while (c.isAfterLast() == false)
-                        {
-
-                            question = c.getString(0);
-                            correctAns = c.getString(1);
-                            String tencauhoi = c.getString(2);
+                        question = c.getString(0);
+                        correctAns = c.getString(1);
+                        String tencauhoi = c.getString(2);
 //                        System.out.println("xu ly: cau " + tencauhoi+ " noi dung: " + question + " correct ans: " + correctAns + " student ans:" + student_answer );
-                            c.moveToNext();
-                        }
+                        c.moveToNext();
                     }
-                    final String finalQuestion = question;
-                    final String finalCorrectAns = correctAns;
-                    final String finalStudentAnswer = student_answer;
+                }
+                final String finalQuestion = question;
+                final String finalCorrectAns = correctAns;
+                final String finalStudentAnswer = student_answer;
 
-                    PyObject pyobj2 = py.getModule("generativeai");
-                    System.out.println("-------- xu ly: cau: " + finalQuestion + " correct ans: " + finalCorrectAns + " student ans:" + finalStudentAnswer );
+                String res = "0";
+                if (status) {
+                    System.out.println("-------- xu ly: cau: " + finalQuestion + " correct ans: " + finalCorrectAns + " student ans:" + finalStudentAnswer);
 //                        String res = pyobj.callAttr("grader",finalQuestion, finalCorrectAns, finalStudentAnswer).toString();
-                    String res = pyobj.callAttr("grader",finalQuestion, finalCorrectAns, finalStudentAnswer).toString();
+                    res = pyobj.callAttr("grader", finalQuestion, finalCorrectAns, finalStudentAnswer).toString();
                     // Xử lý kết quả ở đây, ví dụ cập nhật UI
                     res = res.replaceAll("[^0-9]+", "");
-                    int score = Integer.parseInt(res);
-                    if(score <= 50) res = "0";
-                    else if(score > 50 && score <= 75) res = "0.5";
-                    else {
-                        res = "1.0";
-                    }
-                    Log.d("----ket qua cham diem", res);
-                    listStudentAns.add(student_answer);
-                    listResult.add(res);
-                    this.count++;
-                    listCorrectAns.add(correctAns);
-
-                }).exceptionally(e -> {
-                    e.printStackTrace();
-                    return null;
-                });
+                }
+                int score = Integer.parseInt(res);
+                if (score <= 50) res = "0";
+                else if (score > 50 && score <= 75) res = "0.5";
+                else res = "1.0";
+                Log.d("---- ket qua cham diem", res);
+                listStudentAns.add(student_answer);
+                listResult.add(res);
+                this.count++;
+                listCorrectAns.add(correctAns);
             }
             listImg = tempListBitmap;
         }catch (Exception e) {
@@ -167,7 +175,7 @@ public class GetShortAnswer extends AppCompatActivity {
     }
 
 //    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, String makithi,String user, String made) {
-    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, int makithi,String user, String made) {
+    public Bitmap getShortAnwer(DataBase db,Bitmap bitmap, int makithi, String user, String made) {
         try {
             getImgShortAnswer(db, bitmap,  makithi, user,  made);
             return listImg.get(4);
@@ -187,9 +195,7 @@ public class GetShortAnswer extends AppCompatActivity {
         return this.listCorrectAns;
     }
 
-    public ArrayList<Bitmap> getListImg() {
-        return listImg;
-    }
+    public ArrayList<Bitmap> getListImg() { return listImg; }
 
     private void processCopy() {
         File dbFile = getDatabasePath(DATABASE_NAME);

@@ -43,7 +43,6 @@ public class DanhSachKithi_Add extends AppCompatActivity {
             }
         });
 
-        //loai phieu
         list = new ArrayList<>();
         list.add("50");
 
@@ -53,18 +52,14 @@ public class DanhSachKithi_Add extends AppCompatActivity {
 
         myintent = getIntent();
         String username = myintent.getStringExtra("username");
-        //set du lieu  cho spinner loai phieu
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
         spinner.setAdapter(spinnerAdapter);
 
-
-        //set du lieu  cho spinner loai phieu
         ArrayAdapter spinnerAdapter2 = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list2);
         spinkieukithi.setAdapter(spinnerAdapter2);
 
-        //Bắt sự kiện cho Spinner, khi chọn phần tử nào thì hiển thị lên Toast
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -105,7 +100,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
                 double hediem = 0.1;
                 try {
                     hediem = Double.parseDouble(txttenkithi3.getText() + "");
-                    if(hediem <= 0) throw new Exception("Lỗi");
+                    if(hediem <= 0 || hediem>=10) throw new Exception("Lỗi");
                 }
                 catch (Exception ex) {
                     Toast.makeText(DanhSachKithi_Add.this, "Hệ điểm không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();

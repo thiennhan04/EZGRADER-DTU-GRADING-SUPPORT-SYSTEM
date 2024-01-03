@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -45,22 +48,19 @@ public class showketquatl extends AppCompatActivity {
     float valueEdtkq5 = 0.0f;
     private static  DataBase db;
     public static File file;
+    double hediem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showketquatl);
 
-        db = new DataBase(showketquatl.this);
+        db = new DataBase(this);
         String username = getIntent().getStringExtra("username");
-//        String makithi = getIntent().getStringExtra("makithi");
         int makithi = getIntent().getIntExtra("makithi", -1);
-//        String masv = getIntent().getStringExtra("masv");
-        String sbd = getIntent().getStringExtra("sbd"); //giả lập mã sinh viên khi chưa ghép với trắc nghiệm
+        String sbd = getIntent().getStringExtra("sbd");
         String made = getIntent().getStringExtra("made");
         scrollView = findViewById(R.id.scrollview);
         btnluukq = findViewById(R.id.btnluukq);
-        db = new DataBase(this);
-        //lay ra img cac khung anh tl de truyen anh da cham vao
         imgv1 = findViewById(R.id.imgv1);
         imgv2 = findViewById(R.id.imgv2);
         imgv3 = findViewById(R.id.imgv3);
@@ -87,122 +87,121 @@ public class showketquatl extends AppCompatActivity {
         edtkq4 = findViewById(R.id.edtkq4);
         edtkq5 = findViewById(R.id.edtkq5);
 
-        //giá trị điểm của cảu 5 câu hỏi
-
-
-        String strEdtkq1 = edtkq1.getText().toString();
-        String strEdtkq2 = edtkq2.getText().toString();
-        String strEdtkq3 = edtkq3.getText().toString();
-        String strEdtkq4 = edtkq4.getText().toString();
-        String strEdtkq5 = edtkq5.getText().toString();
-
-
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
         GetShortAnswer getShortAnswer = new GetShortAnswer(showketquatl.this);
 
         new GraderAsyncTask(showketquatl.this, getShortAnswer, bitmap, makithi, username,made).execute();
 
         btnluukq.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
                 try {
+                    Cursor c = db.mydatabase.rawQuery("select hediem from kithi where makithi = " + makithi, null);
+                    c.moveToFirst();
+                    hediem = c.getDouble(0);
+
+                    String strEdtkq1 = edtkq1.getText().toString();
+                    String strEdtkq2 = edtkq2.getText().toString();
+                    String strEdtkq3 = edtkq3.getText().toString();
+                    String strEdtkq4 = edtkq4.getText().toString();
+                    String strEdtkq5 = edtkq5.getText().toString();
+
                     valueEdtkq1 = Float.parseFloat(strEdtkq1);
                     valueEdtkq2 = Float.parseFloat(strEdtkq2);
                     valueEdtkq3 = Float.parseFloat(strEdtkq3);
                     valueEdtkq4 = Float.parseFloat(strEdtkq4);
                     valueEdtkq5 = Float.parseFloat(strEdtkq5);
-                    if (!(valueEdtkq1 >= 0 && valueEdtkq1 <= 10 &&
-                            valueEdtkq2 >= 0 && valueEdtkq2 <= 10 &&
-                            valueEdtkq3 >= 0 && valueEdtkq3 <= 10 &&
-                            valueEdtkq4 >= 0 && valueEdtkq4 <= 10 &&
-                            valueEdtkq5 >= 0 && valueEdtkq5 <= 10)) {
-                        Toast.makeText(showketquatl.this, "Điểm số phải từ 0 đến 10", Toast.LENGTH_SHORT).show();
-                        throw new IllegalArgumentException("Các giá trị phải nằm trong khoảng từ 0 đến 10");
+
+                    if (!(valueEdtkq1 >= 0 && valueEdtkq1 <= (10-hediem)/5.0) ||
+                            !(valueEdtkq2 >= 0 && valueEdtkq2 <= (10-hediem)/5.0) ||
+                            !(valueEdtkq3 >= 0 && valueEdtkq3 <= (10-hediem)/5.0) ||
+                            !(valueEdtkq4 >= 0 && valueEdtkq4 <= (10-hediem)/5.0) ||
+                            !(valueEdtkq5 >= 0 && valueEdtkq5 <= (10-hediem)/5.0)) {
+                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                        String formattedResult = decimalFormat.format((10-hediem)/5.0);
+                        Toast.makeText(showketquatl.this, "Điểm số phải từ 0 đến " + formattedResult, Toast.LENGTH_SHORT).show();
+                        throw new IllegalArgumentException("Các giá trị phải nằm trong khoảng từ 0 đến " + formattedResult);
                     }
                 } catch (Exception e){
+                    e.printStackTrace();
                     Toast.makeText(showketquatl.this, "Điểm số không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                //cap màn hình làm minh chứng
                 scrollView.measure(View.MeasureSpec.makeMeasureSpec(scrollView.getWidth(),
                         View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                 scrollView.layout(0, 0, scrollView.getMeasuredWidth(),
                         scrollView.getMeasuredHeight());
                 Bitmap bitmap = Bitmap.createBitmap(scrollView.getWidth(), scrollView.getHeight(), Bitmap.Config.ARGB_8888);
-                // Tạo một Canvas từ Bitmap
-                // và vẽ nội dung của ScrollView lên Bitmap
+                bitmap.eraseColor(Color.WHITE);
                 scrollView.draw(new Canvas(bitmap));
                 statusCode = 1;
                 setResult(statusCode);
                 File dcimDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                 File ezGraderDirectory = new File(dcimDirectory, "EzGrader/" + username + "/" + makithi);
-                File file = new File(ezGraderDirectory, "screeen2.png");
-                // Kiểm tra và tạo thư mục nếu nó chưa tồn tại
+                File file = new File(ezGraderDirectory, ImageHelper.getRandomString()+".png");
                 if (!ezGraderDirectory.exists()) {
                     ezGraderDirectory.mkdirs();
                 }
+
+                String sql = "select masv,hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "' and loaicauhoi = 2";
+                Cursor isExist = db.mydatabase.rawQuery(sql, null);
+                isExist.moveToFirst();
+                float easayScore = valueEdtkq1 + valueEdtkq2 + valueEdtkq3 + valueEdtkq4 + valueEdtkq5;
+                ContentValues easayResult = new ContentValues();
+                easayResult.put("makithi", makithi);
+                easayResult.put("diemso", easayScore);
+                if(isExist.getCount()==0)
+                    easayResult.put("hinhanh", file.getAbsolutePath());
+                else {
+                    String link = isExist.getString(isExist.getColumnIndex("hinhanh"));
+                    file = new File(link);
+                }
+                easayResult.put("masv", sbd);
+                easayResult.put("loaicauhoi", 2);
+                System.out.println("-------lưu kết quả --- " + easayResult.toString());
+                if (file.exists()) {
+                    file.delete();
+                }
                 try (FileOutputStream fos = new FileOutputStream(file, false)) {
-                    // Sử dụng tham số thứ hai (false) để tạo tệp mới hoặc ghi đè lên nếu tệp đã tồn tại
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
                     fos.flush();
                 } catch (IOException e) {
                     statusCode = 0;
                     e.printStackTrace();
                 }
-
-                String sql = "select masv, hinhanh from diem where makithi=" + makithi + " and masv='" + sbd + "'";
-                Cursor isExist = db.mydatabase.rawQuery(sql, null);
-                isExist.moveToFirst();
-
-//                File directory = new File(Environment.getExternalStoragePublicDirectory(
-//                        Environment.DIRECTORY_DCIM), "EzGrader/" + username + "/" +makithi);
-//                if (!directory.exists()) {
-//                    directory.mkdirs();
-//                }
-//                String imguri = directory.getAbsolutePath() + "/" + sbd + "_tl.jpg";
-//                file = new File(imguri);
-                //lưu kết quả tự luận vào db
-                float easayScore = valueEdtkq1 + valueEdtkq2 + valueEdtkq3 + valueEdtkq4 + valueEdtkq5;
-                ContentValues easayResult = new ContentValues();
-                easayResult.put("makithi", makithi);
-                easayResult.put("diemso", easayScore);
-                easayResult.put("hinhanh", file.getAbsolutePath());
-                easayResult.put("masv", sbd);
-                easayResult.put("loaicauhoi", 2);
-                System.out.println("-------lưu kết quả --- " + easayResult.toString());
-                if(db.mydatabase.insert("diem",null,easayResult)==-1)
-                {
-                    statusCode = 0;
-                    Toast.makeText(showketquatl.this, "Lưu kết quả thất bại", Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(showketquatl.this, "Lưu kết quả thành công", Toast.LENGTH_SHORT).show();
+                if(isExist.getCount()==0) {
+                    if(db.mydatabase.insert("diem",null,easayResult)==-1)
+                    {
+                        statusCode = 0;
+                        Toast.makeText(showketquatl.this, "Lưu kết quả thất bại", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(showketquatl.this, "Lưu kết quả thành công", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    if(db.mydatabase.update("diem",easayResult,"makithi=" + makithi + " and masv='" + sbd + "' and loaicauhoi = 2",null)==-1)
+                    {
+                        statusCode = 0;
+                        Toast.makeText(showketquatl.this, "Lưu kết quả thất bại", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(showketquatl.this, "Lưu kết quả thành công", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
     }
-    private void save(byte[] bytes) throws IOException {
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(file);
-            outputStream.write(bytes);
-        } finally {
-            if (outputStream != null)
-                outputStream.close();
-        }
-    }
     private static class GraderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
         private WeakReference<showketquatl> activityRef;
         private GetShortAnswer getShortAnswer;
         private Bitmap bitmap;
-//        private String makithi;
         private int makithi;
         private String username;
         private String made;
 
-
-//        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, String makithi, String username,String made) {
-    public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, int makithi, String username,String made) {
+        public GraderAsyncTask(showketquatl activity, GetShortAnswer getShortAnswer, Bitmap bitmap, int makithi, String username,String made) {
             this.activityRef = new WeakReference<>(activity);
             this.getShortAnswer = getShortAnswer;
             this.bitmap = bitmap;
@@ -213,7 +212,7 @@ public class showketquatl extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            return getShortAnswer.getShortAnwer(db, bitmap, makithi, username, "101");
+            return getShortAnswer.getShortAnwer(db, bitmap, makithi, username, made);
         }
 
         @SuppressLint("WrongThread")
@@ -223,7 +222,7 @@ public class showketquatl extends AppCompatActivity {
                 showketquatl activity = activityRef.get();
                 if (activity != null) {
                     try {
-                        Thread.sleep(1000); // Đợi thêm 2 giây
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -231,11 +230,7 @@ public class showketquatl extends AppCompatActivity {
                     getShortAnswer.getListStudentAns().removeIf(item -> item == "" || item.isEmpty());
                     getShortAnswer.getListCorrectAns().removeIf(item -> item == "" || item.isEmpty());
                     getShortAnswer.getListResult().removeIf(item -> item == "" || item.isEmpty());
-//                System.out.println("---------list ans--------"+getShortAnswer.getListStudentAns());
-//                System.out.println("---------list correct--------"+getShortAnswer.getListCorrectAns());
-//                System.out.println("---------list result--------"+getShortAnswer.getListResult());
 
-                    // Cập nhật text scan được từ học sinh
                     try {
                         activity.txtans1.setText(getShortAnswer.getListStudentAns().get(0));
                     } catch (Exception e) {
@@ -266,7 +261,6 @@ public class showketquatl extends AppCompatActivity {
                     }
 
 
-                    //Cập nhật kết quả chấm tự động
                     try {
                         activity.edtkq1.setText(getShortAnswer.getListResult().get(0));
                     } catch (Exception e) {
@@ -287,24 +281,18 @@ public class showketquatl extends AppCompatActivity {
                     } catch (Exception e) {
                         activity.edtkq1.setText("0");
                     }
-
                     try {
                         activity.edtkq5.setText(getShortAnswer.getListResult().get(4));
                     } catch (Exception e) {
                         activity.edtkq5.setText("0");
                     }
 
-                    //cập nhật kết quả từ đatabase
                     activity.txtdapan1.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(0));
                     activity.txtdapan2.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(1));
                     activity.txtdapan3.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(2));
                     activity.txtdapan4.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(3));
-                    try {
-                        activity.txtdapan5.setText(getShortAnswer.getListCorrectAns().get(4));
-                    } catch (Exception e) {
-                        activity.txtdapan5.setText("Không thể xử lý!");
+                    activity.txtdapan5.setText("Đáp án:" + getShortAnswer.getListCorrectAns().get(4));
 
-                    }
                     //Cập nhật ảnh minh chứng
                     List<Bitmap> bitmapList = getShortAnswer.getListImg();
                     activity.imgv1.setImageBitmap(bitmapList.get(0));
@@ -313,14 +301,13 @@ public class showketquatl extends AppCompatActivity {
                     activity.imgv4.setImageBitmap(bitmapList.get(3));
                     activity.imgv5.setImageBitmap(bitmapList.get(4));
 
-
                     System.out.println("---------chữ được lấy ra-2--" + getShortAnswer.getListStudentAns().get(1));
                     System.out.println("---------chữ được lấy ra--3-" + getShortAnswer.getListStudentAns().get(2));
                     System.out.println("---------chữ được lấy ra--4-" + getShortAnswer.getListStudentAns().get(3));
                     try {
                         System.out.println("---------chữ được lấy ra--5-" + getShortAnswer.getListStudentAns().get(4));
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             }catch (Exception ex) {
@@ -328,7 +315,4 @@ public class showketquatl extends AppCompatActivity {
             }
         }
     }
-
-
-
 }

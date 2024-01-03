@@ -24,19 +24,19 @@ import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
     EditText edtusername, edtpassword;
-    Button signbtn;
-    String DB_PATH_SUFFIX = "/databases/";
-    SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb2.db";
-//    String username = "";
+    Button signbtn, signup;
+    DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new DataBase(this);
         edtusername = findViewById(R.id.edtusername);
         edtpassword = findViewById(R.id.edtpassword);
         signbtn = findViewById(R.id.signbtn);
+        signup = findViewById(R.id.signup_btn);
 
         edtusername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,26 +59,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+
         signbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String username = edtusername.getText().toString();
                 String pass = edtpassword.getText().toString();
-                processCopy();
-//                 if(username.equals("tnhan")){
-//                     Intent home = new Intent(MainActivity.this, HomeActivity.class);
-//                     home.putExtra("username", username);
-//                     startActivity(home);
-//                 }
-                database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
-//                Toast.makeText(MainActivity.this, getDatabasePath()+"", Toast.LENGTH_SHORT).show();
-//                String sql = "select * from kithi where username = '" + username + "'";
-                Cursor c = database.rawQuery("select * from user where username = '"
+
+                Cursor c = db.mydatabase.rawQuery("select * from user where username = '"
                         + username + "' and password = '" + pass + "'", null);
                 c.moveToFirst();
-//                String data ="";
                 if(c.getCount() != 0){
-                    //đăng nhập thành công
                     Intent home = new Intent(MainActivity.this, HomeActivity.class);
                     home.putExtra("username", username);
                     startActivity(home);
@@ -90,52 +88,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    private void processCopy() {
-        File dbFile = getDatabasePath(DATABASE_NAME);
-//        dbFile.delete();
-        if (!dbFile.exists())
-        {
-            try{
-                CopyDataBaseFromAsset();
-//                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
-            }
-            catch (Exception e){
-                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
-
-    }
-
-    private String getDatabasePath() {
-        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
-    }
-    public void CopyDataBaseFromAsset() {
-
-        try {
-            InputStream myInput;
-            myInput = getAssets().open(DATABASE_NAME);
-
-            String outFileName = getDatabasePath();
-
-            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-//            if (!f.exists())
-            f.mkdir();
-
-            OutputStream myOutput = new FileOutputStream(outFileName);
-
-            int size = myInput.available();
-            byte[] buffer = new byte[size];
-            myInput.read(buffer);
-            myOutput.write(buffer);
-
-            myOutput.flush();
-            myOutput.close();
-            myInput.close();
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-    }
-
 
 }
