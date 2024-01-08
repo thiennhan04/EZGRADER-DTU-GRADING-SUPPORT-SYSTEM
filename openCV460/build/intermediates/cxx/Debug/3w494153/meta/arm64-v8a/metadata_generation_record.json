@@ -1,0 +1,44 @@
+[
+  {
+    "level_": 0,
+    "message_": "Start JSON generation. Platform version: 26 min SDK version: arm64-v8a",
+    "file_": "E:\\nckh\\Ezgrader\\EZGRADER-DTU-GRADING-SUPPORT-SYSTEM\\openCV460\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1195140917
+  },
+  {
+    "level_": 0,
+    "message_": "JSON \u0027E:\\nckh\\Ezgrader\\EZGRADER-DTU-GRADING-SUPPORT-SYSTEM\\openCV460\\.cxx\\Debug\\3w494153\\arm64-v8a\\android_gradle_build.json\u0027 was up-to-date",
+    "file_": "E:\\nckh\\Ezgrader\\EZGRADER-DTU-GRADING-SUPPORT-SYSTEM\\openCV460\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 521416536
+  },
+  {
+    "level_": 0,
+    "message_": "JSON generation completed without problems",
+    "file_": "E:\\nckh\\Ezgrader\\EZGRADER-DTU-GRADING-SUPPORT-SYSTEM\\openCV460\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 68130365
+  }
+]
