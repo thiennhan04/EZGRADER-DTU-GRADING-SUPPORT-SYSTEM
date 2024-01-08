@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp" >
+
+    <TextView
+        android:id="@+id/tvMaDe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mã Đề:"
+        android:background="#475fac"
+        android:textColor="#fff"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="50dp"/>
+
+    <TextView
+        android:id="@+id/tvMaDeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:layout_toEndOf="@id/tvMaDe"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/repair_btn"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FF00"
+        android:text="🔧"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/tvMaDeValue"/>
+
+    <Button
+        android:id="@+id/remove_btn"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF0000"
+        android:text="🗑️️"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/repair_btn"/>
+
+</RelativeLayout>

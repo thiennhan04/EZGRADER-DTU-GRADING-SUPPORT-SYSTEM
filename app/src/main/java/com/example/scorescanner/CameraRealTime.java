@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Build;
@@ -63,6 +64,9 @@ public class CameraRealTime extends CameraActivity {
         return rotatedBitmap;
     }
 
+    DataBase db;
+    int kieukithi;
+
     @Override
     public void onCreate(Bundle bundle) {
         getWindow().setFlags(1024, 1024);
@@ -70,13 +74,16 @@ public class CameraRealTime extends CameraActivity {
         super.onCreate(bundle);
         setContentView((int) R.layout.activity_camera_real_time);
         getPermission();
+        Intent intent = getIntent();
+        kieukithi = intent.getIntExtra("kieukithi",1);
+
         mCameraView = (CameraBridgeViewBase) findViewById(R.id.frame_Surface);
         mCameraView.setCvCameraViewListener(callBack);
         if (OpenCVLoader.initDebug()) {
             mCameraView.enableView();
-            if(session == 0) Toast.makeText(this, "Phiên 1: Trắc nghiệm", Toast.LENGTH_SHORT).show();
+            if(session == 0) Toast.makeText(this, "Trắc nghiệm", Toast.LENGTH_SHORT).show();
             else{
-                Toast.makeText(this, "Phiên 2: Tự luận", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tổng kết", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -123,14 +130,16 @@ public class CameraRealTime extends CameraActivity {
                     matrix.postRotate(rotationAngleDegrees);
                     rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                             bitmap.getHeight(), matrix, true);
+
+                    ImageHelper.saveImage(rotatedBitmap);
+
                     String username = getIntent().getStringExtra("username");
-                    String makithi = getIntent().getStringExtra("makithi");
+                    int makithi = getIntent().getIntExtra("makithi",-1);
                     Intent tnIntent = new Intent(CameraRealTime.this, ViewImage.class);
                     Intent tlIntent = new Intent(CameraRealTime.this, showketquatl.class);
                     tnIntent.putExtra("username", username);
 //                    System.out.println("-------------------------- " + makithi);
                     tnIntent.putExtra("makithi", makithi);
-
 
                     tlIntent.putExtra("username", username);
                     tlIntent.putExtra("made",made);
@@ -141,7 +150,6 @@ public class CameraRealTime extends CameraActivity {
                         startActivityForResult(tnIntent, 110);
                     }
                     else {
-
                         startActivityForResult(tlIntent, 111);
                     }
                 } catch (Exception ex) {
@@ -228,7 +236,7 @@ public class CameraRealTime extends CameraActivity {
                 }
             }
         }
-        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 30) {
+        if (dem == 4 && checkArrRect(arrRect) && demTimeCheck >= 15) {
             demTimeCheck = 0;
             Point[] dstPoints = new Point[4];
             dstPoints[0] = new Point(0, 0);
@@ -270,15 +278,18 @@ public class CameraRealTime extends CameraActivity {
             }else {
                 made = data.getStringExtra("made");
                 sbd = data.getStringExtra("sbd");
-                Toast.makeText(this, "Thành công! thực hiện phiên 2", Toast.LENGTH_SHORT).show();
-                session = 1;
+
+                if(kieukithi==2){
+                    Toast.makeText(this, "Thành công, thực hiện phiên 2!", Toast.LENGTH_SHORT).show();
+                    session = 1;
+                }
             }
         }else if(requestCode == 111){
             if(requestCode == 0){
-                Toast.makeText(this, "Chấm điểm thất bại, thực hiện lại phiên 2!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Chấm điểm thất bại, thực hiện lỗi phiên 2!", Toast.LENGTH_SHORT).show();
             } else{
-               session = 0;
-                Toast.makeText(this, "Thành công phiên 2! kết thúc bài thi", Toast.LENGTH_SHORT).show();
+                session = 0;
+                Toast.makeText(this, "Thành công phiên 2! kết thúc bài thi!", Toast.LENGTH_SHORT).show();
             }
         }
     }

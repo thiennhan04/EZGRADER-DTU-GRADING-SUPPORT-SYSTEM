@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="#849edb"
     android:orientation="vertical"
+    android:backgroundTint="#849edb"
     tools:context=".list_danhsachtuluan">
 
     <androidx.constraintlayout.widget.ConstraintLayout

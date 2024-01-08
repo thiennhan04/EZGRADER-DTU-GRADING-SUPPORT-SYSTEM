@@ -23,11 +23,10 @@ import java.util.ArrayList;
 
 public class danhsachkithi extends AppCompatActivity {
     ListView lvdanhsachkt;
+    DBHelper dbHelper;
     ArrayList<Exam> mylist;
     MyArrayAdapter myArrayAdapter;
-    String DB_PATH_SUFFIX = "/databases/";
-    public static SQLiteDatabase database=null;
-    String DATABASE_NAME="ssdb2.db";
+    public static DataBase db;
     String username = "";
     ImageButton backbtn, addbtn;
     @Override
@@ -37,18 +36,19 @@ public class danhsachkithi extends AppCompatActivity {
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
         addbtn = findViewById(R.id.addbtn);
         backbtn = findViewById(R.id.back_btnds);
-
+        db = new DataBase(this);
+        
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         loadDataListKithi();
 //        processCopy();
 //
-//        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
+//        db = openOrCreatedb("ssdb2.db", MODE_PRIVATE, null);
 ////        String sql = "select * from kithi where username = '" + username + "'";
 //        mylist = new ArrayList<>();//tạo mới mảng rỗng
 //        myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
 //
-//        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+//        Cursor c = db.rawQuery("select * from kithi where username = '" + username + "'", null);
 //        c.moveToFirst();
 //        mylist.clear();
 //        String data ="";
@@ -76,7 +76,8 @@ public class danhsachkithi extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Intent made = new Intent(danhsachkithi.this, MadeOption.class);
 //                Toast.makeText(danhsachkithi.this, "click", Toast.LENGTH_SHORT).show();
-                String makithi = mylist.get(i).getMakithi() + "";
+//                String makithi = mylist.get(i).getMakithi() + "";
+                int makithi = mylist.get(i).getMakithi();
 //                made.putExtra("makithi", makithi);
 //                made.putExtra("username", username);
 
@@ -122,12 +123,11 @@ public class danhsachkithi extends AppCompatActivity {
         lvdanhsachkt = findViewById(R.id.lvdanhsachkt);
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
-        processCopy();
 
-        database = openOrCreateDatabase("ssdb2.db", MODE_PRIVATE, null);
         mylist = new ArrayList<>();//tạo mới mảng rỗng
         myArrayAdapter = new MyArrayAdapter(this,R.layout.kithi_item,mylist);
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username + "'", null);
+//        Cursor c = db.rawQuery("select * from kithi where username = '" + username + "'", null);
+        Cursor c = db.mydatabase.rawQuery("select makithi, tenkithi, kieukithi from kithi where username = '" + username + "'", null);
         c.moveToFirst();
         mylist.clear();
         String data ="";
@@ -135,7 +135,7 @@ public class danhsachkithi extends AppCompatActivity {
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            int kieukithi = Integer.parseInt(c.getString(6));
+            int kieukithi = Integer.parseInt(c.getString(2));
             Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();
@@ -152,23 +152,23 @@ public class danhsachkithi extends AppCompatActivity {
 //            Toast.makeText(this, "vao ham result", Toast.LENGTH_SHORT).show();
 //            Toast.makeText(this, "User name " + username, Toast.LENGTH_SHORT).show();
             String tenkithi = data.getStringExtra("tenkithi");
-            int socau = data.getIntExtra("socau",20);
-            int hediem = data.getIntExtra("hediem",10);
+            int socau = data.getIntExtra("socau",50);
+            double hediem = data.getDoubleExtra("hediem",10);
             String loaiphieu = data.getStringExtra("loaiphieu");
+            int kieukithi = data.getIntExtra("kieukithi",1);
 //            Toast.makeText(this, "" + tenkithi + " " + socau, Toast.LENGTH_SHORT).show();
 
-            //them ki thi moi vao database
+            //them ki thi moi vao db.mydatabase
             ContentValues valuekithi = new ContentValues();
             valuekithi.put("tenkithi",tenkithi );
             valuekithi.put("username",username2);
             valuekithi.put("socau",socau);
             valuekithi.put("hediem",hediem);
             valuekithi.put("loaiphieu",loaiphieu);
+            valuekithi.put("kieukithi",kieukithi);
             String msg  = "";
-//            Exam exam = new Exam(madethi, tenkithi, username);
-            if(database.insert("kithi",null,valuekithi)==-1){
+            if(db.mydatabase.insert("kithi",null,valuekithi)==-1){
                 msg = "Fail to insert kithi";
-
             }else{
                 msg = "Insert kithi thanh cong ";
                 loadkithi(username2);
@@ -177,14 +177,15 @@ public class danhsachkithi extends AppCompatActivity {
     }
     private void loadkithi(String username2) {
         mylist.clear();
-        Cursor c = database.rawQuery("select * from kithi where username = '" + username2 + "'", null);
+//        Cursor c = db.mydatabase.rawQuery("select * from kithi where username = '" + username2 + "'", null);
+        Cursor c = db.mydatabase.rawQuery("select makithi, tenkithi, kieukithi from kithi where username = '" + username2 + "'", null);
         c.moveToFirst();
         String data ="";
         while (c.isAfterLast() == false)
         {
             int madethi = Integer.parseInt(c.getString(0));
             String tendethi = c.getString(1);
-            int kieukithi = Integer.parseInt(c.getString(6));
+            int kieukithi = Integer.parseInt(c.getString(2));
             Exam exam = new Exam(madethi, tendethi, username,kieukithi);
             mylist.add(exam);
             c.moveToNext();
@@ -194,51 +195,4 @@ public class danhsachkithi extends AppCompatActivity {
 
         c.close();
     }
-
-    private void processCopy() {
-        File dbFile = getDatabasePath(DATABASE_NAME);
-        if (!dbFile.exists())
-        {
-            try{
-                CopyDataBaseFromAsset();
-//                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
-            }
-            catch (Exception e){
-                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
-
-    }
-
-    private String getDatabasePath() {
-        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
-    }
-    public void CopyDataBaseFromAsset() {
-
-        try {
-            InputStream myInput;
-            myInput = getAssets().open(DATABASE_NAME);
-
-            String outFileName = getDatabasePath();
-
-            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-//            if (!f.exists())
-                f.mkdir();
-
-            OutputStream myOutput = new FileOutputStream(outFileName);
-
-            int size = myInput.available();
-            byte[] buffer = new byte[size];
-            myInput.read(buffer);
-            myOutput.write(buffer);
-
-            myOutput.flush();
-            myOutput.close();
-            myInput.close();
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -34,7 +34,8 @@ public class MadeOptionAddActivity extends AppCompatActivity {
     Button addFileBtn,addHandBtn,viewAns;
     ImageButton backbtn;
 
-    String makithi;
+//    String makithi;
+    int makithi;
     String made;
 
     DataBase db = null;
@@ -53,7 +54,8 @@ public class MadeOptionAddActivity extends AppCompatActivity {
         addHandBtn = findViewById(R.id.camerachambai);
 
         Intent intent = getIntent();
-        makithi = intent.getStringExtra("kithi");
+//        makithi = intent.getStringExtra("kithi");
+        makithi = intent.getIntExtra("kithi", -1);
         made = intent.getStringExtra("made");
 //        Toast.makeText(this, "" + makithi, Toast.LENGTH_SHORT).show();
         txtmade.setText("Nhập đán án kì thi");
@@ -172,7 +174,8 @@ public class MadeOptionAddActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+//                    int row = db.mydatabase.update("cauhoi",values,"made = ? and makithi = ?",new String[]{strmade,makithi});
+                    int row = db.mydatabase.update("cauhoi",values,"made = '" + strmade + "' and makithi = " + makithi,null);
                     if(row==0)
                     {
                         Log.println(Log.DEBUG,"read excel","update NOT OK ");

@@ -5,34 +5,69 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 public class ViewImage extends AppCompatActivity {
     private Methods methods;
     private static  DataBase db;
     private int statusCode = 0;
+    String sbd = "###", made = "###", diem = "###";
+    int socaudung, tongsocau;
+    TextView txtmade, txtdiem;
+    ImageButton back_btnds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
 
+        txtmade = findViewById(R.id.txtMade2);
+        txtdiem = findViewById(R.id.txtDiem);
+
+        back_btnds = findViewById(R.id.back_btnds);
         db = new DataBase(ViewImage.this);
         String username = getIntent().getStringExtra("username");
-        String makithi = getIntent().getStringExtra("makithi");
+//        String makithi = getIntent().getStringExtra("makithi");
+        int makithi = getIntent().getIntExtra("makithi", -1);
         methods = new Methods(this, makithi, username);
-        String sbd = methods.sbd;
-        String made = methods.made;
+
+        back_btnds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         ImageView view = findViewById(R.id.imageView);
         Bitmap bitmap = CameraRealTime.getRotatedBitmap();
         GetShortAnswer getShortAnswer = new GetShortAnswer(ViewImage.this);
 //        Bitmap bitmap =
         if (bitmap != null && view != null) {
             Bitmap result = methods.run(bitmap);
+            diem = methods.getScore();
+            if(diem.equals("Không nhận diện được mã đề!") || diem.equals("Mã đề không tồn tại!")) {
+                diem = "###";
+            }
+            sbd = methods.sbd;
+            made = methods.made;
+            socaudung = methods.socaudung;
+            tongsocau = methods.tongsocau;
+
+            txtmade.setText(made);
+            txtdiem.setText(socaudung +" / "+ tongsocau +" = "+ diem);
             String score = methods.getScore();
-            if(score == "Không nhận diện được mã đề!" || score == "Mã đề không tồn tại!"){
+            Log.i("TAG", "onCreate: "+score);
+            if(score.equals("Không nhận diện được mã đề!") || score.equals("Mã đề không tồn tại!")){
                 Toast.makeText(this, score, Toast.LENGTH_SHORT).show();
                 statusCode = 0;
 //                setResult(statusCode);
@@ -42,9 +77,10 @@ public class ViewImage extends AppCompatActivity {
                 setResult(statusCode, resultIntent);
                 view.setImageBitmap(result);
             }
-//            đoạn này sẽ được bê đi qua class xem kết quả chấm tự luận
+//            do?n này s? du?c bê di qua class xem k?t qu? ch?m t? lu?n
 //            Bitmap result = getShortAnswer.getShortAnwer(db, bitmap, makithi, username,"001");
             else if(result != null) {
+//                result = getShortAnswer.getShortAnwer(db, bitmap, makithi, username,made);
                 statusCode = 1;
                 setResult(statusCode);
                 Intent resultIntent = getIntent();

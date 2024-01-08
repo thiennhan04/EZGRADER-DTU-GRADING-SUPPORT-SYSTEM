@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="5"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/rdgroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/id0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:button="@null"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
+
+        <RadioButton
+            android:button="@null"
+            android:id="@+id/id1"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:id="@+id/id2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:id="@+id/id3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:id="@+id/id4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
+
+        <RadioButton
+            android:button="@null"
+            android:id="@+id/id5"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:id="@+id/id6"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:id="@+id/id7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:id="@+id/id8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="8"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:id="@+id/id9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="9"
+            android:background="@drawable/custom_radio_button"
+            android:gravity="center"/>
+    </RadioGroup>
+</GridLayout>

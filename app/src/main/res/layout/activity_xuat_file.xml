@@ -44,6 +44,7 @@
             android:layout_width="312dp"
             android:layout_height="79dp"
             android:layout_marginTop="56dp"
+            android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
             android:background="@drawable/rounded_bg"
 
@@ -54,6 +55,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
 
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -94,12 +96,14 @@
             android:layout_height="79dp"
             android:layout_marginTop="160dp"
             android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
             android:background="@drawable/rounded_bg"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView

@@ -12,6 +12,8 @@
         android:gravity="center"
         android:text="ID:001"
         android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textStyle="bold" />
 
     <ImageView
@@ -28,11 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="Xoá" />
 
     <Button
         android:id="@+id/viewtlbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="Xem minh chứng tự luận" />
 </LinearLayout>

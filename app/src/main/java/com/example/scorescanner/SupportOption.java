@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 public class SupportOption extends AppCompatActivity {
-    Button btn_HD,btn_phone,btn_Rate;
+    Button btn_HD,btn_Rate;
     ImageButton backbtn3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

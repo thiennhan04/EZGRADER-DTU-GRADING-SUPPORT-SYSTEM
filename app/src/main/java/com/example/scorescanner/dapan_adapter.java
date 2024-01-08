@@ -1,5 +1,6 @@
 package com.example.scorescanner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,62 +23,67 @@ import java.util.ArrayList;
 
 public class dapan_adapter extends ArrayAdapter<dapan_item> {
     Activity context;
-    int idlayout;
-    private ArrayList<dapan_item> mylist;
+    int Idlayout;
+    private static ArrayList<dapan_item> mylist;
 
     public dapan_adapter(Activity context, int idlayout, ArrayList<dapan_item> mylist)
     {
         super(context, idlayout, mylist);
         this.context = context;
-        this.idlayout = idlayout;
-        this.mylist = mylist;
+        Idlayout = idlayout;
+        dapan_adapter.mylist = mylist;
     }
 
+    public static ArrayList<String> getSelectedRadioButtons() {
+        ArrayList<String> selectedRadioButtons = new ArrayList<>();
+
+        for (int i = 0; i < mylist.size(); i++) {
+            dapan_item item = mylist.get(i);
+            selectedRadioButtons.add(item.checked == -1 ? "#" : getRadioButtonPosition(item.checked));
+        }
+
+        return selectedRadioButtons;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private static String getRadioButtonPosition(int checkedId) {
+        switch (checkedId) {
+            case R.id.ansA:
+                return "A";
+            case R.id.ansB:
+                return "B";
+            case R.id.ansC:
+                return "C";
+            case R.id.ansD:
+                return "D";
+            default:
+                return "#";
+        }
+    }
+
+
+    @SuppressLint({"ViewHolder"})
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater myInflactor = context.getLayoutInflater();
-        convertView = myInflactor.inflate(idlayout, null);
-        try
-        {
-            dapan_item item = mylist.get(position);
-            TextView number = convertView.findViewById(R.id.num);
-            ArrayList<RadioButton> array = new ArrayList<>();
-//            RadioButton radioButton = convertView.findViewById(R.id.btnA);
-            array.add(convertView.findViewById(R.id.btnA));
-            array.add(convertView.findViewById(R.id.btnB));
-            array.add(convertView.findViewById(R.id.btnC));
-            array.add(convertView.findViewById(R.id.btnD));
+        if(convertView == null)
+            convertView = myInflactor.inflate(Idlayout,null);
+        dapan_item dapan_item = mylist.get(position);
+        RadioGroup radioGroup = convertView.findViewById(R.id.rdgroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                dapan_item.checked = checkedId;
+                mylist.set(position,dapan_item);
+            }
+        });
 
+        radioGroup.check(dapan_item.checked);
 
-//            for (int i = 0; i < array.size(); i++) {
-//                RadioButton btn = array.get(i);
-//                if (btn.getText().equals(item.getDapan())) {
-//                    btn.setChecked(true);
-//                    item.setDapan(btn.getText()+"");
-//                } else {
-//                    btn.setChecked(false);
-//                }
-//            }
+        TextView number = convertView.findViewById(R.id.number);
+        number.setText(String.valueOf(dapan_item.getNum()));
 
-            number.setText("["+item.getNum()+"]");
-
-        }
-        catch (Exception ex)
-        {
-//            Log.println(Log.DEBUG,"=====adap=====",ex.getMessage()+"=========");
-        }
         return convertView;
     }
-
-//    public String getData()
-//    {
-//        String data="";
-//        for (int i = 0; i < mylist.size(); i++) {
-//            dapan_item item = mylist.get(i);
-//            data=data+item.getDapan();
-//        }
-//        Log.println(Log.DEBUG,"==========","" + data);
-//        return data;
-//    }
 }

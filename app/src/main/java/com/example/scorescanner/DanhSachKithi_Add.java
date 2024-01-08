@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class DanhSachKithi_Add extends AppCompatActivity {
     private List<String> list, list2;
     Spinner spinner, spinkieukithi;
     EditText txttenkithi,txttenkithi2,txttenkithi3;
-    ImageButton savebtn2;
+    ImageButton savebtn2, back_btn;
     String loaiphieu = "";
     String kieukithi = "";
     Intent myintent;
@@ -33,9 +34,17 @@ public class DanhSachKithi_Add extends AppCompatActivity {
         txttenkithi3 = findViewById(R.id.txttenkithi3);
         spinkieukithi = findViewById(R.id.spinkieukithi);
         savebtn2 = findViewById(R.id.savebtn2);
-        //loai phieu
+        back_btn = findViewById(R.id.back_btnds);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         list = new ArrayList<>();
-        list.add("20");list.add("40");list.add("50");list.add("60");list.add("120");
+        list.add("50");
 
         list2 = new ArrayList<>();
         list2.add("TN");
@@ -43,18 +52,14 @@ public class DanhSachKithi_Add extends AppCompatActivity {
 
         myintent = getIntent();
         String username = myintent.getStringExtra("username");
-        //set du lieu  cho spinner loai phieu
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
         spinner.setAdapter(spinnerAdapter);
 
-
-        //set du lieu  cho spinner loai phieu
         ArrayAdapter spinnerAdapter2 = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list2);
         spinkieukithi.setAdapter(spinnerAdapter2);
 
-        //Bắt sự kiện cho Spinner, khi chọn phần tử nào thì hiển thị lên Toast
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -76,20 +81,39 @@ public class DanhSachKithi_Add extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                loaiphieu = list2.get(0).toString();
+                kieukithi = list2.get(0).toString();
             }
         });
         savebtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenkithi = txttenkithi.getText()+"";
-                String socau = txttenkithi2.getText()+"";
-                String hediem = txttenkithi3.getText()+"";
+                int socau = -1;
+                try {
+                    socau = Integer.parseInt((txttenkithi2.getText()+"").trim());
+                    if(socau<0 || 50<socau) throw new Exception("Lỗi");
+                }
+                catch (Exception ex){
+                    Toast.makeText(DanhSachKithi_Add.this, "Số câu không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                double hediem = 0.1;
+                try {
+                    hediem = Double.parseDouble(txttenkithi3.getText() + "");
+                    if(hediem <= 0 || hediem>=10) throw new Exception("Lỗi");
+                }
+                catch (Exception ex) {
+                    Toast.makeText(DanhSachKithi_Add.this, "Hệ điểm không hợp lệ, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myintent.putExtra("tenkithi",tenkithi);
                 myintent.putExtra("socau",socau);
                 myintent.putExtra("hediem",hediem);
                 myintent.putExtra("loaiphieu",loaiphieu);
                 myintent.putExtra("username",username);
+                int kieu = 2;
+                if(kieukithi.equals("TN")) kieu = 1;
+                myintent.putExtra("kieukithi",kieu);
 
                 setResult(33,myintent);
                 finish();
